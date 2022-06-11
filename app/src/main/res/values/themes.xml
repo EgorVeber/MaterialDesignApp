@@ -11,6 +11,16 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
         <!-- Customize your theme here. -->
+        <item name="materialButtonStyle">@style/MyButtonStyle</item>
+
+        <!--Widget_Design_FloatingActionButton-->
     </style>
+
+    <style name="MyButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">#0EFF0E</item>
+        <item name="android:insetTop">100dp</item>
+    </style>
+
 </resources>

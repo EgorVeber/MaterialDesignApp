@@ -19,6 +19,11 @@ class PictureVM(
         pictureRetrofit.getPicture(callback)
     }
 
+    fun sendServerReques2(date: String) {
+        liveData.postValue(AppState.Loading(null))
+        pictureRetrofit.getPicture2(callback, date)
+    }
+
     private val callback = object : Callback<PictureDTO> {
         override fun onResponse(
             call: Call<PictureDTO>,

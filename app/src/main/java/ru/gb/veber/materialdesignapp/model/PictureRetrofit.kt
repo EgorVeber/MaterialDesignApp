@@ -7,9 +7,13 @@ import ru.gb.veber.materialdesignapp.BuildConfig
 import ru.gb.veber.materialdesignapp.utils.NASA_BASE_URL
 
 class PictureRetrofit {
-    
+
     fun getPicture(callback: retrofit2.Callback<PictureDTO>) {
         pictureApi.getPictureOfTheDay(BuildConfig.NASA_API_KEY).enqueue(callback)
+    }
+
+    fun getPicture2(callback: retrofit2.Callback<PictureDTO>,date:String) {
+        pictureApi.getPictureOfTheDay2(BuildConfig.NASA_API_KEY,date).enqueue(callback)
     }
 
     private val pictureApi = Retrofit.Builder().baseUrl(NASA_BASE_URL)

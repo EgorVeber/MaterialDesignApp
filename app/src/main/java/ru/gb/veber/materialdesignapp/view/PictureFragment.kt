@@ -16,6 +16,7 @@ import com.gb.m_1975_3.viewmodel.AppState
 import com.gb.m_1975_3.viewmodel.PictureVM
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.android.synthetic.main.bottom_sheet_layout.*
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureBinding
 
@@ -43,44 +44,45 @@ class PictureFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setBottomAppBar(view)
         viewModel.liveData.observe(viewLifecycleOwner) { renderData(it) }
-        viewModel.sendServerRequest()
+        viewModel.sendServerReques2("2022-06-11")
         binding.inputLayout.setEndIconOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
                 data =
                     Uri.parse("https://en.wikipedia.org/wiki/${binding.inputEditText.text.toString()}")
             })
         }
-        setBottomSheetBehavior(binding.bottomSheetContainer)
+        setBottomSheetBehavior(binding.lifeHack.bottomSheetContainer)
 
         bottomSheetBehavior.addBottomSheetCallback(callBackBehavior)
 
         binding.fab.setOnClickListener {
-            isMain = !isMain
-            if (!isMain) {
-                binding.bottomAppBar.navigationIcon = null
-                binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-                binding.fab.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_back_fab
-                    )
-                )
-                binding.bottomAppBar.replaceMenu(R.menu.menu_bottom_bar_other)
-            } else {
-                binding.bottomAppBar.navigationIcon =
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_hamburger_menu_bottom_bar
-                    )
-                binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-                binding.fab.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_plus_fab
-                    )
-                )
-                binding.bottomAppBar.replaceMenu(R.menu.menu_bottom_app_bar)
-            }
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+//            isMain = !isMain
+//            if (!isMain) {
+//                binding.bottomAppBar.navigationIcon = null
+//                binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+//                binding.fab.setImageDrawable(
+//                    ContextCompat.getDrawable(
+//                        requireContext(),
+//                        R.drawable.ic_back_fab
+//                    )
+//                )
+//                binding.bottomAppBar.replaceMenu(R.menu.menu_bottom_bar_other)
+//            } else {
+//                binding.bottomAppBar.navigationIcon =
+//                    ContextCompat.getDrawable(
+//                        requireContext(),
+//                        R.drawable.ic_hamburger_menu_bottom_bar
+//                    )
+//                binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+//                binding.fab.setImageDrawable(
+//                    ContextCompat.getDrawable(
+//                        requireContext(),
+//                        R.drawable.ic_plus_fab
+//                    )
+//                )
+//                binding.bottomAppBar.replaceMenu(R.menu.menu_bottom_app_bar)
+//            }
         }
     }
 
@@ -125,10 +127,12 @@ class PictureFragment : Fragment() {
                 context, "Favourite",
                 Toast.LENGTH_SHORT
             ).show()
-            R.id.app_bar_search -> Toast.makeText(
-                context, "Search",
-                Toast.LENGTH_SHORT
-            ).show()
+            R.id.app_bar_settings -> {
+                activity?.supportFragmentManager?.beginTransaction()?.replace(
+                    R.id.container,
+                    ChipsFragment()
+                )?.addToBackStack(null)?.commit()
+            }
             android.R.id.home -> {
                 activity?.let {
                     BottomNavigationDrawerFragment().show(it.supportFragmentManager, "")
@@ -146,6 +150,7 @@ class PictureFragment : Fragment() {
 
 
     private fun renderData(appState: AppState) {
+
         when (appState) {
             is AppState.Error -> {/*TODO HW*/
             }
@@ -163,7 +168,9 @@ class PictureFragment : Fragment() {
                     Log.d("@@@", title.toString())
                     Log.d("@@@", url.toString())
                 }
-                binding.imageView.load(appState.pictureDTO.url)
+                binding.lifeHack.title.text = appState.pictureDTO.title
+                binding.lifeHack.explanation.text = appState.pictureDTO.explanation
+                binding.imageView.load(appState.pictureDTO.hdurl)
             }
         }
     }
