@@ -83,7 +83,7 @@ class PictureFragment : Fragment() {
                 is AppState.Loading -> {
                     lifeHack.title.text = getString(R.string.loading)
                     imageView.load(R.drawable.loading1) {
-                        crossfade(500)
+                        crossfade(CROSS_FADE_500)
                     }
                 }
                 is AppState.Success -> {
@@ -91,7 +91,7 @@ class PictureFragment : Fragment() {
                     lifeHack.explanation.text = appState.pictureDTO.explanation
                     imageView.load(appState.pictureDTO.hdurl) {
                         placeholder(R.drawable.loading1)
-                        crossfade(500)
+                        crossfade(CROSS_FADE_500)
                         error(R.drawable.nasa_api)
                     }
                     lifeHack.datePicture.text = appState.pictureDTO.date

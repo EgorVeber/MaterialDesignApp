@@ -13,4 +13,4 @@ const val ERROR_FAILURE = "failed to send request to server"
 const val WIKIPEDIA = "https://en.wikipedia.org/wiki/"
 
 const val SLIDE_OFF_SET = 0.3
-
+const val CROSS_FADE_500 = 500
