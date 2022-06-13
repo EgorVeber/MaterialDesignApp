@@ -33,7 +33,7 @@ class PictureFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var bSheetB: BottomSheetBehavior<ConstraintLayout>
 
-    val viewModel: PictureVM by lazy {
+    private val viewModel: PictureVM by lazy {
         ViewModelProvider(this).get(PictureVM::class.java)
     }
 
