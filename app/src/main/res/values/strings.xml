@@ -12,6 +12,9 @@
     <string name="today">today</string>
     <string name="yesterday">yesterday</string>
     <string name="before_yesterday">before_yesterday</string>
+    <string name="errorRespone">response.body == null</string>
+    <string name="loading">Loading...</string>
+    <string name="Error">Error</string>
 
 
 </resources>

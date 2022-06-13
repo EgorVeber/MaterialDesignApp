@@ -1,7 +1,7 @@
 package ru.gb.veber.materialdesignapp.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import ru.gb.veber.materialdesignapp.R
 
 class MainActivity : AppCompatActivity() {

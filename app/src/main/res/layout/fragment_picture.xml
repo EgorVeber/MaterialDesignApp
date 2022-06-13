@@ -69,12 +69,13 @@
         android:id="@+id/image_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:contentDescription="@string/photo_of_the_day_stub"
-        android:scaleType="center"
+        android:layout_margin="10dp"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chip_group"
-        app:srcCompat="@drawable/ic_no_photo_vector" />
+        app:layout_constraintVertical_bias="0.1"
+        />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -107,9 +108,8 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
             app:layout_anchor="@id/bottom_app_bar"
-            app:srcCompat="@drawable/ic_plus_fab"
+            app:srcCompat="@drawable/ic_up"
             app:tint="#FFFFFF" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

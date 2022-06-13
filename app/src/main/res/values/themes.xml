@@ -14,6 +14,7 @@
 
         <!-- Customize your theme here. -->
         <item name="materialButtonStyle">@style/MyButtonStyle</item>
+        <item name="chipStyle">@style/MyChipse</item>
 
         <!--Widget_Design_FloatingActionButton-->
     </style>
@@ -21,6 +22,10 @@
     <style name="MyButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">#0EFF0E</item>
         <item name="android:insetTop">100dp</item>
+    </style>
+
+    <style name="MyChipse" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="rippleColor">#0EFF0E</item>
     </style>
 
 </resources>
