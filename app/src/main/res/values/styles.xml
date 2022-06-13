@@ -12,4 +12,36 @@
     </style>
 
 
+    <style name="MyButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">#0EFF0E</item>
+        <item name="android:insetTop">100dp</item>
+    </style>
+
+    <style name="MyChipse" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="rippleColor">#0EFF0E</item>
+    </style>
+
+    <style name="MyTil" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">#0EFF0E</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="android:hint">@string/search_wiki</item>
+        <item name="hintTextColor">@color/black</item>
+        <item name="counterEnabled">true</item>
+        <item name="counterMaxLength">20</item>
+        <item name="endIconCheckable">true</item>
+        <item name="endIconDrawable">@drawable/ic_wikipedia</item>
+        <item name="endIconMode">custom</item>
+        <item name="helperText">@string/wiki_helper_text</item>
+    </style>
+
+
+<!--    Для курсора -->
+    <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+    </style>
 </resources>

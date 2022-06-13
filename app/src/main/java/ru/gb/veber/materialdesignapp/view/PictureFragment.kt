@@ -12,17 +12,18 @@ import android.view.*
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import hide
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureBinding
 import ru.gb.veber.materialdesignapp.utils.*
-import java.time.LocalDate
+import show
 import java.util.*
 
 class PictureFragment : Fragment() {
@@ -30,7 +31,6 @@ class PictureFragment : Fragment() {
 
     private var _binding: FragmentPictureBinding? = null
     private val binding get() = _binding!!
-    private var isMain = false
     private lateinit var bSheetB: BottomSheetBehavior<ConstraintLayout>
 
     val viewModel: PictureVM by lazy {
@@ -111,38 +111,34 @@ class PictureFragment : Fragment() {
     }
 
     private fun clickFub() {
-        if (!isMain) {
-            behaviorExpanded()
-            bSheetB.state = BottomSheetBehavior.STATE_EXPANDED
-        } else {
-            behaviorCollapsed()
-            bSheetB.state = BottomSheetBehavior.STATE_COLLAPSED
+        when (bSheetB.state) {
+            BottomSheetBehavior.STATE_EXPANDED -> {
+                behaviorCollapsed()
+                bSheetB.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+            BottomSheetBehavior.STATE_HALF_EXPANDED -> {
+                behaviorCollapsed()
+                bSheetB.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+            BottomSheetBehavior.STATE_COLLAPSED -> {
+                behaviorExpanded()
+                bSheetB.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+            }
         }
     }
 
     private val callBackBehavior = object : BottomSheetBehavior.BottomSheetCallback() {
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             when (newState) {
-                BottomSheetBehavior.STATE_COLLAPSED -> {
-                    behaviorCollapsed()
-                    Log.d(
-                        "TAG",
-                        "onStateChanged() called with: bottomSheet = $bottomSheet, newState = $newState"
-                    )
-                    isMain = !isMain
-                }
-                BottomSheetBehavior.STATE_EXPANDED -> {
-                    behaviorExpanded()
-                    isMain = !isMain
-                    Log.d(
-                        "TAG",
-                        "onStateChanged() called with: bottomSheet = $bottomSheet, newState = $newState"
-                    )
-                }
+                BottomSheetBehavior.STATE_COLLAPSED -> behaviorCollapsed()
+                BottomSheetBehavior.STATE_EXPANDED -> behaviorExpanded()
             }
         }
 
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            binding.inputLayout.apply {
+                if (slideOffset > SLIDE_OFF_SET) this.hide() else this.show()
+            }
         }
     }
 

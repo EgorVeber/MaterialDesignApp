@@ -12,4 +12,5 @@ const val EMPTY_RESPONSE = "response.body == null"
 const val ERROR_FAILURE = "failed to send request to server"
 const val WIKIPEDIA = "https://en.wikipedia.org/wiki/"
 
+const val SLIDE_OFF_SET = 0.3
 
