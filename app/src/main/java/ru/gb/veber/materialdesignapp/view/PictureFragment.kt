@@ -2,23 +2,28 @@ package ru.gb.veber.materialdesignapp.view
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.gb.m_1975_3.view.pictureoftheday.BottomNavigationDrawerFragment
 import com.gb.m_1975_3.viewmodel.AppState
 import com.gb.m_1975_3.viewmodel.PictureVM
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.bottom_sheet_layout.*
+import kotlinx.android.synthetic.main.bottom_sheet_layout.view.*
+import kotlinx.android.synthetic.main.fragment_picture.*
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureBinding
+import ru.gb.veber.materialdesignapp.utils.*
+import java.time.LocalDate
+import java.util.*
 
 class PictureFragment : Fragment() {
 
@@ -43,8 +48,10 @@ class PictureFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setBottomAppBar(view)
+
         viewModel.liveData.observe(viewLifecycleOwner) { renderData(it) }
-        viewModel.sendServerReques2("2022-06-11")
+        viewModel.sendServerReques2(Date().formatDate())
+
         binding.inputLayout.setEndIconOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
                 data =
@@ -83,6 +90,29 @@ class PictureFragment : Fragment() {
 //                )
 //                binding.bottomAppBar.replaceMenu(R.menu.menu_bottom_app_bar)
 //            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            binding.chip1.setOnClickListener { clickChips(CHIP_TODAY) }
+            binding.chip2.setOnClickListener { clickChips(CHIP_YESTERDAY) }
+            binding.chip3.setOnClickListener { clickChips(CHIP_BEFORE_YD) }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun clickChips(key: String) {
+        when (key) {
+            CHIP_TODAY -> {
+                viewModel.sendServerReques2(Date().formatDate())
+            }
+            CHIP_YESTERDAY -> {
+                viewModel.sendServerReques2(
+                    LocalDate.now().minusDays(KEY_CHIP_YESTERDAY).toString()
+                )
+            }
+            CHIP_BEFORE_YD -> viewModel.sendServerReques2(
+                LocalDate.now().minusDays(KEY_CHIP_BEFORE_YD).toString()
+            )
         }
     }
 
@@ -170,7 +200,7 @@ class PictureFragment : Fragment() {
                 }
                 binding.lifeHack.title.text = appState.pictureDTO.title
                 binding.lifeHack.explanation.text = appState.pictureDTO.explanation
-                binding.imageView.load(appState.pictureDTO.hdurl)
+                binding.imageView.load(appState.pictureDTO.url)
             }
         }
     }

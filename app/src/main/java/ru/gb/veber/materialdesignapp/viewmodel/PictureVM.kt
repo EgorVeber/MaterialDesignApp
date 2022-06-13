@@ -14,11 +14,6 @@ class PictureVM(
     private val pictureRetrofit: PictureRetrofit = PictureRetrofit()
 ) : ViewModel() {
 
-    fun sendServerRequest() {
-        liveData.postValue(AppState.Loading(null))
-        pictureRetrofit.getPicture(callback)
-    }
-
     fun sendServerReques2(date: String) {
         liveData.postValue(AppState.Loading(null))
         pictureRetrofit.getPicture2(callback, date)

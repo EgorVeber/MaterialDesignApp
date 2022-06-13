@@ -9,6 +9,9 @@
     <string name="favourite">favourite</string>
     <string name="settings">settings</string>
     <string name="search">Search</string>
+    <string name="today">today</string>
+    <string name="yesterday">yesterday</string>
+    <string name="before_yesterday">before_yesterday</string>
 
 
 </resources>
