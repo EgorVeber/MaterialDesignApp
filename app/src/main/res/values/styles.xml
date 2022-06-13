@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="MyMaterialButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">#0EFF0E</item>
-        <item name="android:insetTop">100dp</item>
     </style>
-    <style name="MyChipStyle" parent="Widget.MaterialComponents.Chip.Action">
-        <item name="rippleColor">#0EFF0E</item>
+
+    <style name="MyChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="rippleColor">@color/A700</item>
     </style>
+
     <style name="MyTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxCornerRadiusTopStart">10dp</item>
-        <item name="boxCornerRadiusBottomStart">10dp</item>
-        <item name="boxCornerRadiusBottomEnd">10dp</item>
-        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusTopStart">@dimen/cornerRadiusTextInput</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/cornerRadiusTextInput</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/cornerRadiusTextInput</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/cornerRadiusTextInput</item>
         <item name="android:hint">@string/search_wiki</item>
         <item name="hintTextColor">@color/black</item>
         <item name="counterEnabled">true</item>

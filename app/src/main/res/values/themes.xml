@@ -19,7 +19,7 @@
 
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/Teal_500</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/A700</item>
 
         <!-- Customize your theme here. -->
         <item name="materialButtonStyle">@style/MyMaterialButtonStyle</item>
