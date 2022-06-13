@@ -130,14 +130,25 @@ class PictureFragment : Fragment() {
     private val callBackBehavior = object : BottomSheetBehavior.BottomSheetCallback() {
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             when (newState) {
-                BottomSheetBehavior.STATE_COLLAPSED -> behaviorCollapsed()
-                BottomSheetBehavior.STATE_EXPANDED -> behaviorExpanded()
+                BottomSheetBehavior.STATE_COLLAPSED -> {
+                    behaviorCollapsed()
+                    binding.bottomAppBar.show()
+                    binding.fab.show()
+                }
+                BottomSheetBehavior.STATE_EXPANDED -> {
+                    behaviorExpanded()
+                    binding.bottomAppBar.hide()
+                    binding.fab.hide()
+                }
             }
         }
 
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             binding.inputLayout.apply {
                 if (slideOffset > SLIDE_OFF_SET) this.hide() else this.show()
+            }
+            binding.fab.apply {
+                if (slideOffset > SLIDE_OFF_SET_TOP) this.hide() // временно , можно убрать
             }
         }
     }
