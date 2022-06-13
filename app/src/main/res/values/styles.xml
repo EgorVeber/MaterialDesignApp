@@ -1,28 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-
-    <style name="AlertDialogCustom" parent="android:Theme.Material.Light.Dialog.Alert">
-        <item name="android:colorPrimary">#00397F</item>
-        <item name="android:colorAccent">#0AAEEF</item>
-        <item name="android:windowBackground">@color/white</item>
-        <item name="colorAccent">@color/black</item>
-        <item name="android:textColorPrimary">@color/black</item>
-        <item name="colorOnPrimary">@color/black</item>
-    </style>
-
-
-    <style name="MyButtonStyle" parent="Widget.MaterialComponents.Button">
+    <style name="MyMaterialButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">#0EFF0E</item>
         <item name="android:insetTop">100dp</item>
     </style>
-
-    <style name="MyChipse" parent="Widget.MaterialComponents.Chip.Action">
+    <style name="MyChipStyle" parent="Widget.MaterialComponents.Chip.Action">
         <item name="rippleColor">#0EFF0E</item>
     </style>
-
-    <style name="MyTil" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">#0EFF0E</item>
+    <style name="MyTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxCornerRadiusTopStart">10dp</item>
         <item name="boxCornerRadiusBottomStart">10dp</item>
         <item name="boxCornerRadiusBottomEnd">10dp</item>
@@ -37,11 +22,14 @@
         <item name="helperText">@string/wiki_helper_text</item>
     </style>
 
+    <style name="MyBottomAppBarStyle" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="backgroundTint">@color/A700</item>
+    </style>
 
-<!--    Для курсора -->
+    <!--    Для курсора в тему -->
     <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
-        <item name="colorControlNormal">@color/colorAccent</item>
-        <item name="colorControlActivated">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/A200</item>
+        <item name="colorControlActivated">@color/Teal_300</item>
+        <item name="colorControlHighlight">@color/A400</item>
     </style>
 </resources>

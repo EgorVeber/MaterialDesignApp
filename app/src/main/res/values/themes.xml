@@ -2,19 +2,29 @@
     <!-- Base application theme. -->
     <style name="Theme.MaterialDesignApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="android:navigationBarColor">@color/Teal_500</item>
+        <item name="colorPrimary">@color/Teal_600</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorPrimaryContainer">@color/Teal_100</item>
+        <item name="colorOnPrimaryContainer">@color/Teal_900</item>
+        <item name="colorPrimaryInverse">@color/Teal_200</item>
+        <item name="colorSecondary">@color/Teal_600</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/Teal_100</item>
+        <item name="colorOnSecondaryContainer">@color/Teal_900</item>
+        <item name="colorTertiary">@color/Teal_600</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorTertiaryContainer">@color/Teal_100</item>
+        <item name="colorOnTertiaryContainer">@color/Teal_900</item>
+
+
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/Teal_500</item>
 
         <!-- Customize your theme here. -->
-        <item name="materialButtonStyle">@style/MyButtonStyle</item>
-        <item name="chipStyle">@style/MyChipse</item>
-        <item name="textInputStyle">@style/MyTil</item>
+        <item name="materialButtonStyle">@style/MyMaterialButtonStyle</item>
+        <item name="chipStyle">@style/MyChipStyle</item>
+        <item name="textInputStyle">@style/MyTextInputStyle</item>
+        <item name="bottomAppBarStyle">@style/MyBottomAppBarStyle</item>
     </style>
 </resources>
