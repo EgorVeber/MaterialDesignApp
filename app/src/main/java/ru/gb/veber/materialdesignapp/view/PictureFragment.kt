@@ -7,12 +7,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -111,6 +109,7 @@ class PictureFragment : Fragment() {
     }
 
     private fun clickFub() {
+
         when (bSheetB.state) {
             BottomSheetBehavior.STATE_EXPANDED -> {
                 behaviorCollapsed()
