@@ -26,7 +26,7 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = BottomNavigationLayoutBinding.inflate(inflater)
         return binding.root
     }
@@ -38,6 +38,7 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
                 R.id.navigation_one -> Toast.makeText(context, "1", Toast.LENGTH_SHORT).show()
                 R.id.navigation_two -> Toast.makeText(context, "2", Toast.LENGTH_SHORT).show()
             }
+            dismiss()
             true
         }
     }

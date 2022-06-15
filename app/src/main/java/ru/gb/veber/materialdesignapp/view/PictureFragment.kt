@@ -24,6 +24,7 @@ import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureBinding
 import ru.gb.veber.materialdesignapp.utils.*
 import show
+import java.text.SimpleDateFormat
 import java.util.*
 
 class PictureFragment : Fragment() {
@@ -47,6 +48,13 @@ class PictureFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
+
+        viewModel.setLiveData().observe(viewLifecycleOwner) { renderData(it) }
+        viewModel.sendServerRequest(Date().formatDate())
+    }
+
+    private fun initView() {
         setHasOptionsMenu(true)
         (activity as MainActivity).setSupportActionBar(binding.bottomAppBar)
 
@@ -56,20 +64,26 @@ class PictureFragment : Fragment() {
 
             fab.setOnClickListener { clickFub() }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                chip1.setOnClickListener { clickChips(CHIP_TODAY) }
-                chip2.setOnClickListener { clickChips(CHIP_YESTERDAY) }
-                chip3.setOnClickListener { clickChips(CHIP_BEFORE_YD) }
-            }
+
+            chip1.setOnClickListener { viewModel.sendServerRequest(takeDate(0)) }
+            chip2.setOnClickListener { viewModel.sendServerRequest(takeDate(-1)) }
+            chip3.setOnClickListener { viewModel.sendServerRequest(takeDate(-2)) }
+
 
             bSheetB = BottomSheetBehavior.from(lifeHack.bottomSheetContainer).apply {
                 addBottomSheetCallback(callBackBehavior)
             }
         }
-
-        viewModel.liveData.observe(viewLifecycleOwner) { renderData(it) }
-        viewModel.sendServerRequest(Date().formatDate())
     }
+
+    private fun takeDate(count: Int): String {
+        val currentDate = Calendar.getInstance()
+        currentDate.add(Calendar.DAY_OF_MONTH, count)
+        val format1 = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        format1.timeZone = TimeZone.getTimeZone("EST")
+        return format1.format(currentDate.time)
+    }
+
 
     private fun renderData(appState: AppState) {
         with(binding)
@@ -89,6 +103,11 @@ class PictureFragment : Fragment() {
                 is AppState.Success -> {
                     lifeHack.title.text = appState.pictureDTO.title
                     lifeHack.explanation.text = appState.pictureDTO.explanation
+                    if(appState.pictureDTO.mediaType =="video"){
+                        startActivity(Intent(Intent.ACTION_VIEW).apply {
+                            data = Uri.parse(appState.pictureDTO.url)
+                        })
+                    }
                     imageView.load(appState.pictureDTO.hdurl) {
                         placeholder(R.drawable.loading1)
                         crossfade(CROSS_FADE_500)

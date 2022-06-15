@@ -9,9 +9,11 @@ import ru.gb.veber.materialdesignapp.utils.EMPTY_RESPONSE
 import ru.gb.veber.materialdesignapp.utils.ERROR_FAILURE
 
 class PictureVM(
-    val liveData: MutableLiveData<AppState> = MutableLiveData(),
+    private val liveData: MutableLiveData<AppState> = MutableLiveData(),
     private val pictureRetrofit: PictureRetrofit = PictureRetrofit()
 ) : ViewModel() {
+
+    fun setLiveData()=liveData
 
     fun sendServerRequest(date: String) {
         liveData.postValue(AppState.Loading(null))
