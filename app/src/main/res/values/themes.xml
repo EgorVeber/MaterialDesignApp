@@ -16,27 +16,21 @@
         <item name="colorOnTertiary">@color/white</item>
         <item name="colorTertiaryContainer">@color/teal_100</item>
         <item name="colorOnTertiaryContainer">@color/teal_900</item>
-
-        <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/t700</item>
 
-        <!-- Customize your theme here. -->
-        <!--        <item name="materialButtonStyle">@style/MyMaterialButtonStyle</item>-->
         <item name="chipStyle">@style/MyChipStyle</item>
         <item name="textInputStyle">@style/MyTextInputStyle</item>
         <item name="bottomAppBarStyle">@style/MyBottomAppBarStyle</item>
         <item name="superChipRipple">@color/teal_700</item>
         <item name="superAppBarBackground">@color/teal_700</item>
         <item name="textAppearanceBody2">@style/MyTextAppearance</item>
+        <item name="radioButtonStyle">@style/MyRadioButtonStyle</item>
+        <item name="superFont">@font/kdam_regular</item>
+
 
         <!--        textAppearanceBody2 переопределить в теме а если в chips то только  textAppearance, важно помнить -->
         <!--        <item name="textAppearanceSubtitle1">@style/MyTextAppearance2</item>-->
-
-
         <item name="shapeAppearanceSmallComponent">@style/MyShapeAppearanceSmallComponent</item>
-<!--        <item name="android:forceDarkAllowed">true</item>-->
-
-
     </style>
 
 
@@ -59,6 +53,8 @@
         <item name="android:navigationBarColor">@color/green_500</item>
         <item name="superChipRipple">@color/green_700</item>
         <item name="superAppBarBackground">@color/green_700</item>
+        <item name="superFont">@font/roboto_thin</item>
+
     </style>
 
     <style name="MyThemeBlue" parent="MyThemeBaseTeal">
@@ -79,5 +75,6 @@
         <item name="android:navigationBarColor">@color/blue_500</item>
         <item name="superChipRipple">@color/blue_700</item>
         <item name="superAppBarBackground">@color/blue_700</item>
+        <item name="superFont">@font/stoke_light</item>
     </style>
 </resources>

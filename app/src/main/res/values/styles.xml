@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
     <style name="MyChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="rippleColor">?superChipRipple</item>
-<!--        <item name="android:textAppearance">@style/MyTextAppearance</item>-->
+        <!--        по площадям в теме-->
+    </style>
+
+    <style name="MyRadioButtonStyle" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="android:textAppearance">@style/MyTextAppearanceRadioButton</item>
+        <!-- точечно-->
+    </style>
+
+    <style name="MyTextAppearanceRadioButton">
+        <item name="android:textSize">17sp</item>
+        <item name="fontFamily">?superFont</item>
+        <item name="android:fontFamily">?superFont</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="MyBottomAppBarStyle" parent="Widget.MaterialComponents.BottomAppBar">
@@ -52,10 +65,7 @@
     </style>
 
 
-
-
-
-
+    <!--    Shape-->
     <style name="MyShapeAppearanceSmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">cut</item>
     </style>
@@ -73,12 +83,12 @@
         <item name="cornerSizeTopLeft">50%</item>
 
 
-<!--        <item name="cornerFamilyBottomRight">rounded</item>-->
-<!--        <item name="cornerFamilyTopRight">cut</item>-->
-<!--        <item name="cornerSizeBottomRight">10%</item>-->
-<!--        <item name="cornerSizeTopRight">80%</item>-->
-<!--        <item name="cornerSizeBottomLeft">50%</item>-->
-<!--        <item name="cornerSizeTopLeft">50%</item>-->
+        <!--        <item name="cornerFamilyBottomRight">rounded</item>-->
+        <!--        <item name="cornerFamilyTopRight">cut</item>-->
+        <!--        <item name="cornerSizeBottomRight">10%</item>-->
+        <!--        <item name="cornerSizeTopRight">80%</item>-->
+        <!--        <item name="cornerSizeBottomLeft">50%</item>-->
+        <!--        <item name="cornerSizeTopLeft">50%</item>-->
     </style>
 
 
@@ -106,7 +116,6 @@
         <item name="cornerSizeBottomRight">50%</item>
         <item name="cornerSizeTopRight">50%</item>
     </style>
-
 
 
 </resources>

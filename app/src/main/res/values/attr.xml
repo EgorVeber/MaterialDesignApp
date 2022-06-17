@@ -2,4 +2,5 @@
 <resources>
     <attr name="superAppBarBackground" format="reference" />
     <attr name="superChipRipple" format="reference" />
+    <attr name="superFont" format="reference" />
 </resources>
