@@ -11,9 +11,7 @@ import com.google.android.material.radiobutton.MaterialRadioButton
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.BottomNavigationLayoutBinding
 import ru.gb.veber.materialdesignapp.databinding.SelectThemeLayoutBinding
-import ru.gb.veber.materialdesignapp.utils.FILE_SETTINGS
-import ru.gb.veber.materialdesignapp.utils.KEY_MODE_DARK
-import ru.gb.veber.materialdesignapp.utils.KEY_THEME
+import ru.gb.veber.materialdesignapp.utils.*
 
 
 class SelectThemeFragment : BottomSheetDialogFragment() {
@@ -33,7 +31,7 @@ class SelectThemeFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = SelectThemeLayoutBinding.inflate(inflater)
         return binding.root
     }
@@ -41,25 +39,23 @@ class SelectThemeFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
+        init()
+    }
 
-        (getNumTheme()?.let { binding.radioButtons.getChildAt(it) } as MaterialRadioButton).isChecked =
-            true
+    private fun init() {
+        with(binding)
+        {
+            (radioButtons.getChildAt(getNumTheme()) as MaterialRadioButton).isChecked = true
+            rButtonTeal.setOnClickListener { clickRadioButton(KEY_THEME_TEAL) }
+            rButtonBlue.setOnClickListener { clickRadioButton(KEY_THEME_BLUE) }
+            rButtonGreen.setOnClickListener { clickRadioButton(KEY_THEME_GREEN) }
+        }
+    }
 
-        binding.rButtonTeal.setOnClickListener {
-            putTheme(0)
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
-            putModeTheme(false)
-        }
-        binding.rButtonBlue.setOnClickListener {
-            putTheme(1)
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
-            putModeTheme(false)
-        }
-        binding.rButtonGreen.setOnClickListener {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
-            putTheme(2)
-            putModeTheme(false)
-        }
+    private fun clickRadioButton(key: Int) {
+        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+        putTheme(key)
+        putModeTheme(false)
     }
 
     private fun putModeTheme(key: Boolean) {
@@ -77,9 +73,9 @@ class SelectThemeFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun getNumTheme(): Int? {
+    private fun getNumTheme(): Int {
         return activity?.let {
             it.getSharedPreferences(FILE_SETTINGS, Context.MODE_PRIVATE).getInt(KEY_THEME, 0)
-        }
+        } ?: 0
     }
 }

@@ -23,6 +23,7 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
         get() {
             return _binding!!
         }
+    private var menuSwitch: Switch? = null
 
     override fun onDestroy() {
         super.onDestroy()
@@ -41,29 +42,24 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.navigation_one -> Toast.makeText(context, "1", Toast.LENGTH_SHORT).show()
-                R.id.navigation_two -> Toast.makeText(context, "2", Toast.LENGTH_SHORT).show()
-                R.id.switch_item -> {
-                    Toast.makeText(context, "2", Toast.LENGTH_SHORT).show()
+        init()
+    }
+
+    private fun init() {
+        setNavigationItemSelected()
+        menuSwitch = (binding.navigationView.menu.findItem(R.id.switch_item).actionView as Switch)
+        with((binding.navigationView.menu.findItem(R.id.switch_item).actionView as Switch)) {
+            setOnCheckedChangeListener { button, isCheked ->
+                if (isCheked) {
+                    AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+                    putModeTheme(true)
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+                    putModeTheme(false)
                 }
             }
-            true
+            isChecked = getModeTheme()
         }
-
-        (binding.navigationView.menu.findItem(R.id.switch_item).actionView as Switch).setOnCheckedChangeListener { button, isCheked ->
-            if (isCheked) {
-                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
-                putModeTheme(true)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
-                putModeTheme(false)
-            }
-        }
-        (binding.navigationView.menu.findItem(R.id.switch_item).actionView as Switch).isChecked =
-            getModeTheme()
-
     }
 
     private fun putModeTheme(key: Boolean) {
@@ -79,5 +75,20 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
                 .getBoolean(KEY_MODE_DARK, false)
         }
         return false
+    }
+
+
+    private fun setNavigationItemSelected() {
+        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.navigation_one -> Toast.makeText(context, "1", Toast.LENGTH_SHORT).show()
+                R.id.navigation_two -> Toast.makeText(context, "2", Toast.LENGTH_SHORT).show()
+                R.id.switch_item -> {
+                    menuSwitch?.isChecked = menuSwitch?.isChecked != true
+                }
+            }
+            dismiss()
+            true
+        }
     }
 }

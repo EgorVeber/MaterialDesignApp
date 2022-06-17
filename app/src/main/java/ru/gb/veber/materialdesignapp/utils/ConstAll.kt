@@ -21,3 +21,8 @@ const val FILE_SETTINGS = "FILE_SETTINGS"
 const val KEY_THEME = "KEY_THEME"
 const val KEY_MODE_DARK = "KEY_MODE_DARK"
 
+const val KEY_THEME_TEAL = 0
+const val KEY_THEME_GREEN = 2
+const val KEY_THEME_BLUE = 1
+
+

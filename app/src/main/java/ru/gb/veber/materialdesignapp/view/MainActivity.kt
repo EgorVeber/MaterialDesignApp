@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getThemePrefs(): Int {
-        Log.d("TAG", "getThemePrefs() called")
         return when (getSharedPreferences(FILE_SETTINGS, MODE_PRIVATE).getInt(KEY_THEME, 0)) {
             1 -> R.style.MyThemeBlue
             2 -> R.style.MyThemeGreen
