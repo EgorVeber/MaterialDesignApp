@@ -15,6 +15,10 @@
     <string name="errorRespone">response.body == null</string>
     <string name="loading">Loading...</string>
     <string name="Error">Error</string>
+    <string name="theme_teal">Theme Teal</string>
+    <string name="theme_blue">Theme Blue</string>
+    <string name="theme_green">Theme Green</string>
+    <string name="theme_dark">Theme Dark</string>
 
 
 </resources>

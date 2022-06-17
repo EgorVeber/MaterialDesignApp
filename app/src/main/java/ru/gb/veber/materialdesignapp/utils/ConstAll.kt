@@ -19,3 +19,5 @@ const val CROSS_FADE_500 = 500
 
 const val FILE_SETTINGS = "FILE_SETTINGS"
 const val KEY_THEME = "KEY_THEME"
+const val KEY_MODE_DARK = "KEY_MODE_DARK"
+

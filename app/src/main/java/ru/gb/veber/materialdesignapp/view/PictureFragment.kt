@@ -3,6 +3,7 @@ package ru.gb.veber.materialdesignapp.view
 import AppState
 import BottomNavigationDrawerFragment
 import PictureVM
+import SelectThemeFragment
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
@@ -187,10 +188,9 @@ class PictureFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
             R.id.app_bar_settings -> {
-                Toast.makeText(
-                    context, "Settings",
-                    Toast.LENGTH_SHORT
-                ).show()
+                activity?.let {
+                    SelectThemeFragment().show(it.supportFragmentManager, "")
+                }
             }
             android.R.id.home -> {
                 activity?.let {
