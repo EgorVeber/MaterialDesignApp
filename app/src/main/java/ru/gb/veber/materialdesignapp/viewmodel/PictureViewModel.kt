@@ -8,8 +8,8 @@ import ru.gb.veber.materialdesignapp.model.PictureRetrofit
 import ru.gb.veber.materialdesignapp.utils.EMPTY_RESPONSE
 import ru.gb.veber.materialdesignapp.utils.ERROR_FAILURE
 
-class PictureVM(
-    val liveData: MutableLiveData<AppState> = MutableLiveData(),
+class PictureViewModel(
+    private val liveData: MutableLiveData<AppState> = MutableLiveData(),
     private val pictureRetrofit: PictureRetrofit = PictureRetrofit()
 ) : ViewModel() {
 
@@ -17,6 +17,8 @@ class PictureVM(
         liveData.postValue(AppState.Loading(null))
         pictureRetrofit.getPicture(callback, date)
     }
+
+    fun getLiveData() = liveData
 
     private val callback = object : Callback<PictureDTO> {
         override fun onResponse(

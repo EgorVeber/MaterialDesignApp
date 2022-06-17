@@ -2,16 +2,13 @@ package ru.gb.veber.materialdesignapp.view
 
 import AppState
 import BottomNavigationDrawerFragment
-import PictureVM
+import PictureViewModel
 import SelectThemeFragment
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -31,10 +28,10 @@ class PictureFragment : Fragment() {
 
     private var _binding: FragmentPictureBinding? = null
     private val binding get() = _binding!!
-    private lateinit var bSheetB: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
-    private val viewModel: PictureVM by lazy {
-        ViewModelProvider(this).get(PictureVM::class.java)
+    private val viewModel: PictureViewModel by lazy {
+        ViewModelProvider(this).get(PictureViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -47,6 +44,12 @@ class PictureFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        init()
+        viewModel.getLiveData().observe(viewLifecycleOwner) { renderData(it) }
+        viewModel.sendServerRequest(Date().formatDate())
+    }
+
+    private fun init() {
         setHasOptionsMenu(true)
         (activity as MainActivity).setSupportActionBar(binding.bottomAppBar)
 
@@ -56,19 +59,14 @@ class PictureFragment : Fragment() {
 
             fab.setOnClickListener { clickFub() }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                chip1.setOnClickListener { clickChips(CHIP_TODAY) }
-                chip2.setOnClickListener { clickChips(CHIP_YESTERDAY) }
-                chip3.setOnClickListener { clickChips(CHIP_BEFORE_YD) }
-            }
+            chip1.setOnClickListener { getPictureChipsClick(CHIP_TODAY) }
+            chip2.setOnClickListener { getPictureChipsClick(CHIP_YESTERDAY) }
+            chip3.setOnClickListener { getPictureChipsClick(CHIP_BEFORE_YD) }
 
-            bSheetB = BottomSheetBehavior.from(lifeHack.bottomSheetContainer).apply {
+            bottomSheetBehavior = BottomSheetBehavior.from(lifeHack.bottomSheetContainer).apply {
                 addBottomSheetCallback(callBackBehavior)
             }
         }
-
-        viewModel.liveData.observe(viewLifecycleOwner) { renderData(it) }
-        viewModel.sendServerRequest(Date().formatDate())
     }
 
     private fun renderData(appState: AppState) {
@@ -88,11 +86,18 @@ class PictureFragment : Fragment() {
                 }
                 is AppState.Success -> {
                     lifeHack.title.text = appState.pictureDTO.title
+                    appState.pictureDTO.mediaType
                     lifeHack.explanation.text = appState.pictureDTO.explanation
-                    imageView.load(appState.pictureDTO.hdurl) {
-                        placeholder(R.drawable.loading1)
-                        crossfade(CROSS_FADE_500)
-                        error(R.drawable.nasa_api)
+                    if (appState.pictureDTO.mediaType == "video") {
+                        startActivity(Intent(Intent.ACTION_VIEW).apply {
+                            data = Uri.parse(appState.pictureDTO.url)
+                        })
+                    } else {
+                        imageView.load(appState.pictureDTO.hdurl) {
+                            placeholder(R.drawable.loading1)
+                            crossfade(CROSS_FADE_500)
+                            error(R.drawable.nasa_api)
+                        }
                     }
                     lifeHack.datePicture.text = appState.pictureDTO.date
                 }
@@ -101,29 +106,29 @@ class PictureFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun clickChips(key: String) {
+
+    private fun getPictureChipsClick(key: String) {
         when (key) {
             CHIP_TODAY -> viewModel.sendServerRequest(Date().formatDate())
-            CHIP_YESTERDAY -> viewModel.sendServerRequest(DateMinusDay(KEY_CHIP_YESTERDAY))
-            CHIP_BEFORE_YD -> viewModel.sendServerRequest(DateMinusDay(KEY_CHIP_BEFORE_YD))
+            CHIP_YESTERDAY -> viewModel.sendServerRequest(takeDate(KEY_CHIP_YESTERDAY))
+            CHIP_BEFORE_YD -> viewModel.sendServerRequest(takeDate(KEY_CHIP_BEFORE_YD))
         }
     }
 
     private fun clickFub() {
 
-        when (bSheetB.state) {
+        when (bottomSheetBehavior.state) {
             BottomSheetBehavior.STATE_EXPANDED -> {
                 behaviorCollapsed()
-                bSheetB.state = BottomSheetBehavior.STATE_COLLAPSED
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }
             BottomSheetBehavior.STATE_HALF_EXPANDED -> {
                 behaviorCollapsed()
-                bSheetB.state = BottomSheetBehavior.STATE_COLLAPSED
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }
             BottomSheetBehavior.STATE_COLLAPSED -> {
                 behaviorExpanded()
-                bSheetB.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
             }
         }
     }

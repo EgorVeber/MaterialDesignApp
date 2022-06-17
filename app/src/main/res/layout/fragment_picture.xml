@@ -7,7 +7,6 @@
     android:layout_height="match_parent">
 
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_layout"
         android:layout_width="match_parent"
@@ -36,8 +35,8 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip3"
-            android:layout_width="wrap_content"
             style="@style/MyChipStyleStart"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/before_yesterday" />
 
@@ -61,8 +60,8 @@
         android:id="@+id/image_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:scaleType="centerCrop"
+        android:layout_margin="@dimen/image_view_margin10"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chip_group"

@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.*
@@ -20,9 +21,9 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
 
     private var _binding: BottomNavigationLayoutBinding? = null
     private val binding: BottomNavigationLayoutBinding
-        get() {
-            return _binding!!
-        }
+        get() = _binding!!
+
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     private var menuSwitch: Switch? = null
 
     override fun onDestroy() {
@@ -34,7 +35,7 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = BottomNavigationLayoutBinding.inflate(inflater)
         return binding.root
     }
