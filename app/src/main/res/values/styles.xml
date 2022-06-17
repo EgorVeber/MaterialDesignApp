@@ -113,6 +113,9 @@
 
 <!--    //Пока непонятно как переопределить-->
     <style name="MyNavigationViewStyle" parent="Widget.Design.NavigationView">
-        <item name="background">@color/b700</item>
+<!--       не работает -->
+<!--        <item name="backgroundTint">@color/b700</item>-->
+<!--        работает -->
+<!--        <item name="itemIconTint">@color/b700</item>-->
     </style>
 </resources>
