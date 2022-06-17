@@ -52,6 +52,7 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
                         } else {
                             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
                         }
+
                     }
                 }
             }
