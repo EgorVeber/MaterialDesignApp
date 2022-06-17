@@ -70,52 +70,49 @@
         <item name="cornerFamily">cut</item>
     </style>
 
-
     <style name="MyChipStyleStart" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="shapeAppearanceOverlay">@style/MyShapeAppearanceSmallComponentStart</item>
     </style>
 
     <style name="MyShapeAppearanceSmallComponentStart" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeBottomRight">0%</item>
-        <item name="cornerSizeTopRight">0%</item>
-        <item name="cornerSizeBottomLeft">50%</item>
-        <item name="cornerSizeTopLeft">50%</item>
-
-
-        <!--        <item name="cornerFamilyBottomRight">rounded</item>-->
-        <!--        <item name="cornerFamilyTopRight">cut</item>-->
-        <!--        <item name="cornerSizeBottomRight">10%</item>-->
-        <!--        <item name="cornerSizeTopRight">80%</item>-->
-        <!--        <item name="cornerSizeBottomLeft">50%</item>-->
-        <!--        <item name="cornerSizeTopLeft">50%</item>-->
+        <item name="cornerSizeBottomLeft">10%</item>
+        <item name="cornerSizeTopLeft">80%</item>
+        <item name="cornerSizeTopRight">100%</item>
+        <item name="cornerFamilyTopRight">cut</item>
+        <item name="cornerFamilyBottomRight">cut</item>
     </style>
-
-
     <!--middle-->
-
     <style name="MyChipStyleMiddle" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="shapeAppearanceOverlay">@style/MyShapeAppearanceSmallComponentMiddle</item>
     </style>
 
     <style name="MyShapeAppearanceSmallComponentMiddle" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerSize">0%</item>
+        <item name="cornerFamilyBottomLeft">cut</item>
+        <item name="cornerSizeBottomLeft">100%</item>
+        <item name="cornerFamilyBottomRight">cut</item>
+        <item name="cornerSizeBottomRight">100%</item>
     </style>
-
-
     <!--right-->
     <style name="MyChipStyleEnd" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="shapeAppearanceOverlay">@style/MyShapeAppearanceSmallComponentEnd</item>
     </style>
 
-
     <style name="MyShapeAppearanceSmallComponentEnd" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeBottomLeft">0%</item>
-        <item name="cornerSizeTopLeft">0%</item>
-        <item name="cornerSizeBottomRight">50%</item>
-        <item name="cornerSizeTopRight">50%</item>
+        <item name="cornerSizeBottomRight">10%</item>
+        <item name="cornerSizeTopRight">80%</item>
+        <item name="cornerSizeTopLeft">100%</item>
+        <item name="cornerFamilyTopLeft">cut</item>
+        <item name="cornerFamilyBottomLeft">cut</item>
     </style>
 
 
+    <style name="shapeAppearanceOverlayNavigationView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+<!--    //Пока непонятно как переопределить-->
+    <style name="MyNavigationViewStyle" parent="Widget.Design.NavigationView">
+        <item name="background">@color/b700</item>
+    </style>
 </resources>

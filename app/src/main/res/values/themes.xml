@@ -26,10 +26,9 @@
         <item name="textAppearanceBody2">@style/MyTextAppearance</item>
         <item name="radioButtonStyle">@style/MyRadioButtonStyle</item>
         <item name="superFont">@font/kdam_regular</item>
-
-
-        <!--        textAppearanceBody2 переопределить в теме а если в chips то только  textAppearance, важно помнить -->
-        <!--        <item name="textAppearanceSubtitle1">@style/MyTextAppearance2</item>-->
+        <item name="navigationViewStyle">@style/MyNavigationViewStyle</item>
+        <!--textAppearanceBody2 переопределить в теме а если в chips то только  textAppearance, важно помнить -->
+        <!--<item name="textAppearanceSubtitle1">@style/MyTextAppearance2</item>-->
         <item name="shapeAppearanceSmallComponent">@style/MyShapeAppearanceSmallComponent</item>
     </style>
 
@@ -77,4 +76,6 @@
         <item name="superAppBarBackground">@color/blue_700</item>
         <item name="superFont">@font/stoke_light</item>
     </style>
+
+
 </resources>

@@ -14,5 +14,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_bottom_navigation" />
+        app:menu="@menu/menu_bottom_navigation"
+        app:shapeAppearanceOverlay="@style/shapeAppearanceOverlayNavigationView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
