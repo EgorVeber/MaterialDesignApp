@@ -1,23 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="color_gray">#66000000</color>
+    <color name="color_test">#443321</color>
 
-<!--Theme Teal-->
-    <color name="Teal_50">#E0F2F1</color>
-    <color name="Teal_100">#B2DFDB</color>
-    <color name="Teal_200">#80CBC4</color>
-    <color name="Teal_300">#4DB6AC</color>
-    <color name="Teal_400">#26A69A</color>
-    <color name="Teal_500">#009688</color>
-    <color name="Teal_600">#00897B</color>
-    <color name="Teal_700">#00796B</color>
-    <color name="Teal_800">#00695C</color>
-    <color name="Teal_900">#004D40</color>
-    <color name="A100">#A7FFEB</color>
-    <color name="A200">#64FFDA</color>
-    <color name="A400">#1DE9B6</color>
-    <color name="A700">#00BFA5</color>
+    <!--Theme Teal Base-->
+    <color name="teal_50">#E0F2F1</color>
+    <color name="teal_100">#B2DFDB</color>
+    <color name="teal_200">#80CBC4</color>
+    <color name="teal_300">#4DB6AC</color>
+    <color name="teal_400">#26A69A</color>
+    <color name="teal_500">#009688</color>
+    <color name="teal_600">#00897B</color>
+    <color name="teal_700">#00796B</color>
+    <color name="teal_800">#00695C</color>
+    <color name="teal_900">#004D40</color>
+    <color name="t100">#A7FFEB</color>
+    <color name="t200">#64FFDA</color>
+    <color name="t400">#1DE9B6</color>
+    <color name="t700">#00BFA5</color>
+
+    <!--Theme Blue-->
+    <color name="blue_50">#E3F2FD</color>
+    <color name="blue_100">#BBDEFB</color>
+    <color name="blue_200">#90КАF9</color>
+    <color name="blue_300">#64B5F6</color>
+    <color name="blue_400">#42A5F5</color>
+    <color name="blue_500">#2196F3</color>
+    <color name="blue_600">#1E88E5</color>
+    <color name="blue_700">#1976D2</color>
+    <color name="blue_800">#1565C0</color>
+    <color name="blue_900">#0D47A1</color>
+    <color name="b100">#82B1FF</color>
+    <color name="b200">#448AFF</color>
+    <color name="b400">#2979FF</color>
+    <color name="b700">#2962FF</color>
+
+    <!--Theme Green -->
+    <color name="green_50">#E8F5E9</color>
+    <color name="green_100">#C8E6C9</color>
+    <color name="green_200">#A5D6A7</color>
+    <color name="green_300">#81C784</color>
+    <color name="green_400">#66BB6A</color>
+    <color name="green_500">#4CAF50</color>
+    <color name="green_600">#43A047</color>
+    <color name="green_700">#388E3C</color>
+    <color name="green_800">#2E7D32</color>
+    <color name="green_900">#1B5E20</color>
+    <color name="g100">#B9F6CA</color>
+    <color name="g200">#69F0AE</color>
+    <color name="g400">#00E676</color>
+    <color name="g700">#00C853</color>
+
 </resources>

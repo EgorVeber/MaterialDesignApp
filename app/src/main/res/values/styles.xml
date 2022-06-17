@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="MyMaterialButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">#0EFF0E</item>
+    <style name="MyChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="rippleColor">?superChipRipple</item>
+<!--        <item name="android:textAppearance">@style/MyTextAppearance</item>-->
     </style>
 
-    <style name="MyChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
-        <item name="rippleColor">@color/A700</item>
+    <style name="MyBottomAppBarStyle" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="backgroundTint">?superAppBarBackground</item>
+    </style>
+
+    <!--    Для курсора в тему -->
+    <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
+        <item name="colorControlNormal">@color/t200</item>
+        <item name="colorControlActivated">@color/teal_300</item>
+        <item name="colorControlHighlight">@color/t400</item>
     </style>
 
     <style name="MyTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -24,14 +32,81 @@
         <item name="helperText">@string/wiki_helper_text</item>
     </style>
 
-    <style name="MyBottomAppBarStyle" parent="Widget.MaterialComponents.BottomAppBar">
-        <item name="backgroundTint">@color/A700</item>
+
+    <style name="MyTextAppearance" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">17sp</item>
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.0178571429</item>
+    </style>
+    <!--    Тестим-->
+    <style name="MyTextAppearance2" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:letterSpacing">0.00714285714</item>
     </style>
 
-    <!--    Для курсора в тему -->
-    <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
-        <item name="colorControlNormal">@color/A200</item>
-        <item name="colorControlActivated">@color/Teal_300</item>
-        <item name="colorControlHighlight">@color/A400</item>
+
+
+
+
+
+    <style name="MyShapeAppearanceSmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
     </style>
+
+
+    <style name="MyChipStyleStart" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="shapeAppearanceOverlay">@style/MyShapeAppearanceSmallComponentStart</item>
+    </style>
+
+    <style name="MyShapeAppearanceSmallComponentStart" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomRight">0%</item>
+        <item name="cornerSizeTopRight">0%</item>
+        <item name="cornerSizeBottomLeft">50%</item>
+        <item name="cornerSizeTopLeft">50%</item>
+
+
+<!--        <item name="cornerFamilyBottomRight">rounded</item>-->
+<!--        <item name="cornerFamilyTopRight">cut</item>-->
+<!--        <item name="cornerSizeBottomRight">10%</item>-->
+<!--        <item name="cornerSizeTopRight">80%</item>-->
+<!--        <item name="cornerSizeBottomLeft">50%</item>-->
+<!--        <item name="cornerSizeTopLeft">50%</item>-->
+    </style>
+
+
+    <!--middle-->
+
+    <style name="MyChipStyleMiddle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="shapeAppearanceOverlay">@style/MyShapeAppearanceSmallComponentMiddle</item>
+    </style>
+
+    <style name="MyShapeAppearanceSmallComponentMiddle" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">0%</item>
+    </style>
+
+
+    <!--right-->
+    <style name="MyChipStyleEnd" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="shapeAppearanceOverlay">@style/MyShapeAppearanceSmallComponentEnd</item>
+    </style>
+
+
+    <style name="MyShapeAppearanceSmallComponentEnd" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomLeft">0%</item>
+        <item name="cornerSizeTopLeft">0%</item>
+        <item name="cornerSizeBottomRight">50%</item>
+        <item name="cornerSizeTopRight">50%</item>
+    </style>
+
+
+
 </resources>

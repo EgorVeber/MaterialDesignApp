@@ -16,3 +16,6 @@ const val SLIDE_OFF_SET = 0.3
 const val SLIDE_OFF_SET_TOP = 0.8
 
 const val CROSS_FADE_500 = 500
+
+const val FILE_SETTINGS = "FILE_SETTINGS"
+const val KEY_THEME = "KEY_THEME"
