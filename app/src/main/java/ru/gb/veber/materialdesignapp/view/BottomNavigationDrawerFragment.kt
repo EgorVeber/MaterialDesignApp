@@ -45,6 +45,7 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
                 R.id.navigation_one -> Toast.makeText(context, "1", Toast.LENGTH_SHORT).show()
                 R.id.navigation_two -> Toast.makeText(context, "2", Toast.LENGTH_SHORT).show()
                 R.id.switch_item -> {
+                    //Приходится нажимать чтоб сработало
                     (menuItem.actionView as Switch).setOnCheckedChangeListener { button, isCheked ->
                         if (isCheked) {
                             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
@@ -74,6 +75,7 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_bottom_navigation, menu)
         super.onCreateOptionsMenu(menu, inflater)
+        //Через меню не работает
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
