@@ -29,11 +29,14 @@
         <item name="superAppBarBackground">@color/teal_700</item>
         <item name="textAppearanceBody2">@style/MyTextAppearance</item>
 
-<!--        textAppearanceBody2 переопределить в теме а если в chips то только  textAppearance, важно помнить -->
-<!--        <item name="textAppearanceSubtitle1">@style/MyTextAppearance2</item>-->
+        <!--        textAppearanceBody2 переопределить в теме а если в chips то только  textAppearance, важно помнить -->
+        <!--        <item name="textAppearanceSubtitle1">@style/MyTextAppearance2</item>-->
 
 
         <item name="shapeAppearanceSmallComponent">@style/MyShapeAppearanceSmallComponent</item>
+<!--        <item name="android:forceDarkAllowed">true</item>-->
+
+
     </style>
 
 

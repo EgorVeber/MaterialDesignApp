@@ -14,7 +14,8 @@
             android:title="На экран 2" />
     </group>
     <item
-        app:showAsAction="always"
+        android:id="@+id/switch_item"
+        android:title="На экран 3"
         app:actionViewClass="android.widget.Switch"
-        android:title="На экран 3" />
+        app:showAsAction="always" />
 </menu>

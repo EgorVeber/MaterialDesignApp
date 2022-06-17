@@ -4,6 +4,7 @@ import AppState
 import BottomNavigationDrawerFragment
 import PictureVM
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle

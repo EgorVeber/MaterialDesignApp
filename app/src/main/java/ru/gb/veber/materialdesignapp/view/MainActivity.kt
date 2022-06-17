@@ -1,6 +1,8 @@
 package ru.gb.veber.materialdesignapp.view
 
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import ru.gb.veber.materialdesignapp.R
@@ -25,5 +27,9 @@ class MainActivity : AppCompatActivity() {
             2 -> R.style.MyThemeGreen
             else -> R.style.MyThemeBaseTeal
         }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
     }
 }
