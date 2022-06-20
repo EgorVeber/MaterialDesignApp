@@ -23,10 +23,12 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chip_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:chipSpacingHorizontal="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/input_layout"
@@ -34,18 +36,21 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip3"
+            style="@style/MyChipStyleStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/before_yesterday" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip2"
+            style="@style/MyChipStyleMiddle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/yesterday" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip1"
+            style="@style/MyChipStyleEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
@@ -56,8 +61,8 @@
         android:id="@+id/image_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:scaleType="centerCrop"
+        android:layout_margin="@dimen/image_view_margin10"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chip_group"

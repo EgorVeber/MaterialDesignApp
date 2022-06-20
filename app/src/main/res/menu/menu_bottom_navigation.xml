@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <group
         android:id="@+id/group1"
         android:checkableBehavior="none">
@@ -13,6 +14,8 @@
             android:title="На экран 2" />
     </group>
     <item
-        android:icon="@drawable/ic_archive"
-        android:title="На экран 3" />
+        android:id="@+id/switch_item"
+        android:title="Темная тема"
+        app:actionViewClass="android.widget.Switch"
+        app:showAsAction="always" />
 </menu>
