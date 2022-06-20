@@ -48,19 +48,19 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
 
     private fun init() {
         setNavigationItemSelected()
-        menuSwitch = (binding.navigationView.menu.findItem(R.id.switch_item).actionView as Switch)
-        with((binding.navigationView.menu.findItem(R.id.switch_item).actionView as Switch)) {
-            setOnCheckedChangeListener { button, isCheked ->
-                if (isCheked) {
-                    AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
-                    putModeTheme(true)
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
-                    putModeTheme(false)
+        menuSwitch =
+            (binding.navigationView.menu.findItem(R.id.switch_item).actionView as Switch).apply {
+                setOnCheckedChangeListener { button, isCheked ->
+                    if (isCheked) {
+                        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+                        putModeTheme(true)
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+                        putModeTheme(false)
+                    }
                 }
+                isChecked = getModeTheme()
             }
-            isChecked = getModeTheme()
-        }
     }
 
     private fun putModeTheme(key: Boolean) {

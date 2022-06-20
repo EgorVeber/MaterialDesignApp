@@ -4,6 +4,7 @@ import AppState
 import BottomNavigationDrawerFragment
 import PictureViewModel
 import SelectThemeFragment
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -89,9 +90,7 @@ class PictureFragment : Fragment() {
                     appState.pictureDTO.mediaType
                     lifeHack.explanation.text = appState.pictureDTO.explanation
                     if (appState.pictureDTO.mediaType == "video") {
-                        startActivity(Intent(Intent.ACTION_VIEW).apply {
-                            data = Uri.parse(appState.pictureDTO.url)
-                        })
+                        videoSuccess(appState)
                     } else {
                         imageView.load(appState.pictureDTO.hdurl) {
                             placeholder(R.drawable.loading1)
@@ -104,6 +103,19 @@ class PictureFragment : Fragment() {
                 else -> {}
             }
         }
+    }
+
+    private fun videoSuccess(appState: AppState.Success) {
+
+        AlertDialog.Builder(context).setTitle(getString(R.string.videoMediaType))
+            .setMessage(getString(R.string.mediaType))
+            .setPositiveButton(getString(R.string.Open)) { _, _ ->
+                startActivity(Intent(Intent.ACTION_VIEW).apply {
+                    data = Uri.parse(appState.pictureDTO.url)
+                })
+            }.setNegativeButton(getString(R.string.Close)) { dialog, _ ->
+                dialog.dismiss()
+            }.create().show()
     }
 
 

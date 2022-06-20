@@ -19,6 +19,10 @@
     <string name="theme_blue">Theme Blue</string>
     <string name="theme_green">Theme Green</string>
     <string name="theme_dark">Theme Dark</string>
+    <string name="videoMediaType">Open link on the internet</string>
+    <string name="mediaType">mediaType = video</string>
+    <string name="Open">Open</string>
+    <string name="Close">Close</string>
 
 
 </resources>
