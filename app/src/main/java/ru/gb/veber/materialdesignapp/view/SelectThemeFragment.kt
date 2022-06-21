@@ -56,6 +56,7 @@ class SelectThemeFragment : BottomSheetDialogFragment() {
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         putTheme(key)
         putModeTheme(false)
+        dismiss()
     }
 
     private fun putModeTheme(key: Boolean) {

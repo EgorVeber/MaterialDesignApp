@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ class BaseFragment : Fragment() {
         ViewModelProvider(this).get(PictureViewModel::class.java)
     }
     private var appStateSave: AppState.Success? = null
+    private var checkState:Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +62,16 @@ class BaseFragment : Fragment() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("asd",true)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        checkState = savedInstanceState?.getBoolean("asd",false) == true
+    }
+
     private fun renderData(appState: AppState) {
         with(binding)
         {
@@ -80,7 +92,10 @@ class BaseFragment : Fragment() {
                     title.text = appState.pictureDTO.title
                     explanation.text = appState.pictureDTO.explanation
                     if (appState.pictureDTO.mediaType == "video") {
-                        videoSuccess(appState)
+                        if(!checkState) // что бы не появлялись много диалогов когда меняем тему
+                        {
+                            videoSuccess(appState)
+                        }
                         imageView.load(R.drawable.nasa_api)
                     } else {
                         imageView.load(appState.pictureDTO.hdurl) {

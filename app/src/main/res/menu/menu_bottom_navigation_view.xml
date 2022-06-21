@@ -3,7 +3,7 @@
     <item
         android:id="@+id/action_bottom_view_picture"
         android:icon="@drawable/ic_image_24"
-        android:title="Picture" />
+        android:title="PictureDay" />
 
     <item
         android:id="@+id/action_bottom_view_picture_"
@@ -21,7 +21,7 @@
         android:title="Новый" />
 
     <item
-        android:id="@+id/action_bottom_view13"
-        android:icon="@drawable/ic_system"
-        android:title="Новый" />
+        android:id="@+id/action_bottom_settings"
+        android:icon="@drawable/ic_settings_menu"
+        android:title="Settings" />
 </menu>

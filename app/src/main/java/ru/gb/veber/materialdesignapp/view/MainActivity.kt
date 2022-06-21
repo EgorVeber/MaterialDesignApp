@@ -1,7 +1,9 @@
 package ru.gb.veber.materialdesignapp.view
 
+import SelectThemeFragment
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 //                .replace(R.id.container, PictureFragment.newInstance()).commit()
 //        }
         bottomNavigationView = binding.bottomNavigationView
+
         bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.action_bottom_view_picture -> {
@@ -47,7 +50,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.action_bottom_view12 -> {
                     false
                 }
-                R.id.action_bottom_view13 -> {
+                R.id.action_bottom_settings -> {
+                    SelectThemeFragment().show(supportFragmentManager, "")
                     false
                 }
                 else -> {
@@ -55,8 +59,19 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        if (savedInstanceState == null) {
+            bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
+        }
+        bottomNavigationView.setOnItemReselectedListener {
+        }
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        //чтобы при пересоздании темы выбюранный был первый
         bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
     }
+
 
     private fun getThemePrefs(): Int {
         return when (getSharedPreferences(FILE_SETTINGS, MODE_PRIVATE).getInt(

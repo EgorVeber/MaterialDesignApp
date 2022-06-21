@@ -17,7 +17,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/image_view_margin10"
             android:scaleType="fitXY"
-            android:src="@drawable/bg_earth"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
