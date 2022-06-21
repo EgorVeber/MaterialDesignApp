@@ -6,7 +6,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
 import ru.gb.veber.materialdesignapp.R
-import ru.gb.veber.materialdesignapp.databinding.BottomNavigationLayoutBinding
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureViewPagerBinding
 import ru.gb.veber.materialdesignapp.utils.*
 import java.util.*
@@ -28,9 +26,8 @@ class BaseFragment : Fragment() {
     private val viewModel: PictureViewModel by lazy {
         ViewModelProvider(this).get(PictureViewModel::class.java)
     }
-
     private var appStateSave: AppState.Success? = null
-    private var flags: Boolean = true
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,15 +49,14 @@ class BaseFragment : Fragment() {
         super.setMenuVisibility(menuVisible)
         if (menuVisible) {
             appStateSave?.let { videoSuccess(it) }
-        } else {
         }
     }
 
     private fun getPictureChipsClick(key: Int) {
         when (key) {
-            0 -> viewModel.sendServerRequest(Date().formatDate())
-            1 -> viewModel.sendServerRequest(takeDate(KEY_CHIP_YESTERDAY))
-            2 -> viewModel.sendServerRequest(takeDate(KEY_CHIP_BEFORE_YD))
+            KEY_TODAY -> viewModel.sendServerRequest(Date().formatDate())
+            KEY_YESTERDAY -> viewModel.sendServerRequest(takeDate(KEY_YESTERDAY_DATA))
+            KEY_BEFORE_YESTERDAY -> viewModel.sendServerRequest(takeDate(KEY_BEFORE_YESTERDAY_DATA))
         }
     }
 
@@ -85,6 +81,7 @@ class BaseFragment : Fragment() {
                     explanation.text = appState.pictureDTO.explanation
                     if (appState.pictureDTO.mediaType == "video") {
                         videoSuccess(appState)
+                        imageView.load(R.drawable.nasa_api)
                     } else {
                         imageView.load(appState.pictureDTO.hdurl) {
                             placeholder(R.drawable.loading1)
@@ -115,10 +112,7 @@ class BaseFragment : Fragment() {
     }
 
     companion object {
-        internal const val EARTH_FRAGMENT = 0
-        internal const val MARS_FRAGMENT = 1
-        internal const val SYSTEM_FRAGMENT = 2
-        private const val BUNDLE_KEY = "key"
+        private const val BUNDLE_KEY = "BUNDLE_KEY"
 
         @JvmStatic
         fun newInstance(type: Int): Fragment {

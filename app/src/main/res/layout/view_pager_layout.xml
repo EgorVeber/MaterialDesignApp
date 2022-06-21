@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        app:tabIndicatorColor="@color/b100"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabMode="auto"
         tools:ignore="MissingConstraints" />
 <!--    <androidx.viewpager.widget.ViewPager-->
 <!--        android:id="@+id/view_pager"-->

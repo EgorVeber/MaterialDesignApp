@@ -14,15 +14,21 @@ const val ERROR_FAILURE = "failed to send request to server"
 
 const val SLIDE_OFF_SET = 0.3
 const val SLIDE_OFF_SET_TOP = 0.8
-
 const val CROSS_FADE_500 = 500
 
 const val FILE_SETTINGS = "FILE_SETTINGS"
 const val KEY_THEME = "KEY_THEME"
 const val KEY_MODE_DARK = "KEY_MODE_DARK"
-
 const val KEY_THEME_TEAL = 0
-const val KEY_THEME_GREEN = 2
 const val KEY_THEME_BLUE = 1
+const val KEY_THEME_GREEN = 2
+
+const val KEY_TODAY = 0
+const val KEY_YESTERDAY = 1
+const val KEY_YESTERDAY_DATA = -1
+const val KEY_BEFORE_YESTERDAY = 2
+const val KEY_BEFORE_YESTERDAY_DATA = -2
+
+
 
 
