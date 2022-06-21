@@ -29,7 +29,8 @@ class BaseFragment : Fragment() {
         ViewModelProvider(this).get(PictureViewModel::class.java)
     }
 
-
+    private var appStateSave: AppState.Success? = null
+    private var flags: Boolean = true
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,18 +42,17 @@ class BaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.getLiveData().observe(viewLifecycleOwner) { renderData(it) }
+        arguments?.let {
+            getPictureChipsClick(it.getInt(BUNDLE_KEY))
+        }
     }
 
     override fun setMenuVisibility(menuVisible: Boolean) {
         super.setMenuVisibility(menuVisible)
         if (menuVisible) {
-            viewModel.getLiveData().observe(viewLifecycleOwner) { renderData(it) }
-            arguments?.let {
-                getPictureChipsClick(it.getInt(BUNDLE_KEY))
-            }
+            appStateSave?.let { videoSuccess(it) }
         } else {
-
         }
     }
 
@@ -80,8 +80,8 @@ class BaseFragment : Fragment() {
                     }
                 }
                 is AppState.Success -> {
+                    appStateSave = appState
                     title.text = appState.pictureDTO.title
-                    appState.pictureDTO.mediaType
                     explanation.text = appState.pictureDTO.explanation
                     if (appState.pictureDTO.mediaType == "video") {
                         videoSuccess(appState)
@@ -101,15 +101,17 @@ class BaseFragment : Fragment() {
 
     private fun videoSuccess(appState: AppState.Success) {
 
-        AlertDialog.Builder(context).setTitle(getString(R.string.videoMediaType))
-            .setMessage(getString(R.string.mediaType))
-            .setPositiveButton(getString(R.string.Open)) { _, _ ->
-                startActivity(Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse(appState.pictureDTO.url)
-                })
-            }.setNegativeButton(getString(R.string.Close)) { dialog, _ ->
-                dialog.dismiss()
-            }.create().show()
+        if (appState.pictureDTO.mediaType == "video") {
+            AlertDialog.Builder(context).setTitle(getString(R.string.videoMediaType))
+                .setMessage(getString(R.string.mediaType))
+                .setPositiveButton(getString(R.string.Open)) { _, _ ->
+                    startActivity(Intent(Intent.ACTION_VIEW).apply {
+                        data = Uri.parse(appState.pictureDTO.url)
+                    })
+                }.setNegativeButton(getString(R.string.Close)) { dialog, _ ->
+                    dialog.dismiss()
+                }.create().show()
+        }
     }
 
     companion object {
