@@ -1,14 +1,13 @@
 package ru.gb.veber.materialdesignapp.view
 
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.ActivityMainBinding
 import ru.gb.veber.materialdesignapp.utils.*
+import ru.gb.veber.materialdesignapp.view.pager.ViewPagerFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,9 +18,14 @@ class MainActivity : AppCompatActivity() {
         setTheme(getThemePrefs())
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+//        if (savedInstanceState == null) {
+//            supportFragmentManager.beginTransaction()
+//                .replace(R.id.container, PictureFragment.newInstance()).commit()
+//        }
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, PictureFragment.newInstance()).commit()
+                .replace(R.id.container, ViewPagerFragment.newInstance()).commit()
         }
     }
 
