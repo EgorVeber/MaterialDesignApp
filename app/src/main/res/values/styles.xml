@@ -44,6 +44,7 @@
         <item name="endIconMode">custom</item>
         <item name="helperText">@string/wiki_helper_text</item>
     </style>
+
     <style name="MyInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">#0EFF0E</item>
     </style>
@@ -66,11 +67,23 @@
         <item name="android:letterSpacing">0.00714285714</item>
     </style>
 
+    <style name="MyCardViewStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">20dp</item>
+    </style>
 
     <!--    Shape-->
     <style name="MyShapeAppearanceSmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">cut</item>
     </style>
+
+    <style name="MyShapeAppearanceMediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSizeBottomLeft">10%</item>
+        <item name="cornerSizeTopLeft">80%</item>
+        <item name="cornerSizeTopRight">100%</item>
+        <item name="cornerFamilyTopRight">cut</item>
+        <item name="cornerFamilyBottomRight">cut</item>
+    </style>
+
 
     <style name="MyChipStyleStart" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="shapeAppearanceOverlay">@style/MyShapeAppearanceSmallComponentStart</item>
@@ -114,11 +127,37 @@
         <item name="cornerSize">50%</item>
     </style>
 
-<!--    //Пока непонятно как переопределить-->
+    <!--    //Пока непонятно как переопределить-->
     <style name="MyNavigationViewStyle" parent="Widget.Design.NavigationView">
-<!--       не работает -->
-<!--        <item name="backgroundTint">@color/b700</item>-->
-<!--        работает -->
-<!--        <item name="itemIconTint">@color/b700</item>-->
+        <!--       не работает -->
+        <!--        <item name="backgroundTint">@color/b700</item>-->
+        <!--        работает -->
+        <!--        <item name="itemIconTint">@color/b700</item>-->
+    </style>
+
+    <style name="MyBottomNavigationStyle" parent="Widget.MaterialComponents.NavigationView">
+
+        <item name="android:background">@color/teal_50</item>
+        <!--        <item name="enforceMaterialTheme">true</item>-->
+        <!--        <item name="itemBackground">@null</item>-->
+        <!--        <item name="shapeAppearanceOverlay">@style/shapeAppearanceOverlayNavigationView</item>-->
+        <!--        <item name="itemIconPadding">@dimen/mtrl_navigation_item_icon_padding</item>-->
+        <!--        <item name="itemIconTint">@color/mtrl_navigation_item_icon_tint</item>-->
+        <!--        <item name="itemIconSize">@dimen/mtrl_navigation_item_icon_size</item>-->
+        <!--        <item name="itemHorizontalPadding">@dimen/mtrl_navigation_item_horizontal_padding</item>-->
+        <!--        <item name="itemShapeAppearance">?attr/shapeAppearanceSmallComponent</item>-->
+        <!--        <item name="itemShapeFillColor">@color/mtrl_navigation_item_background_color</item>-->
+        <!--        <item name="itemShapeInsetStart">@dimen/mtrl_navigation_item_shape_horizontal_margin</item>-->
+        <!--        <item name="itemShapeInsetTop">@dimen/mtrl_navigation_item_shape_vertical_margin</item>-->
+        <!--        <item name="itemShapeInsetEnd">@dimen/mtrl_navigation_item_shape_horizontal_margin</item>-->
+        <!--        <item name="itemShapeInsetBottom">@dimen/mtrl_navigation_item_shape_vertical_margin</item>-->
+        <!--        <item name="itemTextAppearance">?attr/textAppearanceSubtitle2</item>-->
+        <!--        <item name="itemTextColor">@color/mtrl_navigation_item_text_color</item>-->
+        <!--        <item name="elevation">@dimen/design_navigation_elevation</item>-->
+        <!--        <item name="android:fitsSystemWindows">true</item>-->
+        <!--        <item name="android:maxWidth">@dimen/design_navigation_max_width</item>-->
+        <!--        <item name="subheaderInsetStart">?attr/listPreferredItemPaddingLeft</item>-->
+        <!--        <item name="subheaderInsetEnd">?attr/listPreferredItemPaddingRight</item>-->
+        <!--        <item name="drawerLayoutCornerSize">0dp</item>-->
     </style>
 </resources>

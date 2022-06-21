@@ -2,8 +2,10 @@ package ru.gb.veber.materialdesignapp.view
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.ActivityMainBinding
 import ru.gb.veber.materialdesignapp.utils.*
@@ -12,6 +14,7 @@ import ru.gb.veber.materialdesignapp.view.pager.ViewPagerFragment
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var bottomNavigationView: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setNightMode()
@@ -23,10 +26,36 @@ class MainActivity : AppCompatActivity() {
 //            supportFragmentManager.beginTransaction()
 //                .replace(R.id.container, PictureFragment.newInstance()).commit()
 //        }
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, ViewPagerFragment.newInstance()).commit()
+        bottomNavigationView = binding.bottomNavigationView
+        bottomNavigationView.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.action_bottom_view_picture -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, ViewPagerFragment.newInstance())
+                        .addToBackStack("null").commit()
+                    true
+                }
+                R.id.action_bottom_view_picture_ -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, PictureFragment.newInstance())
+                        .addToBackStack("null").commit()
+                    true
+                }
+                R.id.action_bottom_view1 -> {
+                    false
+                }
+                R.id.action_bottom_view12 -> {
+                    false
+                }
+                R.id.action_bottom_view13 -> {
+                    false
+                }
+                else -> {
+                    true
+                }
+            }
         }
+        bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
     }
 
     private fun getThemePrefs(): Int {
@@ -37,6 +66,15 @@ class MainActivity : AppCompatActivity() {
             KEY_THEME_BLUE -> R.style.MyThemeBlue
             KEY_THEME_GREEN -> R.style.MyThemeGreen
             else -> R.style.MyThemeBaseTeal
+        }
+    }
+
+    override fun onBackPressed() {
+        if (bottomNavigationView.selectedItemId == R.id.action_bottom_view_picture) {
+            //super.onBackPressed() fragmentManager.getBackStackEntryCount() == 0
+            finish()
+        } else {
+            bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
         }
     }
 

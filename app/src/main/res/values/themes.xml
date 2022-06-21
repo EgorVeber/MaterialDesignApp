@@ -27,9 +27,10 @@
         <item name="radioButtonStyle">@style/MyRadioButtonStyle</item>
         <item name="superFont">@font/kdam_regular</item>
         <item name="navigationViewStyle">@style/MyNavigationViewStyle</item>
-        <!--textAppearanceBody2 переопределить в теме а если в chips то только  textAppearance, важно помнить -->
-        <!--<item name="textAppearanceSubtitle1">@style/MyTextAppearance2</item>-->
         <item name="shapeAppearanceSmallComponent">@style/MyShapeAppearanceSmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/MyShapeAppearanceMediumComponent</item>
+        <item name="cardViewStyle">@style/MyCardViewStyle</item>
+        <!--        <item name="bottomNavigationStyle">@style/MyBottomNavigationStyle</item>-->
     </style>
 
 
