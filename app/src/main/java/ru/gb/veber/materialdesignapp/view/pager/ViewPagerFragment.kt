@@ -23,19 +23,20 @@ class ViewPagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        binding.viewPager.adapter = ViewPagerAdapter(requireActivity().supportFragmentManager)
-//        binding.tabLayout.setupWithViewPager(binding.viewPager)
+        binding.viewPager.adapter = ViewPagerAdapter(requireActivity().supportFragmentManager)
+        binding.tabLayout.setupWithViewPager(binding.viewPager)
 
-        binding.viewPager.adapter = ViewPager2Adapter(requireActivity())
-        TabLayoutMediator(binding.tabLayout,binding.viewPager
-        ) { tab, position ->
-            tab.text = when (position) {
-                BaseFragment.EARTH_FRAGMENT -> "Earth"
-                BaseFragment.MARS_FRAGMENT -> "Mars"
-                BaseFragment.SYSTEM_FRAGMENT -> "System"
-                else -> "Earth"
-            }
-        }.attach()
+
+//        binding.viewPager.adapter = ViewPager2Adapter(requireActivity())
+//        TabLayoutMediator(binding.tabLayout,binding.viewPager
+//        ) { tab, position ->
+//            tab.text = when (position) {
+//                BaseFragment.EARTH_FRAGMENT -> "Earth"
+//                BaseFragment.MARS_FRAGMENT -> "Mars"
+//                BaseFragment.SYSTEM_FRAGMENT -> "System"
+//                else -> "Earth"
+//            }
+//        }.attach()
     }
 
     companion object {

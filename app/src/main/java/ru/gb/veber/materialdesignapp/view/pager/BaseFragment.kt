@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
 import ru.gb.veber.materialdesignapp.R
+import ru.gb.veber.materialdesignapp.databinding.BottomNavigationLayoutBinding
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureViewPagerBinding
 import ru.gb.veber.materialdesignapp.utils.*
 import java.util.*
@@ -23,9 +24,11 @@ class BaseFragment : Fragment() {
 
     private var _binding: FragmentPictureViewPagerBinding? = null
     private val binding get() = _binding!!
+
     private val viewModel: PictureViewModel by lazy {
         ViewModelProvider(this).get(PictureViewModel::class.java)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,36 +41,26 @@ class BaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getLiveData().observe(viewLifecycleOwner) { renderData(it) }
 
-        Log.d(
-            "TAG",
-            "onViewCreated() called with: view = $view, savedInstanceState = $savedInstanceState"
-        )
-        Log.d(
-            "TAG",
-            arguments?.getInt(BUNDLE_KEY).toString()
-        )
-        arguments?.let {
-            getPictureChipsClick(it.getInt(BUNDLE_KEY))
-        }
     }
 
+    override fun setMenuVisibility(menuVisible: Boolean) {
+        super.setMenuVisibility(menuVisible)
+        if (menuVisible) {
+            viewModel.getLiveData().observe(viewLifecycleOwner) { renderData(it) }
+            arguments?.let {
+                getPictureChipsClick(it.getInt(BUNDLE_KEY))
+            }
+        } else {
+
+        }
+    }
 
     private fun getPictureChipsClick(key: Int) {
         when (key) {
             0 -> viewModel.sendServerRequest(Date().formatDate())
             1 -> viewModel.sendServerRequest(takeDate(KEY_CHIP_YESTERDAY))
             2 -> viewModel.sendServerRequest(takeDate(KEY_CHIP_BEFORE_YD))
-        }
-    }
-
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser) {
-            Log.d("TAG", "setUserVisibleHint() called with: isVisibleToUser = $isVisibleToUser")
-        }else{
-            Log.d("TAG", "setUserVisibleHint() called with: isVisibleToUser = $isVisibleToUser")
         }
     }
 
