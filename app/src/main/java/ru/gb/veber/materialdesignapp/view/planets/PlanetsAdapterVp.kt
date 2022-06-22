@@ -6,6 +6,13 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 
 
 private const val ADAPTER_SIZE = 3
+const val FRAGMENT_EARTH = "Earth"
+const val FRAGMENT_EARTH_KEY = 0
+const val FRAGMENT_MARS = "Mars"
+const val FRAGMENT_MARS_KEY = 1
+const val FRAGMENT_PICTURE = "Picture+"
+const val FRAGMENT_PICTURE_KEY = 2
+
 
 class PlanetsAdapterVp(fragmentManager: FragmentManager) :
     FragmentStatePagerAdapter(fragmentManager) {
@@ -15,18 +22,18 @@ class PlanetsAdapterVp(fragmentManager: FragmentManager) :
 
     override fun getPageTitle(position: Int): CharSequence? {
         return when (position) {
-            0 -> "Earth"
-            1 -> "Mars"
-            2 -> "PictureOfTheDay+"
-            else -> "Earth"
+            FRAGMENT_EARTH_KEY -> FRAGMENT_EARTH
+            FRAGMENT_MARS_KEY -> FRAGMENT_MARS
+            FRAGMENT_PICTURE_KEY -> FRAGMENT_PICTURE
+            else -> FRAGMENT_EARTH
         }
     }
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> EarthFragment()
-            1 -> MarsFragment()
-            2 -> PictureDayCustomFragment()
+            FRAGMENT_EARTH_KEY -> EarthFragment()
+            FRAGMENT_MARS_KEY -> MarsFragment()
+            FRAGMENT_PICTURE_KEY -> ListPictureDayFragment()
             else -> EarthFragment()
         }
     }

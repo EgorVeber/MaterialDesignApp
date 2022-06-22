@@ -11,15 +11,17 @@
         android:layout_margin="10dp"
         android:scaleType="fitXY"
         android:src="@drawable/nasa_api" />
+
     <TextView
         android:id="@+id/title"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" />
+
     <TextView
         android:id="@+id/date"
-        android:gravity="right"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="right" />
 </LinearLayout>

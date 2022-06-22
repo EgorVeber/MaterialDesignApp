@@ -31,6 +31,7 @@
         <item name="shapeAppearanceSmallComponent">@style/MyShapeAppearanceSmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/MyShapeAppearanceMediumComponent</item>
         <item name="cardViewStyle">@style/MyCardViewStyle</item>
+        <item name="materialButtonStyle">@style/MyMaterialButtonStyle</item>
         <!--        <item name="bottomNavigationStyle">@style/MyBottomNavigationStyle</item>-->
     </style>
 

@@ -17,6 +17,10 @@ class PictureRetrofit {
         pictureApi.getPictureOfTheDay(BuildConfig.NASA_API_KEY, date).enqueue(callback)
     }
 
+    fun getListPicture(callback: Callback<List<PictureDTO>>, start_date: String, end_date: String) {
+        pictureApi.getListPicture(BuildConfig.NASA_API_KEY, start_date, end_date).enqueue(callback)
+    }
+
     fun getEPIC(apiKey: String, epicCallback: Callback<List<EarthEpicServerResponseData>>) {
         pictureApi.getEPIC(apiKey).enqueue(epicCallback)
     }

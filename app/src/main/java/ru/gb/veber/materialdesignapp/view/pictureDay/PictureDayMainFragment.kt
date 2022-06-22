@@ -38,6 +38,7 @@ class PictureDayMainFragment : Fragment() {
                 else -> getString(R.string.today)
             }
         }.attach()
+
     }
 
     companion object {
