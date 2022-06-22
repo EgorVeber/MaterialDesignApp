@@ -24,11 +24,14 @@ class PlanetsMainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        init()
+    }
+
+    private fun init() {
         binding.viewPager.adapter = PlanetsAdapterVp(requireActivity().supportFragmentManager)
         binding.tabLayout.setupWithViewPager(binding.viewPager)
         binding.tabLayout.getTabAt(2)?.setIcon(R.drawable.ic_image_24)
-//        binding.tabLayout.getTabAt(2)?.customView
-
+        //        binding.tabLayout.getTabAt(2)?.customView
 
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(

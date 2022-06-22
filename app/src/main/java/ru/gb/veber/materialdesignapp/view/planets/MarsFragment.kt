@@ -51,8 +51,6 @@ class MarsFragment : Fragment() {
             }
             is AppState.SuccessMars -> {
 
-                Log.d("TAG", "render() called with: appState = $appState")
-
                 if (appState.serverResponseData.photos.isEmpty()) {
                     Snackbar.make(
                         binding.root,

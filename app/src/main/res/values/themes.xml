@@ -32,7 +32,8 @@
         <item name="shapeAppearanceMediumComponent">@style/MyShapeAppearanceMediumComponent</item>
         <item name="cardViewStyle">@style/MyCardViewStyle</item>
         <item name="materialButtonStyle">@style/MyMaterialButtonStyle</item>
-        <!--        <item name="bottomNavigationStyle">@style/MyBottomNavigationStyle</item>-->
+        <item name="tabStyle">@style/MyTabStyle</item>
+<!--           <item name="bottomNavigationStyle">@style/MyBottomNavigationStyle</item>-->
     </style>
 
 
@@ -81,6 +82,4 @@
         <item name="superFont">@font/stoke_light</item>
         <item name="superColor">@color/blue_50</item>
     </style>
-
-
 </resources>

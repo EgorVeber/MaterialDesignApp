@@ -20,8 +20,6 @@ class EarthViewModel(
         return liveDataToObserve
     }
 
-
-    // Earth Polychromatic Imaging Camera
     fun getEpic() {
         liveDataToObserve.postValue(AppState.Loading(null))
         val apiKey = BuildConfig.NASA_API_KEY
@@ -31,7 +29,6 @@ class EarthViewModel(
             retrofitImpl.getEPIC(apiKey, epicCallback)
         }
     }
-
 
     private val epicCallback = object : Callback<List<EarthEpicServerResponseData>> {
 

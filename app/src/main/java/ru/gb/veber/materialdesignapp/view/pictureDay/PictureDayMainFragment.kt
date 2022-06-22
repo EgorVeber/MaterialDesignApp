@@ -26,19 +26,30 @@ class PictureDayMainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        init()
+    }
 
+    private fun init() {
         binding.viewPager.adapter = ViewPager2Adapter(requireActivity())
         TabLayoutMediator(
             binding.tabLayout, binding.viewPager
         ) { tab, position ->
-            tab.text = when (position) {
-                KEY_TODAY -> getString(R.string.today)
-                KEY_YESTERDAY -> getString(R.string.yesterday)
-                KEY_BEFORE_YESTERDAY -> getString(R.string.before_yesterday)
-                else -> getString(R.string.today)
+            when (position) {
+                KEY_TODAY -> {
+                    tab.text = getString(R.string.today)
+                    //tab.icon = drawable1
+                    tab.orCreateBadge.apply {
+                        backgroundColor = resources.getColor(R.color.b100)
+                    }
+                }
+                KEY_YESTERDAY -> {
+                    tab.text = getString(R.string.yesterday)
+                }
+                KEY_BEFORE_YESTERDAY -> {
+                    tab.text = getString(R.string.before_yesterday)
+                }
             }
         }.attach()
-
     }
 
     companion object {

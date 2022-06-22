@@ -24,6 +24,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        init(savedInstanceState)
+    }
+
+    private fun init(savedInstanceState: Bundle?) {
         bottomNavigationView = binding.bottomNavigationView
 
         bottomNavigationView.setOnItemSelectedListener {
@@ -68,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        //чтобы при пересоздании темы выбюранный был первый
+        //чтобы при пересоздании темы выбранный был первый
         bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
     }
 

@@ -10,12 +10,12 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:tabIconTint="?attr/superAppBarBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tabGravity="center"
         app:tabMode="scrollable"
-        app:tabTextAppearance="@style/MyTextAppearanceTabs"
         tools:ignore="MissingConstraints" />
 
     <androidx.viewpager.widget.ViewPager
