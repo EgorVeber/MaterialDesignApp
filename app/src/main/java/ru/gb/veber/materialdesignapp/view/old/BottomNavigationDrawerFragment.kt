@@ -1,20 +1,21 @@
+package ru.gb.veber.materialdesignapp.view.old
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
-import androidx.appcompat.widget.SearchView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.radiobutton.MaterialRadioButton
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.BottomNavigationLayoutBinding
 import ru.gb.veber.materialdesignapp.utils.FILE_SETTINGS
 import ru.gb.veber.materialdesignapp.utils.KEY_MODE_DARK
-import ru.gb.veber.materialdesignapp.utils.KEY_THEME
 
 
 class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {

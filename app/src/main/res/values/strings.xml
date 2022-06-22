@@ -24,5 +24,12 @@
     <string name="Open">Open</string>
     <string name="Close">Close</string>
 
-
+    <string name="chips_today">Today</string>
+    <string name="chip_yesterday">Yesterday</string>
+    <string name="chip_before_yesterday">Before Yesterday</string>
+    <string name="chip_earth_today">Earth Today</string>
+    <string name="chip_weather_today">Weather Today</string>
+    <string name="chip_mars_today">Mars Today</string>
+    <string name="chip_moon_hd">Moon HD</string>
+    <string name="NOAA">This image was taken by NASA\'s EPIC camera onboard the NOAA DSCOVR spacecraft</string>
 </resources>

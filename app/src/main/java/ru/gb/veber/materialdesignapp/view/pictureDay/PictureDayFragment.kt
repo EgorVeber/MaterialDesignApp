@@ -1,4 +1,4 @@
-package ru.gb.veber.materialdesignapp.view.pager
+package ru.gb.veber.materialdesignapp.view.pictureDay
 
 import AppState
 import PictureViewModel
@@ -6,7 +6,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,7 @@ import ru.gb.veber.materialdesignapp.utils.*
 import java.util.*
 
 
-class BaseFragment : Fragment() {
+class PictureDayFragment : Fragment() {
 
     private var _binding: FragmentPictureViewPagerBinding? = null
     private val binding get() = _binding!!
@@ -28,7 +27,7 @@ class BaseFragment : Fragment() {
         ViewModelProvider(this).get(PictureViewModel::class.java)
     }
     private var appStateSave: AppState.Success? = null
-    private var checkState:Boolean = false
+    private var checkState: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,8 +46,10 @@ class BaseFragment : Fragment() {
         }
     }
 
+    var flag = false
     override fun setMenuVisibility(menuVisible: Boolean) {
         super.setMenuVisibility(menuVisible)
+        flag = menuVisible
         if (menuVisible) {
             appStateSave?.let { videoSuccess(it) }
         }
@@ -64,12 +65,12 @@ class BaseFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean("asd",true)
+        outState.putBoolean(KEY_STATE_BASE_FRAGMENT, true)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        checkState = savedInstanceState?.getBoolean("asd",false) == true
+        checkState = savedInstanceState?.getBoolean(KEY_STATE_BASE_FRAGMENT, false) == true
     }
 
     private fun renderData(appState: AppState) {
@@ -92,9 +93,9 @@ class BaseFragment : Fragment() {
                     title.text = appState.pictureDTO.title
                     explanation.text = appState.pictureDTO.explanation
                     if (appState.pictureDTO.mediaType == "video") {
-                        if(!checkState) // что бы не появлялись много диалогов когда меняем тему
+                        if (!checkState) // что бы не появлялись много диалогов когда меняем тему
                         {
-                            videoSuccess(appState)
+                            if (flag) videoSuccess(appState)
                         }
                         imageView.load(R.drawable.nasa_api)
                     } else {
@@ -131,7 +132,7 @@ class BaseFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(type: Int): Fragment {
-            return BaseFragment().apply {
+            return PictureDayFragment().apply {
                 arguments = Bundle().apply {
                     putInt(BUNDLE_KEY, type)
                 }

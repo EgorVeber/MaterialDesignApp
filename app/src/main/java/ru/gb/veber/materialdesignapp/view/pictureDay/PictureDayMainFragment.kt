@@ -1,4 +1,4 @@
-package ru.gb.veber.materialdesignapp.view.pager
+package ru.gb.veber.materialdesignapp.view.pictureDay
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,20 +7,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import ru.gb.veber.materialdesignapp.R
-import ru.gb.veber.materialdesignapp.databinding.ViewPagerLayoutBinding
+import ru.gb.veber.materialdesignapp.databinding.PictureDayLayoutBinding
 import ru.gb.veber.materialdesignapp.utils.KEY_TODAY
 import ru.gb.veber.materialdesignapp.utils.KEY_YESTERDAY
 import ru.gb.veber.materialdesignapp.utils.KEY_BEFORE_YESTERDAY
 
-class ViewPagerFragment : Fragment() {
+class PictureDayMainFragment : Fragment() {
 
-    private var _binding: ViewPagerLayoutBinding? = null
+    private var _binding: PictureDayLayoutBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ViewPagerLayoutBinding.inflate(inflater, container, false)
+        _binding = PictureDayLayoutBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -43,6 +43,6 @@ class ViewPagerFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() =
-            ViewPagerFragment()
+            PictureDayMainFragment()
     }
 }

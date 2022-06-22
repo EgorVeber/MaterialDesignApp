@@ -1,4 +1,4 @@
-package ru.gb.veber.materialdesignapp.view.pager
+package ru.gb.veber.materialdesignapp.view.pictureDay
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -15,6 +15,6 @@ class ViewPager2Adapter(fragmentManager: FragmentActivity) :
     }
 
     override fun createFragment(position: Int): Fragment {
-        return BaseFragment.newInstance(position)
+        return PictureDayFragment.newInstance(position)
     }
 }

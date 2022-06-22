@@ -25,9 +25,9 @@
 
     <!--    Для курсора в тему -->
     <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
-        <item name="colorControlNormal">@color/t200</item>
-        <item name="colorControlActivated">@color/teal_300</item>
-        <item name="colorControlHighlight">@color/t400</item>
+        <item name="colorControlNormal">?attr/superChipRipple</item>
+        <item name="colorControlActivated">?attr/superChipRipple</item>
+        <item name="colorControlHighlight">?attr/superChipRipple</item>
     </style>
 
     <style name="MyTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -50,6 +50,14 @@
     </style>
 
     <style name="MyTextAppearance" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">17sp</item>
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.0178571429</item>
+    </style>
+    <style name="MyTextAppearanceTabs" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textSize">17sp</item>
         <item name="fontFamily">sans-serif</item>
         <item name="android:fontFamily">sans-serif</item>

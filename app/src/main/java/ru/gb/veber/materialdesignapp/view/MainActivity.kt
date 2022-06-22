@@ -3,15 +3,15 @@ package ru.gb.veber.materialdesignapp.view
 import SelectThemeFragment
 import android.content.res.Configuration
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.ActivityMainBinding
 import ru.gb.veber.materialdesignapp.utils.*
-import ru.gb.veber.materialdesignapp.view.pager.ViewPagerFragment
+import ru.gb.veber.materialdesignapp.view.old.PictureFragment
+import ru.gb.veber.materialdesignapp.view.pictureDay.PictureDayMainFragment
+import ru.gb.veber.materialdesignapp.view.planets.PlanetsMainFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,31 +24,30 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        if (savedInstanceState == null) {
-//            supportFragmentManager.beginTransaction()
-//                .replace(R.id.container, PictureFragment.newInstance()).commit()
-//        }
         bottomNavigationView = binding.bottomNavigationView
 
         bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.action_bottom_view_picture -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, ViewPagerFragment.newInstance())
+                        .replace(R.id.container, PictureDayMainFragment.newInstance())
                         .addToBackStack("null").commit()
                     true
                 }
-                R.id.action_bottom_view_picture_ -> {
+                R.id.action_bottom_planets -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, PictureFragment.newInstance())
+                        .replace(R.id.container, PlanetsMainFragment.newInstance())
                         .addToBackStack("null").commit()
                     true
                 }
                 R.id.action_bottom_view1 -> {
                     false
                 }
-                R.id.action_bottom_view12 -> {
-                    false
+                R.id.action_bottom_wiki -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, PictureFragment.newInstance())
+                        .addToBackStack("null").commit()
+                    true
                 }
                 R.id.action_bottom_settings -> {
                     SelectThemeFragment().show(supportFragmentManager, "")
@@ -63,6 +62,7 @@ class MainActivity : AppCompatActivity() {
             bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
         }
         bottomNavigationView.setOnItemReselectedListener {
+            //чтобы Reselected не работал
         }
     }
 
