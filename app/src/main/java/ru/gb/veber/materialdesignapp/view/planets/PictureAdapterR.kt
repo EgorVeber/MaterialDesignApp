@@ -1,14 +1,10 @@
 package ru.gb.veber.materialdesignapp.view.planets
 
-import android.content.Intent
-import android.graphics.Typeface
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import ru.gb.veber.materialdesignapp.R

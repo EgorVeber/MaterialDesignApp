@@ -1,7 +1,6 @@
 package ru.gb.veber.materialdesignapp.viewmodel
 
 import AppState
-import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,10 +8,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.gb.veber.materialdesignapp.BuildConfig
-import ru.gb.veber.materialdesignapp.model.*
+import ru.gb.veber.materialdesignapp.model.MarsPhotosServerResponseData
+import ru.gb.veber.materialdesignapp.model.PictureRetrofit
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class MarsViewModel(

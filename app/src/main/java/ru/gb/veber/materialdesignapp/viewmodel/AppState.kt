@@ -1,5 +1,7 @@
 
-import ru.gb.veber.materialdesignapp.model.*
+import ru.gb.veber.materialdesignapp.model.EarthEpicServerResponseData
+import ru.gb.veber.materialdesignapp.model.MarsPhotosServerResponseData
+import ru.gb.veber.materialdesignapp.model.PictureDTO
 
 
 sealed class AppState {

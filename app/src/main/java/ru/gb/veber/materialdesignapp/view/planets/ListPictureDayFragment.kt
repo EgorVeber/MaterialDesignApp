@@ -3,7 +3,6 @@ package ru.gb.veber.materialdesignapp.view.planets
 import AppState
 import ListPictureViewModel
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import ru.gb.veber.materialdesignapp.databinding.FragmentPictureListBinding
 import ru.gb.veber.materialdesignapp.utils.CROSS_FADE_500
 import ru.gb.veber.materialdesignapp.utils.takeDate
 import show
-import java.util.*
 
 class ListPictureDayFragment : Fragment() {
 

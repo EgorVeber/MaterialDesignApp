@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.PictureDayLayoutBinding
+import ru.gb.veber.materialdesignapp.utils.KEY_BEFORE_YESTERDAY
 import ru.gb.veber.materialdesignapp.utils.KEY_TODAY
 import ru.gb.veber.materialdesignapp.utils.KEY_YESTERDAY
-import ru.gb.veber.materialdesignapp.utils.KEY_BEFORE_YESTERDAY
 
 class PictureDayMainFragment : Fragment() {
 

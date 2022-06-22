@@ -13,7 +13,6 @@ import com.google.android.material.snackbar.Snackbar
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.FragmentPlanetsBinding
 import ru.gb.veber.materialdesignapp.utils.CROSS_FADE_500
-import ru.gb.veber.materialdesignapp.viewmodel.EarthViewModel
 import ru.gb.veber.materialdesignapp.viewmodel.MarsViewModel
 
 class MarsFragment : Fragment() {

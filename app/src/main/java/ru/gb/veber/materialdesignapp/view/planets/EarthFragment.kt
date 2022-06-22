@@ -2,14 +2,12 @@ package ru.gb.veber.materialdesignapp.view.planets
 
 import AppState
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
-import com.google.android.material.snackbar.Snackbar
 import ru.gb.veber.materialdesignapp.BuildConfig
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.FragmentPlanetsBinding

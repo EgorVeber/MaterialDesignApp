@@ -1,28 +1,18 @@
 package ru.gb.veber.materialdesignapp.view.old
 
-import AppState
 import PictureViewModel
-import SelectThemeFragment
-import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.*
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import coil.load
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import hide
-import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureBinding
-import ru.gb.veber.materialdesignapp.utils.*
-import ru.gb.veber.materialdesignapp.view.MainActivity
-import show
-import java.util.*
+import ru.gb.veber.materialdesignapp.utils.WIKIPEDIA
 
 class PictureFragment : Fragment() {
 
