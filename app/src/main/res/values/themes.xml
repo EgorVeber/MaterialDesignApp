@@ -26,10 +26,14 @@
         <item name="textAppearanceBody2">@style/MyTextAppearance</item>
         <item name="radioButtonStyle">@style/MyRadioButtonStyle</item>
         <item name="superFont">@font/kdam_regular</item>
-<!--        <item name="navigationViewStyle">@style/MyNavigationViewStyle</item>-->
-        <!--textAppearanceBody2 переопределить в теме а если в chips то только  textAppearance, важно помнить -->
-        <!--<item name="textAppearanceSubtitle1">@style/MyTextAppearance2</item>-->
+        <item name="superColor">@color/teal_50</item>
+        <item name="navigationViewStyle">@style/MyNavigationViewStyle</item>
         <item name="shapeAppearanceSmallComponent">@style/MyShapeAppearanceSmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/MyShapeAppearanceMediumComponent</item>
+        <item name="cardViewStyle">@style/MyCardViewStyle</item>
+        <item name="materialButtonStyle">@style/MyMaterialButtonStyle</item>
+        <item name="tabStyle">@style/MyTabStyle</item>
+<!--           <item name="bottomNavigationStyle">@style/MyBottomNavigationStyle</item>-->
     </style>
 
 
@@ -53,6 +57,7 @@
         <item name="superChipRipple">@color/green_700</item>
         <item name="superAppBarBackground">@color/green_700</item>
         <item name="superFont">@font/roboto_thin</item>
+        <item name="superColor">@color/green_50</item>
 
     </style>
 
@@ -75,7 +80,6 @@
         <item name="superChipRipple">@color/blue_700</item>
         <item name="superAppBarBackground">@color/blue_700</item>
         <item name="superFont">@font/stoke_light</item>
+        <item name="superColor">@color/blue_50</item>
     </style>
-
-
 </resources>

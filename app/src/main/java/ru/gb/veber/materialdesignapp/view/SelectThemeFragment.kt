@@ -1,15 +1,12 @@
 import android.content.Context
 import android.os.Bundle
-import android.view.*
-import android.widget.Switch
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
-import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.radiobutton.MaterialRadioButton
-import ru.gb.veber.materialdesignapp.R
-import ru.gb.veber.materialdesignapp.databinding.BottomNavigationLayoutBinding
 import ru.gb.veber.materialdesignapp.databinding.SelectThemeLayoutBinding
 import ru.gb.veber.materialdesignapp.utils.*
 
@@ -56,6 +53,7 @@ class SelectThemeFragment : BottomSheetDialogFragment() {
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         putTheme(key)
         putModeTheme(false)
+        dismiss()
     }
 
     private fun putModeTheme(key: Boolean) {

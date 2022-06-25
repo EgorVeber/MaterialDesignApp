@@ -16,3 +16,22 @@ data class PictureDTO(
     var title: String? = null,
     var url: String? = null
 ) : Parcelable
+
+
+data class EarthEpicServerResponseData(
+    val identifier: String,
+    val caption: String,
+    val image: String,
+    val version: String,
+    val date: String,
+)
+
+
+data class MarsPhotosServerResponseData(
+    @field:SerializedName("photos") val photos: ArrayList<MarsServerResponseData>,
+)
+
+data class MarsServerResponseData(
+    @field:SerializedName("img_src") val imgSrc: String?,
+    @field:SerializedName("earth_date") val earth_date: String?,
+)

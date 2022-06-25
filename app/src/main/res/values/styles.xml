@@ -25,9 +25,9 @@
 
     <!--    Для курсора в тему -->
     <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
-        <item name="colorControlNormal">@color/t200</item>
-        <item name="colorControlActivated">@color/teal_300</item>
-        <item name="colorControlHighlight">@color/t400</item>
+        <item name="colorControlNormal">?attr/superChipRipple</item>
+        <item name="colorControlActivated">?attr/superChipRipple</item>
+        <item name="colorControlHighlight">?attr/superChipRipple</item>
     </style>
 
     <style name="MyTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -45,8 +45,20 @@
         <item name="helperText">@string/wiki_helper_text</item>
     </style>
 
+    <style name="MyInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">#0EFF0E</item>
+    </style>
 
     <style name="MyTextAppearance" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">17sp</item>
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.0178571429</item>
+    </style>
+
+    <style name="MyTextAppearanceTabs" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textSize">17sp</item>
         <item name="fontFamily">sans-serif</item>
         <item name="android:fontFamily">sans-serif</item>
@@ -64,11 +76,23 @@
         <item name="android:letterSpacing">0.00714285714</item>
     </style>
 
+    <style name="MyCardViewStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">20dp</item>
+    </style>
 
     <!--    Shape-->
     <style name="MyShapeAppearanceSmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">cut</item>
     </style>
+
+    <style name="MyShapeAppearanceMediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSizeBottomLeft">10%</item>
+        <item name="cornerSizeTopLeft">80%</item>
+        <item name="cornerSizeTopRight">100%</item>
+        <item name="cornerFamilyTopRight">cut</item>
+        <item name="cornerFamilyBottomRight">cut</item>
+    </style>
+
 
     <style name="MyChipStyleStart" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="shapeAppearanceOverlay">@style/MyShapeAppearanceSmallComponentStart</item>
@@ -81,6 +105,7 @@
         <item name="cornerFamilyTopRight">cut</item>
         <item name="cornerFamilyBottomRight">cut</item>
     </style>
+
     <!--middle-->
     <style name="MyChipStyleMiddle" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="shapeAppearanceOverlay">@style/MyShapeAppearanceSmallComponentMiddle</item>
@@ -111,11 +136,24 @@
         <item name="cornerSize">50%</item>
     </style>
 
-<!--    //Пока непонятно как переопределить-->
+    <!--    //Пока непонятно как переопределить-->
     <style name="MyNavigationViewStyle" parent="Widget.Design.NavigationView">
-<!--       не работает -->
-<!--        <item name="backgroundTint">@color/b700</item>-->
-<!--        работает -->
-<!--        <item name="itemIconTint">@color/b700</item>-->
+        <!--       не работает -->
+        <!--        <item name="backgroundTint">@color/b700</item>-->
+        <!--        работает -->
+        <!--        <item name="itemIconTint">@color/b700</item>-->
+    </style>
+
+    <style name="MyBottomNavigationStyle" parent="Widget.MaterialComponents.NavigationView">
+        <item name="android:background">?attr/superColor</item>
+    </style>
+
+    <style name="MyTabStyle" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabTextAppearance">@style/MyTextAppearanceTabs</item>
+    </style>
+
+    <style name="MyMaterialButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">25sp</item>
     </style>
 </resources>
