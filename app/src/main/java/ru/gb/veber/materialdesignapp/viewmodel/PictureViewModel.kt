@@ -9,12 +9,12 @@ import ru.gb.veber.materialdesignapp.utils.EMPTY_RESPONSE
 import ru.gb.veber.materialdesignapp.utils.ERROR_FAILURE
 
 class PictureViewModel(
-    private val liveData: MutableLiveData<AppState> = MutableLiveData(),
+    private val liveData: MutableLiveData<PictureState> = MutableLiveData(),
     private val pictureRetrofit: PictureRetrofit = PictureRetrofit()
 ) : ViewModel() {
 
     fun sendServerRequest(date: String) {
-        liveData.postValue(AppState.Loading(null))
+        liveData.postValue(PictureState.Loading(null))
         pictureRetrofit.getPicture(callback, date)
     }
 
@@ -27,15 +27,15 @@ class PictureViewModel(
         ) {
             if (response.isSuccessful) {
                 response.body()?.let {
-                    liveData.postValue(AppState.Success(it))
+                    liveData.postValue(PictureState.Success(it))
                 }
             } else {
-                liveData.postValue(AppState.Error(Throwable(), EMPTY_RESPONSE))
+                liveData.postValue(PictureState.Error(Throwable(), EMPTY_RESPONSE))
             }
         }
 
         override fun onFailure(call: Call<PictureDTO>, t: Throwable) {
-            liveData.postValue(AppState.Error(Throwable(), ERROR_FAILURE))
+            liveData.postValue(PictureState.Error(Throwable(), ERROR_FAILURE))
         }
     }
 }

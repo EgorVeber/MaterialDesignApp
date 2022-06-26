@@ -33,4 +33,5 @@
     <string name="chip_moon_hd">Moon HD</string>
     <string name="NOAA">This image was taken by NASA\'s EPIC camera onboard the NOAA DSCOVR spacecraft</string>
     <string name="yes">OK</string>
+    <string name="curiosity">В этот день curiosity не сделал ни одного снимка</string>
 </resources>

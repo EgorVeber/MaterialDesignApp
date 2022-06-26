@@ -66,13 +66,11 @@ class MainActivity : AppCompatActivity() {
             bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
         }
         bottomNavigationView.setOnItemReselectedListener {
-            //чтобы Reselected не работал
         }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        //чтобы при пересоздании темы выбранный был первый
         bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
     }
 
@@ -90,7 +88,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (bottomNavigationView.selectedItemId == R.id.action_bottom_view_picture) {
-            //super.onBackPressed() fragmentManager.getBackStackEntryCount() == 0
             finish()
         } else {
             bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
@@ -101,9 +98,5 @@ class MainActivity : AppCompatActivity() {
         if (getSharedPreferences(FILE_SETTINGS, MODE_PRIVATE).getBoolean(KEY_MODE_DARK, false)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
     }
 }

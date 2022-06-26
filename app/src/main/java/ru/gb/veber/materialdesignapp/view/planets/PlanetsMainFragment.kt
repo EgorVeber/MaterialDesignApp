@@ -28,25 +28,9 @@ class PlanetsMainFragment : Fragment() {
     }
 
     private fun init() {
-        binding.viewPager.adapter = PlanetsAdapterVp(requireActivity().supportFragmentManager)
+        binding.viewPager.adapter = ViewPagerAdapter(requireActivity().supportFragmentManager)
         binding.tabLayout.setupWithViewPager(binding.viewPager)
         binding.tabLayout.getTabAt(2)?.setIcon(R.drawable.ic_image_24)
-        //        binding.tabLayout.getTabAt(2)?.customView
-
-        binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-            }
-
-            override fun onPageSelected(position: Int) {
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-            }
-        })
     }
 
     companion object {

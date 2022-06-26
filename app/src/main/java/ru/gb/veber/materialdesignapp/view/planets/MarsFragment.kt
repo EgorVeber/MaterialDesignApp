@@ -1,8 +1,7 @@
 package ru.gb.veber.materialdesignapp.view.planets
 
-import AppState
+import MarsState
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,23 +37,23 @@ class MarsFragment : Fragment() {
         marsViewModel.getMarsPicture()
     }
 
-    private fun render(appState: AppState) {
+    private fun render(appState: MarsState) {
         when (appState) {
-            is AppState.Error -> {
+            is MarsState.Error -> {
                 binding.title.text = getString(R.string.Error)
             }
-            is AppState.Loading -> {
+            is MarsState.Loading -> {
                 binding.title.text = getString(R.string.loading)
                 binding.imageView.load(R.drawable.loading1) {
                     crossfade(CROSS_FADE_500)
                 }
             }
-            is AppState.SuccessMars -> {
+            is MarsState.Success -> {
 
                 if (appState.serverResponseData.photos.isEmpty()) {
                     Snackbar.make(
                         binding.root,
-                        "В этот день curiosity не сделал ни одного снимка",
+                        getString(R.string.curiosity),
                         Snackbar.LENGTH_SHORT
                     ).show()
                 } else {

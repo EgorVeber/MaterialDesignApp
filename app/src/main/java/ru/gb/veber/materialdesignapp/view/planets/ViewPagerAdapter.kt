@@ -14,7 +14,7 @@ const val FRAGMENT_PICTURE = "Picture+"
 const val FRAGMENT_PICTURE_KEY = 2
 
 
-class PlanetsAdapterVp(fragmentManager: FragmentManager) :
+class ViewPagerAdapter(fragmentManager: FragmentManager) :
     FragmentStatePagerAdapter(fragmentManager) {
     override fun getCount(): Int {
         return ADAPTER_SIZE
@@ -31,10 +31,10 @@ class PlanetsAdapterVp(fragmentManager: FragmentManager) :
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            FRAGMENT_EARTH_KEY -> EarthFragment()
-            FRAGMENT_MARS_KEY -> MarsFragment()
-            FRAGMENT_PICTURE_KEY -> ListPictureDayFragment()
-            else -> EarthFragment()
+            FRAGMENT_EARTH_KEY -> EarthFragment.newInstance()
+            FRAGMENT_MARS_KEY -> MarsFragment.newInstance()
+            FRAGMENT_PICTURE_KEY -> ListPictureDayFragment.newInstance()
+            else -> EarthFragment.newInstance()
         }
     }
 }

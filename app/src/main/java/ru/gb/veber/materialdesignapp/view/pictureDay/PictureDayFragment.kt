@@ -1,6 +1,6 @@
 package ru.gb.veber.materialdesignapp.view.pictureDay
 
-import AppState
+import PictureState
 import PictureViewModel
 import android.app.AlertDialog
 import android.content.Intent
@@ -26,7 +26,7 @@ class PictureDayFragment : Fragment() {
     private val viewModel: PictureViewModel by lazy {
         ViewModelProvider(this).get(PictureViewModel::class.java)
     }
-    private var appStateSave: AppState.Success? = null
+    private var appStateSave: PictureState.Success? = null
     private var checkState: Boolean = false
 
     override fun onCreateView(
@@ -73,27 +73,27 @@ class PictureDayFragment : Fragment() {
         checkState = savedInstanceState?.getBoolean(KEY_STATE_BASE_FRAGMENT, false) == true
     }
 
-    private fun renderData(appState: AppState) {
+    private fun renderData(appState: PictureState) {
         with(binding)
         {
             when (appState) {
-                is AppState.Error -> {
+                is PictureState.Error -> {
                     title.text = getString(R.string.Error)
                     explanation.text = appState.errorMessage
                     imageView.load(R.drawable.nasa_api)
                 }
-                is AppState.Loading -> {
+                is PictureState.Loading -> {
                     title.text = getString(R.string.loading)
                     imageView.load(R.drawable.loading1) {
                         crossfade(CROSS_FADE_500)
                     }
                 }
-                is AppState.Success -> {
+                is PictureState.Success -> {
                     appStateSave = appState
                     title.text = appState.pictureDTO.title
                     explanation.text = appState.pictureDTO.explanation
                     if (appState.pictureDTO.mediaType == "video") {
-                        if (!checkState) // что бы не появлялись много диалогов когда меняем тему
+                        if (!checkState)
                         {
                             if (flag) videoSuccess(appState)
                         }
@@ -112,8 +112,7 @@ class PictureDayFragment : Fragment() {
         }
     }
 
-    private fun videoSuccess(appState: AppState.Success) {
-
+    private fun videoSuccess(appState: PictureState.Success) {
         if (appState.pictureDTO.mediaType == "video") {
             AlertDialog.Builder(context).setTitle(getString(R.string.videoMediaType))
                 .setMessage(getString(R.string.mediaType))
@@ -131,11 +130,9 @@ class PictureDayFragment : Fragment() {
         private const val BUNDLE_KEY = "BUNDLE_KEY"
 
         @JvmStatic
-        fun newInstance(type: Int): Fragment {
-            return PictureDayFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(BUNDLE_KEY, type)
-                }
+        fun newInstance(type: Int) = PictureDayFragment().apply {
+            arguments = Bundle().apply {
+                putInt(BUNDLE_KEY, type)
             }
         }
     }
