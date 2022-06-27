@@ -12,7 +12,7 @@
         android:title="Planets" />
 
     <item
-        android:id="@+id/action_bottom_view1"
+        android:id="@+id/action_bottom_coordinator"
         android:icon="@drawable/ic_system"
         android:title="none" />
 

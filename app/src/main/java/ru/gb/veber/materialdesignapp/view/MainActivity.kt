@@ -1,14 +1,16 @@
 package ru.gb.veber.materialdesignapp.view
 
 import SelectThemeFragment
-import android.content.res.Configuration
 import android.os.Bundle
+import android.widget.AdapterViewAnimator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.ActivityMainBinding
 import ru.gb.veber.materialdesignapp.utils.*
+import ru.gb.veber.materialdesignapp.view.behavior.CoordinatorFragment
 import ru.gb.veber.materialdesignapp.view.old.PictureFragment
 import ru.gb.veber.materialdesignapp.view.pictureDay.PictureDayMainFragment
 import ru.gb.veber.materialdesignapp.view.planets.PlanetsMainFragment
@@ -33,24 +35,19 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.action_bottom_view_picture -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, PictureDayMainFragment.newInstance())
-                        .addToBackStack("null").commit()
+                    showFragment(PictureDayMainFragment.newInstance(), true, 0)
                     true
                 }
                 R.id.action_bottom_planets -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, PlanetsMainFragment.newInstance())
-                        .addToBackStack("null").commit()
+                    showFragment(PlanetsMainFragment.newInstance(), true, 0)
                     true
                 }
-                R.id.action_bottom_view1 -> {
-                    false
+                R.id.action_bottom_coordinator -> {
+                    showFragment(CoordinatorFragment.newInstance(), true, 0)
+                    true
                 }
                 R.id.action_bottom_wiki -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, PictureFragment.newInstance())
-                        .addToBackStack("null").commit()
+                    showFragment(PictureFragment.newInstance(), true, 0)
                     true
                 }
                 R.id.action_bottom_settings -> {
@@ -63,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         if (savedInstanceState == null) {
-            bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
+            bottomNavigationView.selectedItemId = R.id.action_bottom_coordinator
         }
         bottomNavigationView.setOnItemReselectedListener {
         }
@@ -74,6 +71,12 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
     }
 
+    private fun showFragment(fragment: Fragment, stack: Boolean, animator: Int) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, fragment).apply {
+                if (stack) addToBackStack("")
+            }.commit()
+    }
 
     private fun getThemePrefs(): Int {
         return when (getSharedPreferences(FILE_SETTINGS, MODE_PRIVATE).getInt(
