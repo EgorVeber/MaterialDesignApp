@@ -29,16 +29,22 @@ class TestBehavior2(context: Context, attr: AttributeSet? = null) :
         dependency: View
     ): Boolean {
         if (dependency is ConstraintLayout) {
-            Log.d("dependency", "child = " + child.y.toString())
-            Log.d("dependency", "dependency = " + dependency.y.toString())
-            // child.x = (dependency.width.toFloat()-child.width)+dependency.y*2
+            Log.d("Counter","dependency.y = "+dependency.y.toString());
+            Log.d("Counter","dependency.heigh = "+dependency.height.toString());
+            Log.d("Counter","dependency.widthy = "+dependency.width.toString());
+            Log.d("Counter","child.x = "+child.x.toString());
+            child.alpha = 1 - dependency.height / dependency.y / 2 + 0.5F
+          //   child.x = (dependency.width.toFloat()-child.width)+dependency.y*2
             //child.x = dependency.y -child.y -child.width
+            child.x= (dependency.height-dependency.y)-child.height/2
+          //  child.y = -0.9F * (dependency.y / 2) + dependency.width
         }
         if (dependency is MyImageView) {
-            child.y = dependency.y + dependency.height
-            Log.d("MyImageView", "child = " + child.y.toString())
-            Log.d("MyImageView", "dependency = " + dependency.y.toString())
-            child.x = (dependency.width.toFloat()-child.width)+dependency.y/2
+
+            child.y = dependency.y - child.height
+            // child.y = dependency.y + dependency.height
+            //child.x = dependency.y/child.width
+           // child.x = (dependency.width.toFloat()-child.width)+dependency.y/2
         }
         return super.onDependentViewChanged(parent, child, dependency)
     }

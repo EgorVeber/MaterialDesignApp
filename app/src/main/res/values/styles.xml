@@ -159,4 +159,28 @@
         <item name="android:textSize">25sp</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body2</item>
     </style>
+    <style name="MyTextInputStyleDay" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">@dimen/cornerRadiusTextInput</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/cornerRadiusTextInput</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/cornerRadiusTextInput</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/cornerRadiusTextInput</item>
+        <item name="android:hint">@string/search_wiki</item>
+        <item name="hintTextColor">@color/black</item>
+        <item name="counterEnabled">true</item>
+        <item name="counterMaxLength">20</item>
+        <item name="endIconCheckable">true</item>
+        <item name="endIconMode">custom</item>
+        <item name="helperText">@string/wiki_helper_text</item>
+    </style>
+    <style name="btn_save_card_fragment">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:text">OK</item>
+        <item name="android:layout_gravity">right</item>
+        <item name="cornerRadius">5dp</item>
+    </style>
+
 </resources>

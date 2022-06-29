@@ -2,6 +2,9 @@ package ru.gb.veber.materialdesignapp.view.behavior
 
 import PictureState
 import PictureViewModel
+import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +12,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
+import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.fragment_behavior.view.*
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.FragmentBehaviorBinding
-import ru.gb.veber.materialdesignapp.databinding.FragmentCoordinatorOldBinding
-import ru.gb.veber.materialdesignapp.utils.CROSS_FADE_500
 import ru.gb.veber.materialdesignapp.utils.formatDate
 import java.util.*
 
@@ -44,6 +47,19 @@ class BehaviorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.getLiveData().observe(viewLifecycleOwner) { renderData(it) }
         viewModel.sendServerRequest(Date().formatDate())
+
+        binding.inputEditText.setText(Date().formatDate())
+        binding.inputLayout.setEndIconOnClickListener { click() }
+    }
+
+    private fun click() {
+        viewModel.sendServerRequest(binding.inputEditText.text.toString())
+        show()
+    }
+    private fun show() {
+
+            AlertDialog.Builder(context).setView(R.layout.date_dialog)
+                .create().show()
     }
 
     private fun renderData(appState: PictureState) {

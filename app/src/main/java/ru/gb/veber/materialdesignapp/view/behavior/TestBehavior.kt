@@ -26,7 +26,7 @@ class TestBehavior(context: Context, attr: AttributeSet? = null) :
         dependency: View
     ): Boolean {
         if (dependency is ConstraintLayout) {
-            child.y = -1 * (dependency.y / 2) + dependency.width
+            child.y = -0.85F * (dependency.y / 2) + dependency.width
             child.alpha = 1 - dependency.height / dependency.y / 2 + 0.5F
         }
         return super.onDependentViewChanged(parent, child, dependency)
