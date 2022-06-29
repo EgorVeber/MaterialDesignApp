@@ -2,46 +2,46 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_input_margin"
-        app:counterEnabled="false"
-        app:endIconDrawable="@drawable/ic_baseline_calendar"
         android:focusable="false"
         android:hint="Choose a day"
-        app:helperText="Picture of the day "
         android:theme="@style/TextInputLayoutAppearance"
+        app:counterEnabled="false"
+        app:endIconDrawable="@drawable/ic_baseline_calendar"
+        app:helperText="Picture of the day "
+        app:layout_behavior=".view.behavior.BehaviorTextInput"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_behavior=".view.behavior.TestBehavior2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_edit_text"
             android:layout_width="match_parent"
-            android:focusable="false"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:focusable="false" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <ru.gb.veber.materialdesignapp.utils.MyImageView
-        android:layout_width="wrap_content"
         android:id="@+id/image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        app:layout_behavior=".view.behavior.TestBehavior"
-        android:layout_height="wrap_content"/>
+        app:layout_behavior=".view.behavior.BehaviorImage" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_sheet_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#f6f6fa"
-        app:behavior_hideable="false"
         android:minHeight="50dp"
+        app:behavior_hideable="false"
         app:behavior_peekHeight="50dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -57,17 +57,18 @@
 
         <TextView
             android:id="@+id/title"
-            android:text="Two Clusters and a Comet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
+            android:text="Two Clusters and a Comet"
             android:textColor="#000"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_line" />
+
         <TextView
             android:id="@+id/date_picture"
             android:layout_width="wrap_content"
@@ -77,13 +78,13 @@
             android:text="2022-15-12"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/explanation" />
+
         <TextView
             android:id="@+id/explanation"
-            android:text="This lovely starfield spans some four full moons."
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
+            android:padding="5dp"
+            android:text="This lovely starfield spans some four full moons."
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />
