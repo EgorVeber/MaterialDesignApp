@@ -10,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.ActivityMainBinding
 import ru.gb.veber.materialdesignapp.utils.*
+import ru.gb.veber.materialdesignapp.view.behavior.BehaviorFragment
 import ru.gb.veber.materialdesignapp.view.behavior.CoordinatorFragment
 import ru.gb.veber.materialdesignapp.view.old.PictureFragment
 import ru.gb.veber.materialdesignapp.view.pictureDay.PictureDayMainFragment
@@ -51,8 +52,9 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.action_bottom_settings -> {
-                    SelectThemeFragment().show(supportFragmentManager, "")
-                    false
+                   // SelectThemeFragment().show(supportFragmentManager, "")
+                    showFragment(BehaviorFragment.newInstance(),true,0)
+                    true
                 }
                 else -> {
                     true
@@ -60,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         if (savedInstanceState == null) {
-            bottomNavigationView.selectedItemId = R.id.action_bottom_coordinator
+            bottomNavigationView.selectedItemId = R.id.action_bottom_settings
         }
         bottomNavigationView.setOnItemReselectedListener {
         }

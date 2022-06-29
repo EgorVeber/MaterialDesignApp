@@ -93,8 +93,7 @@ class PictureDayFragment : Fragment() {
                     title.text = appState.pictureDTO.title
                     explanation.text = appState.pictureDTO.explanation
                     if (appState.pictureDTO.mediaType == "video") {
-                        if (!checkState)
-                        {
+                        if (!checkState) {
                             if (flag) videoSuccess(appState)
                         }
                         imageView.load(R.drawable.nasa_api)

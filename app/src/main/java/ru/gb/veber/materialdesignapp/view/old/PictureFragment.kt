@@ -26,7 +26,7 @@ class PictureFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-      //  binding.inputLayout.setEndIconOnClickListener { clickWiki() }
+        //  binding.inputLayout.setEndIconOnClickListener { clickWiki() }
     }
 
 
