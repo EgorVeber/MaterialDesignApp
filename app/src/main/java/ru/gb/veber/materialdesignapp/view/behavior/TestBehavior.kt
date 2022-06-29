@@ -29,6 +29,7 @@ class TestBehavior(context: Context, attr: AttributeSet? = null) :
 
             child.y = -1 * (dependency.y / 2) + dependency.width
             child.alpha = 1 - dependency.height / dependency.y/2  + 0.5F
+
             // child.y = (dependency.width.toFloat() - child.width) + dependency.y * 2
         }
         return super.onDependentViewChanged(parent, child, dependency)
