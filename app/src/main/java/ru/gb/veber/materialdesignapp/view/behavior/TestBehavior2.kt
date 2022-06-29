@@ -30,7 +30,7 @@ class TestBehavior2(context: Context, attr: AttributeSet? = null) :
 
             Log.d("MyImageView", dependency.y.toString())
             Log.d("MyImageView", "child = " + child.y.toString())
-
+            //child.x = (dependency.width.toFloat() - child.width) + dependency.y * 2
         }
         return super.onDependentViewChanged(parent, child, dependency)
     }
