@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
         )) {
             KEY_THEME_BLUE -> R.style.MyThemeBlue
             KEY_THEME_GREEN -> R.style.MyThemeGreen
-            else -> R.style.MyThemeBaseTeal
+            else -> R.style.MyThemeBlue
         }
     }
 
