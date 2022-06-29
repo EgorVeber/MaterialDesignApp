@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.action_bottom_coordinator -> {
-                    showFragment(BehaviorFragment.newInstance(),true,0)
+                    showFragment(BehaviorFragment.newInstance(), true, 0)
                     true
                 }
                 R.id.action_bottom_wiki -> {
