@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_input_margin"
         app:counterEnabled="false"
+        app:endIconDrawable="@drawable/ic_baseline_calendar"
         android:focusable="false"
         android:hint="Choose a day"
         app:helperText="Picture of the day "
@@ -23,6 +24,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_edit_text"
             android:layout_width="match_parent"
+            android:focusable="false"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
     <ru.gb.veber.materialdesignapp.utils.MyImageView
@@ -66,7 +68,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_line" />
-
+        <TextView
+            android:id="@+id/date_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="10dp"
+            android:text="2022-15-12"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/explanation" />
         <TextView
             android:id="@+id/explanation"
             android:text="This lovely starfield spans some four full moons."
