@@ -20,5 +20,4 @@
         android:scaleType="fitXY"
         android:src="@drawable/nasa_api"
         android:visibility="gone" />
-
 </FrameLayout>

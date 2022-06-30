@@ -10,6 +10,9 @@ import java.util.*
 const val FORMAT_DATE = "yyyy-MM-dd"
 fun Date.formatDate(): String = SimpleDateFormat(FORMAT_DATE, Locale.getDefault()).format(this)
 
+fun dataFromString(dateString: String) =
+    SimpleDateFormat(FORMAT_DATE, Locale.getDefault()).parse(dateString)
+
 @RequiresApi(Build.VERSION_CODES.O)
 fun DateMinusDay(key: Long): String = LocalDate.now().minusDays(key).toString()
 

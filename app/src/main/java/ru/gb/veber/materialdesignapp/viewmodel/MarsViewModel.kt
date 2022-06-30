@@ -1,6 +1,7 @@
 package ru.gb.veber.materialdesignapp.viewmodel
 
-import AppState
+
+import MarsState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,20 +11,22 @@ import retrofit2.Response
 import ru.gb.veber.materialdesignapp.BuildConfig
 import ru.gb.veber.materialdesignapp.model.MarsPhotosServerResponseData
 import ru.gb.veber.materialdesignapp.model.PictureRetrofit
+import ru.gb.veber.materialdesignapp.utils.EMPTY_RESPONSE
+import ru.gb.veber.materialdesignapp.utils.ERROR_FAILURE
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MarsViewModel(
-    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
+    private val liveDataToObserve: MutableLiveData<MarsState> = MutableLiveData(),
     private val retrofitImpl: PictureRetrofit = PictureRetrofit()
 ) : ViewModel() {
 
-    fun getLiveData(): LiveData<AppState> {
+    fun getLiveData(): LiveData<MarsState> {
         return liveDataToObserve
     }
 
     fun getMarsPicture() {
-        liveDataToObserve.postValue(AppState.Loading(null))
+        liveDataToObserve.postValue(MarsState.Loading(null))
         val earthDate = getDayBeforeYesterday()
         retrofitImpl.getMarsPictureByDate(earthDate, BuildConfig.NASA_API_KEY, marsCallback)
     }
@@ -37,30 +40,25 @@ class MarsViewModel(
 
     }
 
-    val marsCallback = object : Callback<MarsPhotosServerResponseData> {
+    private val marsCallback = object : Callback<MarsPhotosServerResponseData> {
         override fun onResponse(
             call: Call<MarsPhotosServerResponseData>,
             response: Response<MarsPhotosServerResponseData>,
         ) {
             if (response.isSuccessful && response.body() != null) {
-                liveDataToObserve.postValue(AppState.SuccessMars(response.body()!!))
+                liveDataToObserve.postValue(MarsState.Success(response.body()!!))
             } else {
                 val message = response.message()
                 if (message.isNullOrEmpty()) {
-                    liveDataToObserve.postValue(AppState.Error(Throwable(UNKNOWN_ERROR), "error"))
+                    liveDataToObserve.postValue(MarsState.Error(Throwable(), EMPTY_RESPONSE))
                 } else {
-                    liveDataToObserve.postValue(AppState.Error(Throwable(message), "error"))
+                    liveDataToObserve.postValue(MarsState.Error(Throwable(), ERROR_FAILURE))
                 }
             }
         }
 
         override fun onFailure(call: Call<MarsPhotosServerResponseData>, t: Throwable) {
-            liveDataToObserve.postValue(AppState.Error(t, "error"))
+            liveDataToObserve.postValue(MarsState.Error(t, ERROR_FAILURE))
         }
-    }
-
-    companion object {
-        private const val API_ERROR = "You need API Key"
-        private const val UNKNOWN_ERROR = "Unidentified error"
     }
 }

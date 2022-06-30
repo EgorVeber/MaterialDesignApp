@@ -1,6 +1,6 @@
 package ru.gb.veber.materialdesignapp.viewmodel
 
-import AppState
+import EarthState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,21 +10,23 @@ import retrofit2.Response
 import ru.gb.veber.materialdesignapp.BuildConfig
 import ru.gb.veber.materialdesignapp.model.EarthEpicServerResponseData
 import ru.gb.veber.materialdesignapp.model.PictureRetrofit
+import ru.gb.veber.materialdesignapp.utils.EMPTY_RESPONSE
+import ru.gb.veber.materialdesignapp.utils.ERROR_FAILURE
 
 class EarthViewModel(
-    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
+    private val liveDataToObserve: MutableLiveData<EarthState> = MutableLiveData(),
     private val retrofitImpl: PictureRetrofit = PictureRetrofit()
 ) : ViewModel() {
 
-    fun getLiveData(): LiveData<AppState> {
+    fun getLiveData(): LiveData<EarthState> {
         return liveDataToObserve
     }
 
     fun getEpic() {
-        liveDataToObserve.postValue(AppState.Loading(null))
+        liveDataToObserve.postValue(EarthState.Loading(null))
         val apiKey = BuildConfig.NASA_API_KEY
         if (apiKey.isBlank()) {
-            AppState.Error(Throwable(API_ERROR), "error")
+            EarthState.Error(Throwable(), ERROR_FAILURE)
         } else {
             retrofitImpl.getEPIC(apiKey, epicCallback)
         }
@@ -37,25 +39,19 @@ class EarthViewModel(
             response: Response<List<EarthEpicServerResponseData>>,
         ) {
             if (response.isSuccessful && response.body() != null) {
-                liveDataToObserve.postValue(AppState.SuccessEarthEpic(response.body()!!))
+                liveDataToObserve.postValue(EarthState.Success(response.body()!!))
             } else {
                 val message = response.message()
                 if (message.isNullOrEmpty()) {
-                    liveDataToObserve.postValue(AppState.Error(Throwable(UNKNOWN_ERROR), "error"))
+                    liveDataToObserve.postValue(EarthState.Error(Throwable(), EMPTY_RESPONSE))
                 } else {
-                    liveDataToObserve.postValue(AppState.Error(Throwable(message), "error"))
+                    liveDataToObserve.postValue(EarthState.Error(Throwable(), ERROR_FAILURE))
                 }
             }
         }
 
         override fun onFailure(call: Call<List<EarthEpicServerResponseData>>, t: Throwable) {
-            liveDataToObserve.postValue(AppState.Error(t, "error"))
+            liveDataToObserve.postValue(EarthState.Error(t, ERROR_FAILURE))
         }
-    }
-
-
-    companion object {
-        private const val API_ERROR = "You need API Key"
-        private const val UNKNOWN_ERROR = "Unidentified error"
     }
 }

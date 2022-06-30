@@ -37,7 +37,6 @@ class PictureDayMainFragment : Fragment() {
             when (position) {
                 KEY_TODAY -> {
                     tab.text = getString(R.string.today)
-                    //tab.icon = drawable1
                     tab.orCreateBadge.apply {
                         backgroundColor = resources.getColor(R.color.b100)
                     }

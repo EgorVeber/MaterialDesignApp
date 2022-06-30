@@ -12,9 +12,9 @@
         android:title="Planets" />
 
     <item
-        android:id="@+id/action_bottom_view1"
-        android:icon="@drawable/ic_system"
-        android:title="none" />
+        android:id="@+id/action_bottom_coordinator"
+        android:icon="@drawable/ic_baseline_view"
+        android:title="Behavior" />
 
     <item
         android:id="@+id/action_bottom_wiki"

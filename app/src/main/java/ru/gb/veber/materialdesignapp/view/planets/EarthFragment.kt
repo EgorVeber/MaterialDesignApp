@@ -1,6 +1,6 @@
 package ru.gb.veber.materialdesignapp.view.planets
 
-import AppState
+import EarthState
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,18 +37,18 @@ class EarthFragment : Fragment() {
         planetsViewModel.getEpic()
     }
 
-    private fun render(appState: AppState) {
+    private fun render(appState: EarthState) {
         when (appState) {
-            is AppState.Error -> {
+            is EarthState.Error -> {
                 binding.title.text = getString(R.string.Error)
             }
-            is AppState.Loading -> {
+            is EarthState.Loading -> {
                 binding.title.text = getString(R.string.loading)
                 binding.imageView.load(R.drawable.loading1) {
                     crossfade(CROSS_FADE_500)
                 }
             }
-            is AppState.SuccessEarthEpic -> {
+            is EarthState.Success -> {
                 val strDate = appState.serverResponseData.last().date.split(" ").first()
                 val image = appState.serverResponseData.last().image
                 val url = "https://api.nasa.gov/EPIC/archive/natural/" +
