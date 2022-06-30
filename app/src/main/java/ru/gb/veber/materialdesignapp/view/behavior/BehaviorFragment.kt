@@ -5,13 +5,19 @@ import PictureViewModel
 import android.accounts.AbstractAccountAuthenticator
 import android.app.Dialog
 import android.os.Bundle
+import android.transition.ChangeBounds
+import android.transition.Fade
+import android.transition.TransitionManager
+import android.transition.TransitionSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -31,6 +37,7 @@ class BehaviorFragment : Fragment() {
     private val viewModel: PictureViewModel by lazy {
         ViewModelProvider(this).get(PictureViewModel::class.java)
     }
+    private lateinit var bSheetB: BottomSheetBehavior<ConstraintLayout>
 
     private var _binding: FragmentBehaviorBinding? = null
     private val binding: FragmentBehaviorBinding
@@ -54,6 +61,7 @@ class BehaviorFragment : Fragment() {
         init()
         youTubePlayerView = binding.youtubePlayer
         lifecycle.addObserver(youTubePlayerView!!)
+        bSheetB = BottomSheetBehavior.from(binding.bottomSheetContainer)
     }
 
     private fun init() {
@@ -90,6 +98,17 @@ class BehaviorFragment : Fragment() {
 
 
     private fun renderData(appState: PictureState) {
+
+        var myAutoTransition = TransitionSet()
+        myAutoTransition.ordering = TransitionSet.ORDERING_TOGETHER
+        myAutoTransition.addTransition(Fade(Fade.OUT))//исчезновение
+        myAutoTransition.addTransition(ChangeBounds())
+        myAutoTransition.addTransition(Fade(Fade.IN))
+        myAutoTransition.duration = 2000L
+
+        TransitionManager.beginDelayedTransition(binding.root, myAutoTransition)
+
+
         with(binding)
         {
             when (appState) {
@@ -100,9 +119,17 @@ class BehaviorFragment : Fragment() {
                 }
                 is PictureState.Loading -> {
                     imageView.load(R.drawable.loading1)
+//                    title.hide()
+//                    explanation.hide()
+//                    datePicture.hide()
+                   // bSheetB.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+
                 }
                 is PictureState.Success -> {
-                    // showNasaVideo("https://www.youtube.com/embed/liapnqj9GDc?rel=0")
+//                    title.show()
+//                    explanation.show()
+//                    datePicture.show()
+                 //   bSheetB.state = BottomSheetBehavior.STATE_EXPANDED
                     title.text = appState.pictureDTO.title
                     explanation.text = appState.pictureDTO.explanation
                     datePicture.text = appState.pictureDTO.date

@@ -40,9 +40,9 @@ class BehaviorImage(context: Context, attr: AttributeSet? = null) :
                 ((dependency.layoutParams as CoordinatorLayout.LayoutParams).behavior
                         as BottomSheetBehavior)
 
-            if (behavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
-                behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-            }
+//            if (behavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+//                behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+//            }
         }
         return super.onDependentViewChanged(parent, child, dependency)
     }
