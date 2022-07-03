@@ -127,6 +127,7 @@ class BehaviorFragment : Fragment() {
         flagImage = !flagImage
         with(binding.imageView) {
             if (flagImage) {
+
                 scaleType = ImageView.ScaleType.CENTER_CROP
                 (layoutParams as CoordinatorLayout.LayoutParams).height =
                     CoordinatorLayout.LayoutParams.MATCH_PARENT
