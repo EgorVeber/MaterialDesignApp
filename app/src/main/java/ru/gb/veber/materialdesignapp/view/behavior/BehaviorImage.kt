@@ -2,9 +2,12 @@ package ru.gb.veber.materialdesignapp.view.behavior
 
 import android.content.Context
 import android.os.Build
+import android.transition.TransitionManager
+import android.transition.TransitionSet
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -36,13 +39,6 @@ class BehaviorImage(context: Context, attr: AttributeSet? = null) :
             child.y = -0.9F * (dependency.y / 2) + dependency.width
             child.alpha = 1 - dependency.height / dependency.y / 2 + 0.5F
 
-            val behavior =
-                ((dependency.layoutParams as CoordinatorLayout.LayoutParams).behavior
-                        as BottomSheetBehavior)
-
-//            if (behavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
-//                behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-//            }
         }
         return super.onDependentViewChanged(parent, child, dependency)
     }

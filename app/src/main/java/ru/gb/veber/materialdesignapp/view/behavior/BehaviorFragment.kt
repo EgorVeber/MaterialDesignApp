@@ -2,20 +2,19 @@ package ru.gb.veber.materialdesignapp.view.behavior
 
 import PictureState
 import PictureViewModel
-import android.accounts.AbstractAccountAuthenticator
 import android.app.Dialog
 import android.os.Bundle
-import android.transition.ChangeBounds
-import android.transition.Fade
-import android.transition.TransitionManager
-import android.transition.TransitionSet
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.*
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -33,11 +32,12 @@ import java.util.*
 
 class BehaviorFragment : Fragment() {
 
+    private var flagImage = false
 
     private val viewModel: PictureViewModel by lazy {
         ViewModelProvider(this).get(PictureViewModel::class.java)
     }
-    private lateinit var bSheetB: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var bSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private var _binding: FragmentBehaviorBinding? = null
     private val binding: FragmentBehaviorBinding
@@ -61,54 +61,30 @@ class BehaviorFragment : Fragment() {
         init()
         youTubePlayerView = binding.youtubePlayer
         lifecycle.addObserver(youTubePlayerView!!)
-        bSheetB = BottomSheetBehavior.from(binding.bottomSheetContainer)
+        bSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetContainer)
     }
 
     private fun init() {
         viewModel.getLiveData().observe(viewLifecycleOwner) { renderData(it) }
         viewModel.sendServerRequest(Date().formatDate())
+
         binding.inputEditText.setText(Date().formatDate())
         binding.inputLayout.setEndIconOnClickListener { showDialogDate() }
         binding.inputEditText.setOnClickListener { showDialogDate() }
+
         binding.closePlayer.setOnClickListener {
             binding.youtubePlayer.hide()
             binding.closePlayer.hide()
             binding.imageView.show()
         }
-    }
 
-    private fun showDialogDate() {
-
-        val bindingDialog = DateDialogBinding.inflate(LayoutInflater.from(requireContext()))
-
-        initDatePicker(
-            dataFromString(binding.inputEditText.text.toString()) as Date,
-            bindingDialog.inputDate
-        )
-
-        Dialog(requireContext()).apply { setContentView(bindingDialog.root) }.apply {
-            bindingDialog.PositiveButtonDate.setOnClickListener {
-                binding.inputEditText.setText(getDateFromDatePicker(bindingDialog.inputDate).formatDate())
-                viewModel.sendServerRequest(getDateFromDatePicker(bindingDialog.inputDate).formatDate())
-                this.dismiss()
-            }
-            this.show()
+        binding.imageView.setOnClickListener {
+            changeBoundsTransitionImage()
         }
     }
 
-
     private fun renderData(appState: PictureState) {
-
-        var myAutoTransition = TransitionSet()
-        myAutoTransition.ordering = TransitionSet.ORDERING_TOGETHER
-        myAutoTransition.addTransition(Fade(Fade.OUT))//исчезновение
-        myAutoTransition.addTransition(ChangeBounds())
-        myAutoTransition.addTransition(Fade(Fade.IN))
-        myAutoTransition.duration = 2000L
-
-        TransitionManager.beginDelayedTransition(binding.root, myAutoTransition)
-
-
+        slideTransitionTextDay()
         with(binding)
         {
             when (appState) {
@@ -119,17 +95,11 @@ class BehaviorFragment : Fragment() {
                 }
                 is PictureState.Loading -> {
                     imageView.load(R.drawable.loading1)
-//                    title.hide()
-//                    explanation.hide()
-//                    datePicture.hide()
-                   // bSheetB.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-
                 }
                 is PictureState.Success -> {
-//                    title.show()
-//                    explanation.show()
-//                    datePicture.show()
-                 //   bSheetB.state = BottomSheetBehavior.STATE_EXPANDED
+                    bSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+                    title.show()
+                    explanation.show()
                     title.text = appState.pictureDTO.title
                     explanation.text = appState.pictureDTO.explanation
                     datePicture.text = appState.pictureDTO.date
@@ -147,6 +117,37 @@ class BehaviorFragment : Fragment() {
         }
     }
 
+    private fun changeBoundsTransitionImage() {
+        TransitionSet().also { transition ->
+            transition.duration = 1000L
+            transition.addTransition(ChangeBounds())
+            transition.addTransition(ChangeImageTransform())
+            TransitionManager.beginDelayedTransition(binding.root, transition)
+        }
+        flagImage = !flagImage
+        with(binding.imageView) {
+            if (flagImage) {
+                scaleType = ImageView.ScaleType.CENTER_CROP
+                (layoutParams as CoordinatorLayout.LayoutParams).height =
+                    CoordinatorLayout.LayoutParams.MATCH_PARENT
+            } else {
+                scaleType = ImageView.ScaleType.CENTER_INSIDE
+                (layoutParams as CoordinatorLayout.LayoutParams).height =
+                    CoordinatorLayout.LayoutParams.WRAP_CONTENT
+            }
+        }
+    }
+
+    private fun slideTransitionTextDay() {
+        TransitionSet().also { transition ->
+            transition.addTransition(Slide(Gravity.START))
+            transition.duration = 1000L
+            TransitionManager.beginDelayedTransition(binding.bottomSheetContainer, transition)
+        }
+        binding.title.hide()
+        binding.explanation.hide()
+    }
+
     private fun showNasaVideo(url: String) {
         binding.youtubePlayer.show()
         binding.closePlayer.show()
@@ -160,14 +161,8 @@ class BehaviorFragment : Fragment() {
 
 
     private fun findVideoId(url: String): String {
-//        2022-02-16 https://www.youtube.com/embed/liapnqj9GDc?rel=0
-//        2022-02-09 https://www.youtube.com/embed/NS71ppsk7n0?rel=0
-//        2022-03-30 https://www.youtube.com/embed/m8qvOpcDt1o?rel=0
-//        2022-05-09 https://www.youtube.com/embed/aKK7vS2CHC8?rel=0
-//        2022-05-29 https://www.youtube.com/embed/cNT5yAqpBmI?rel=0
         return url.substringAfterLast('/').substringBefore('?')
     }
-
 
     private fun initDatePicker(date: Date, datePicker: DatePicker) {
         val calendar = Calendar.getInstance().apply {
@@ -187,6 +182,26 @@ class BehaviorFragment : Fragment() {
             this[Calendar.MONTH] = datePicker.getMonth()
             this[Calendar.DAY_OF_MONTH] = datePicker.getDayOfMonth()
         }.time
+    }
+
+    private fun showDialogDate() {
+        TransitionManager.beginDelayedTransition(binding.root, null)
+        val bindingDialog = DateDialogBinding.inflate(LayoutInflater.from(requireContext()))
+
+        initDatePicker(
+            dataFromString(binding.inputEditText.text.toString()) as Date,
+            bindingDialog.inputDate
+        )
+
+        Dialog(requireContext()).apply {
+            setContentView(bindingDialog.root)
+            bindingDialog.PositiveButtonDate.setOnClickListener {
+                binding.inputEditText.setText(getDateFromDatePicker(bindingDialog.inputDate).formatDate())
+                viewModel.sendServerRequest(getDateFromDatePicker(bindingDialog.inputDate).formatDate())
+                this.dismiss()
+            }
+            this.show()
+        }
     }
 
     companion object {

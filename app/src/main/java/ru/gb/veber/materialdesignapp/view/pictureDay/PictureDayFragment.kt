@@ -6,12 +6,19 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.transition.*
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
+import coil.transform.CircleCropTransformation
+import com.google.android.material.transition.MaterialSharedAxis
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureViewPagerBinding
 import ru.gb.veber.materialdesignapp.utils.*
@@ -28,6 +35,7 @@ class PictureDayFragment : Fragment() {
     }
     private var appStateSave: PictureState.Success? = null
     private var checkState: Boolean = false
+    private var flagImage = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +51,19 @@ class PictureDayFragment : Fragment() {
         viewModel.getLiveData().observe(viewLifecycleOwner) { renderData(it) }
         arguments?.let {
             getPictureChipsClick(it.getInt(BUNDLE_KEY))
+        }
+
+        binding.imageView.setOnClickListener {
+            flagImage = !flagImage
+            if (flagImage) {
+                binding.imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+                (binding.imageView.layoutParams as ConstraintLayout.LayoutParams).height =
+                    ConstraintLayout.LayoutParams.MATCH_PARENT
+            } else {
+                binding.imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                (binding.imageView.layoutParams as ConstraintLayout.LayoutParams).height =
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT
+            }
         }
     }
 
@@ -102,6 +123,7 @@ class PictureDayFragment : Fragment() {
                             placeholder(R.drawable.loading1)
                             crossfade(CROSS_FADE_500)
                             error(R.drawable.nasa_api)
+                            transformations(CircleCropTransformation())
                         }
                     }
                     datePicture.text = appState.pictureDTO.date
