@@ -10,21 +10,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ru.gb.veber.materialdesignapp.utils.MyImageView
-            android:id="@+id/image_view"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/image_view_margin10"
-            android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.1" />
+            app:layout_constraintVertical_bias="0.1">
+
+            <ru.gb.veber.materialdesignapp.utils.MyImageView
+                android:id="@+id/image_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                tools:ignore="MissingConstraints" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/image_view">
+            app:layout_constraintTop_toBottomOf="@id/main2">
 
             <TextView
                 android:id="@+id/title"
@@ -33,7 +42,6 @@
                 android:layout_marginTop="5dp"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:text="Two Clusters and a Comet"
                 android:textColor="#000"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +54,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:padding="10dp"
-                android:text="2022-15-12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/explanation" />
 
@@ -56,7 +63,6 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:text="This lovely starfield spans some four full moons."
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title" />

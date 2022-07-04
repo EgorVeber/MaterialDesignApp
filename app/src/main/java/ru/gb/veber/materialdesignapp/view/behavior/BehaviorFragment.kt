@@ -4,6 +4,7 @@ import PictureState
 import PictureViewModel
 import android.app.Dialog
 import android.os.Bundle
+import androidx.transition.Fade
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -59,8 +60,6 @@ class BehaviorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         init()
-        youTubePlayerView = binding.youtubePlayer
-        lifecycle.addObserver(youTubePlayerView!!)
         bSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetContainer)
     }
 
@@ -70,7 +69,9 @@ class BehaviorFragment : Fragment() {
 
         binding.inputEditText.setText(Date().formatDate())
         binding.inputLayout.setEndIconOnClickListener { showDialogDate() }
-        binding.inputEditText.setOnClickListener { showDialogDate() }
+        binding.inputEditText.setOnClickListener {
+            showDialogDate()
+        }
 
         binding.closePlayer.setOnClickListener {
             binding.youtubePlayer.hide()
@@ -84,7 +85,11 @@ class BehaviorFragment : Fragment() {
     }
 
     private fun renderData(appState: PictureState) {
+        bSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+        //Обычная анимация можно было по красивее сделать но behavior реагирует на  ChangeBounds и получается ужасно
+        // Да и CoordinatorLayout сковывает
         slideTransitionTextDay()
+
         with(binding)
         {
             when (appState) {
@@ -92,12 +97,13 @@ class BehaviorFragment : Fragment() {
                     title.text = getString(R.string.Error)
                     explanation.text = appState.errorMessage
                     imageView.load(R.drawable.nasa_api)
+                    title.show()
+                    explanation.show()
                 }
                 is PictureState.Loading -> {
                     imageView.load(R.drawable.loading1)
                 }
                 is PictureState.Success -> {
-                    bSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
                     title.show()
                     explanation.show()
                     title.text = appState.pictureDTO.title
@@ -127,7 +133,6 @@ class BehaviorFragment : Fragment() {
         flagImage = !flagImage
         with(binding.imageView) {
             if (flagImage) {
-
                 scaleType = ImageView.ScaleType.CENTER_CROP
                 (layoutParams as CoordinatorLayout.LayoutParams).height =
                     CoordinatorLayout.LayoutParams.MATCH_PARENT
@@ -142,7 +147,7 @@ class BehaviorFragment : Fragment() {
     private fun slideTransitionTextDay() {
         TransitionSet().also { transition ->
             transition.addTransition(Slide(Gravity.START))
-            transition.duration = 1000L
+            transition.duration = 500L
             TransitionManager.beginDelayedTransition(binding.bottomSheetContainer, transition)
         }
         binding.title.hide()
@@ -159,7 +164,6 @@ class BehaviorFragment : Fragment() {
             }
         })
     }
-
 
     private fun findVideoId(url: String): String {
         return url.substringAfterLast('/').substringBefore('?')
@@ -186,7 +190,8 @@ class BehaviorFragment : Fragment() {
     }
 
     private fun showDialogDate() {
-        TransitionManager.beginDelayedTransition(binding.root, null)
+
+        val flag = binding.inputLayout.alpha > 0.5F
         val bindingDialog = DateDialogBinding.inflate(LayoutInflater.from(requireContext()))
 
         initDatePicker(
@@ -197,13 +202,33 @@ class BehaviorFragment : Fragment() {
         Dialog(requireContext()).apply {
             setContentView(bindingDialog.root)
             bindingDialog.PositiveButtonDate.setOnClickListener {
+                //Чтобы по красивей было для анимации
+                binding.explanation.text = ""
+                binding.title.text = ""
                 binding.inputEditText.setText(getDateFromDatePicker(bindingDialog.inputDate).formatDate())
                 viewModel.sendServerRequest(getDateFromDatePicker(bindingDialog.inputDate).formatDate())
-                this.dismiss()
+                dismiss()
             }
-            this.show()
+            if (flag) {
+                show()
+            }
         }
     }
+
+//    private val callBackBehavior = object : BottomSheetBehavior.BottomSheetCallback() {
+//        override fun onStateChanged(bottomSheet: View, newState: Int) {
+//            when (newState) {
+//                BottomSheetBehavior.STATE_HALF_EXPANDED -> {
+//                        binding.imageView.alpha = 0F
+//                        binding.inputLayout.alpha = 0F
+//                }
+//            }
+//        }
+//
+//        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+//
+//        }
+//    }
 
     companion object {
         @JvmStatic
