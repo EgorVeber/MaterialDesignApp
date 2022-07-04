@@ -15,7 +15,7 @@
         app:counterEnabled="false"
         app:endIconDrawable="@drawable/ic_baseline_calendar"
         app:helperText="Picture of the day "
-        app:layout_behavior=".view.behavior.BehaviorTextInput"
+        app:layout_behavior=".view.pictureDaybehavior.BehaviorTextInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        app:layout_behavior=".view.behavior.BehaviorImage" />
+        app:layout_behavior=".view.pictureDaybehavior.BehaviorImage" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_sheet_container"

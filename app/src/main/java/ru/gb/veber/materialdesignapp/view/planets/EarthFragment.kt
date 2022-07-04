@@ -100,9 +100,7 @@ class EarthFragment : Fragment() {
             ConstraintSet.BOTTOM
         )
 
-
         constraintSetStart.applyTo(binding.root)
-
 
         when (appState) {
             is EarthState.Error -> {

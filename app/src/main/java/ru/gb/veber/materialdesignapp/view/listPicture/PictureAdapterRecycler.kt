@@ -1,4 +1,4 @@
-package ru.gb.veber.materialdesignapp.view.planets
+package ru.gb.veber.materialdesignapp.view.listPicture
 
 import android.view.LayoutInflater
 import android.view.View
