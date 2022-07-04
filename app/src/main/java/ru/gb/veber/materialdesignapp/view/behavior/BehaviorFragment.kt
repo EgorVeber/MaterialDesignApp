@@ -4,7 +4,6 @@ import PictureState
 import PictureViewModel
 import android.app.Dialog
 import android.os.Bundle
-import androidx.transition.Fade
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
