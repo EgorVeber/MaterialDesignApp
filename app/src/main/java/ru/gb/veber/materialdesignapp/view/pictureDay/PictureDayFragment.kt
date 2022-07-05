@@ -6,15 +6,21 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.*
 import coil.load
+import hide
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureViewPagerBinding
 import ru.gb.veber.materialdesignapp.utils.*
+import show
 import java.util.*
 
 
@@ -28,6 +34,7 @@ class PictureDayFragment : Fragment() {
     }
     private var appStateSave: PictureState.Success? = null
     private var checkState: Boolean = false
+    private var flagImage = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +50,10 @@ class PictureDayFragment : Fragment() {
         viewModel.getLiveData().observe(viewLifecycleOwner) { renderData(it) }
         arguments?.let {
             getPictureChipsClick(it.getInt(BUNDLE_KEY))
+        }
+
+        binding.imageView.setOnClickListener {
+            changeBoundsTransitionImage()
         }
     }
 
@@ -74,6 +85,20 @@ class PictureDayFragment : Fragment() {
     }
 
     private fun renderData(appState: PictureState) {
+        TransitionSet().apply {
+            addTransition(Slide(Gravity.TOP))
+            duration = 2000L
+            TransitionManager.beginDelayedTransition(binding.main2, this)
+        }
+        TransitionSet().apply {
+            addTransition(Slide(Gravity.BOTTOM).apply { duration = 1000 })
+            addTransition(ChangeBounds().apply { duration = 1500L })
+            TransitionManager.beginDelayedTransition(binding.constraintText, this)
+        }
+
+        binding.title.hide()
+        binding.explanation.hide()
+        binding.imageView.hide()
         with(binding)
         {
             when (appState) {
@@ -83,12 +108,12 @@ class PictureDayFragment : Fragment() {
                     imageView.load(R.drawable.nasa_api)
                 }
                 is PictureState.Loading -> {
-                    title.text = getString(R.string.loading)
-                    imageView.load(R.drawable.loading1) {
-                        crossfade(CROSS_FADE_500)
-                    }
+                    imageView.load(R.drawable.loading1)
                 }
                 is PictureState.Success -> {
+                    binding.title.show()
+                    binding.explanation.show()
+                    binding.imageView.show()
                     appStateSave = appState
                     title.text = appState.pictureDTO.title
                     explanation.text = appState.pictureDTO.explanation
@@ -99,14 +124,36 @@ class PictureDayFragment : Fragment() {
                         imageView.load(R.drawable.nasa_api)
                     } else {
                         imageView.load(appState.pictureDTO.hdurl) {
-                            placeholder(R.drawable.loading1)
-                            crossfade(CROSS_FADE_500)
                             error(R.drawable.nasa_api)
+                            // transformations(CircleCropTransformation())
                         }
                     }
                     datePicture.text = appState.pictureDTO.date
                 }
                 else -> {}
+            }
+        }
+    }
+
+    private fun changeBoundsTransitionImage() {
+        TransitionSet().also { transition ->
+            transition.duration = 1000L
+            transition.addTransition(ChangeBounds())
+            transition.addTransition(ChangeImageTransform())
+            TransitionManager.beginDelayedTransition(binding.root, transition)
+        }
+        flagImage = !flagImage
+        with(binding.imageView) {
+            if (flagImage) {
+                scaleType = ImageView.ScaleType.CENTER_CROP
+                (layoutParams as ConstraintLayout.LayoutParams).height =
+                    ConstraintLayout.LayoutParams.MATCH_PARENT
+
+            } else {
+                scaleType = ImageView.ScaleType.CENTER_INSIDE
+                (layoutParams as ConstraintLayout.LayoutParams).height =
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT
+
             }
         }
     }

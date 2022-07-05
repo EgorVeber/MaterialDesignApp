@@ -1,4 +1,4 @@
-package ru.gb.veber.materialdesignapp.view.behavior
+package ru.gb.veber.materialdesignapp.view.pictureDaybehavior
 
 import android.content.Context
 import android.util.AttributeSet

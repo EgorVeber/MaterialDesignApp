@@ -5,9 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.ChangeBounds
+import androidx.transition.ChangeImageTransform
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.FragmentPlanetsBinding
@@ -18,6 +25,7 @@ class MarsFragment : Fragment() {
 
     private var _binding: FragmentPlanetsBinding? = null
     private val binding get() = _binding!!
+    private var flagImage = false
 
     private val marsViewModel: MarsViewModel by lazy {
         ViewModelProvider(this).get(MarsViewModel::class.java)
@@ -35,9 +43,11 @@ class MarsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         marsViewModel.getLiveData().observe(viewLifecycleOwner) { render(it) }
         marsViewModel.getMarsPicture()
+
     }
 
     private fun render(appState: MarsState) {
+
         when (appState) {
             is MarsState.Error -> {
                 binding.title.text = getString(R.string.Error)
@@ -49,7 +59,6 @@ class MarsFragment : Fragment() {
                 }
             }
             is MarsState.Success -> {
-
                 if (appState.serverResponseData.photos.isEmpty()) {
                     Snackbar.make(
                         binding.root,
@@ -58,10 +67,11 @@ class MarsFragment : Fragment() {
                     ).show()
                 } else {
                     val url = appState.serverResponseData.photos.first().imgSrc
-                    binding.imageView.load(url){
+                    binding.imageView.load(url) {
                         placeholder(R.drawable.loading1)
                         crossfade(CROSS_FADE_500)
                         error(R.drawable.nasa_api)
+                        transformations(CircleCropTransformation())
                     }
                     binding.title.text = getString(R.string.NOAA)
                     binding.date.text = appState.serverResponseData.photos.first().earth_date

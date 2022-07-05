@@ -4,13 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/groupView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:constraint_referenced_ids="input_layout,input_edit_text,bottom_sheet_container" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_layout"
         android:layout_width="match_parent"
@@ -22,7 +15,7 @@
         app:counterEnabled="false"
         app:endIconDrawable="@drawable/ic_baseline_calendar"
         app:helperText="Picture of the day "
-        app:layout_behavior=".view.behavior.BehaviorTextInput"
+        app:layout_behavior=".view.pictureDaybehavior.BehaviorTextInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -40,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        app:layout_behavior=".view.behavior.BehaviorImage" />
+        app:layout_behavior=".view.pictureDaybehavior.BehaviorImage" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_sheet_container"
@@ -69,7 +62,6 @@
             android:layout_marginTop="5dp"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:text="Two Clusters and a Comet"
             android:textColor="#000"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -82,16 +74,15 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:padding="10dp"
-            android:text="2022-15-12"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/explanation" />
+
 
         <TextView
             android:id="@+id/explanation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="This lovely starfield spans some four full moons."
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />

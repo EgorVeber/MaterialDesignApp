@@ -9,7 +9,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.ActivityMainBinding
 import ru.gb.veber.materialdesignapp.utils.*
-import ru.gb.veber.materialdesignapp.view.behavior.BehaviorFragment
+import ru.gb.veber.materialdesignapp.view.pictureDaybehavior.BehaviorFragment
+import ru.gb.veber.materialdesignapp.view.listPicture.ListPictureDayFragment
 import ru.gb.veber.materialdesignapp.view.pictureDay.PictureDayMainFragment
 import ru.gb.veber.materialdesignapp.view.planets.PlanetsMainFragment
 
@@ -32,23 +33,24 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.action_bottom_view_picture -> {
-                    showFragment(PictureDayMainFragment.newInstance(), true, 0)
+                    showFragment(PictureDayMainFragment.newInstance(), true)
                     true
                 }
                 R.id.action_bottom_planets -> {
-                    showFragment(PlanetsMainFragment.newInstance(), true, 0)
+                    showFragment(PlanetsMainFragment.newInstance(), true)
                     true
                 }
                 R.id.action_bottom_coordinator -> {
-                    showFragment(BehaviorFragment.newInstance(), true, 0)
+                    showFragment(BehaviorFragment.newInstance(), true)
                     true
                 }
-                R.id.action_bottom_wiki -> {
-                    false
+                R.id.action_bottom_recycler -> {
+                    showFragment(ListPictureDayFragment.newInstance(), true)
+                    true
                 }
                 R.id.action_bottom_settings -> {
                     SelectThemeFragment().show(supportFragmentManager, "")
-                    true
+                    false
                 }
                 else -> {
                     true
@@ -56,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         if (savedInstanceState == null) {
-            bottomNavigationView.selectedItemId = R.id.action_bottom_coordinator
+            bottomNavigationView.selectedItemId = R.id.action_bottom_recycler
         }
         bottomNavigationView.setOnItemReselectedListener {
         }
@@ -67,8 +69,13 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
     }
 
-    private fun showFragment(fragment: Fragment, stack: Boolean, animator: Int) {
-        supportFragmentManager.beginTransaction()
+    private fun showFragment(fragment: Fragment, stack: Boolean) {
+        supportFragmentManager.beginTransaction().setCustomAnimations(
+            R.anim.slide_in,
+            R.anim.fade_out,
+            R.anim.slide_in,
+            R.anim.slide_out
+        )
             .replace(R.id.container, fragment).apply {
                 if (stack) addToBackStack("")
             }.commit()
@@ -80,6 +87,7 @@ class MainActivity : AppCompatActivity() {
             KEY_THEME_TEAL
         )) {
             KEY_THEME_BLUE -> R.style.MyThemeBlue
+            KEY_THEME_TEAL -> R.style.MyThemeBaseTeal
             KEY_THEME_GREEN -> R.style.MyThemeGreen
             else -> R.style.MyThemeBlue
         }

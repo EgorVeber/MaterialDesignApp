@@ -17,9 +17,9 @@
         android:title="Behavior" />
 
     <item
-        android:id="@+id/action_bottom_wiki"
-        android:icon="@drawable/ic_wikipedia"
-        android:title="Wikipedia"
+        android:id="@+id/action_bottom_recycler"
+        android:icon="@drawable/ic_list_24"
+        android:title="Recycler"
         app:showAsAction="always" />
 
     <item
