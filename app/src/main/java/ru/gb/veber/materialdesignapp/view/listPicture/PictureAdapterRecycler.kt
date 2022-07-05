@@ -8,7 +8,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import ru.gb.veber.materialdesignapp.R
-import ru.gb.veber.materialdesignapp.databinding.ListItemPictureBinding
+import ru.gb.veber.materialdesignapp.databinding.PictureDayLayoutBinding
+import ru.gb.veber.materialdesignapp.databinding.PictureItemTextBinding
 import ru.gb.veber.materialdesignapp.model.PictureDTO
 import ru.gb.veber.materialdesignapp.utils.CROSS_FADE_500
 
@@ -17,7 +18,7 @@ class PictureAdapterRecycler : RecyclerView.Adapter<PictureAdapterRecycler.Holde
     private var listPicture: List<PictureDTO> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = HolderPicture(
-        ListItemPictureBinding.inflate(LayoutInflater.from(parent.context)).root
+        PictureItemTextBinding.inflate(LayoutInflater.from(parent.context)).root
     )
 
     override fun onBindViewHolder(holder: HolderPicture, position: Int) =
@@ -32,7 +33,7 @@ class PictureAdapterRecycler : RecyclerView.Adapter<PictureAdapterRecycler.Holde
 
     inner class HolderPicture(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(pictureDTO: PictureDTO) {
-            with(ListItemPictureBinding.bind(itemView))
+            with(PictureItemTextBinding.bind(itemView))
             {
                 title.text = pictureDTO.title
                 imageView.load(pictureDTO.url) {
