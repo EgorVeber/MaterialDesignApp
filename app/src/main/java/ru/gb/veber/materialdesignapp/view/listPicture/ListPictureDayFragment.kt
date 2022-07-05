@@ -11,12 +11,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
-import hide
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.DateDialogBinding
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureListBinding
+import ru.gb.veber.materialdesignapp.model.PictureDTO
 import ru.gb.veber.materialdesignapp.utils.*
-import show
 import java.util.*
 
 class ListPictureDayFragment : Fragment() {
@@ -152,7 +151,7 @@ class ListPictureDayFragment : Fragment() {
             }
             is ListPictureState.Success -> {
                 //binding.loadingImage.hide()
-                adapter.setList(appState.pictureList)
+                adapter.setDate(convertListPictureToTripleList(appState.pictureList))
             }
         }
     }
@@ -184,5 +183,17 @@ class ListPictureDayFragment : Fragment() {
         @JvmStatic
         fun newInstance() =
             ListPictureDayFragment()
+    }
+
+    fun convertListPictureToTripleList(list: List<PictureDTO>): MutableList<Triple<PictureDTO, Boolean, Int>> {
+        var listof: MutableList<Triple<PictureDTO, Boolean, Int>> = mutableListOf()
+        for (i in list) {
+            when (i.mediaType) {
+                "image" -> listof.add(Triple(i, false, 0))
+                "video" -> listof.add(Triple(i, false, 1))
+                else -> listof.add(Triple(i, false, -1))
+            }
+        }
+        return listof
     }
 }
