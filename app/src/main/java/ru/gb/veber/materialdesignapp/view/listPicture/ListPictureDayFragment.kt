@@ -143,7 +143,7 @@ class ListPictureDayFragment : Fragment() {
     private fun render(appState: ListPictureState) {
         when (appState) {
             is ListPictureState.Error -> {
-                binding.loadingImage.show()
+                //binding.loadingImage.show()
                 binding.loadingImage.load(R.drawable.nasa_api)
             }
             is ListPictureState.Loading -> {
