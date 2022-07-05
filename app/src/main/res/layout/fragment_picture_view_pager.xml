@@ -11,17 +11,17 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/main2"
+            android:id="@+id/mainImageConstrain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.1">
 
             <ru.gb.veber.materialdesignapp.utils.MyImageView
-                android:id="@+id/image_view"
+                android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -30,10 +30,10 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint_text"
+            android:id="@+id/constraintText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/main2">
+            app:layout_constraintTop_toBottomOf="@id/mainImageConstrain">
 
             <TextView
                 android:id="@+id/title"
@@ -49,7 +49,7 @@
                 tools:ignore="MissingConstraints" />
 
             <TextView
-                android:id="@+id/date_picture"
+                android:id="@+id/datePicture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"

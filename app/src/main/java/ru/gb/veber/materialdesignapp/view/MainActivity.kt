@@ -5,19 +5,17 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.ActivityMainBinding
 import ru.gb.veber.materialdesignapp.utils.*
-import ru.gb.veber.materialdesignapp.view.pictureDaybehavior.BehaviorFragment
 import ru.gb.veber.materialdesignapp.view.listPicture.ListPictureDayFragment
 import ru.gb.veber.materialdesignapp.view.pictureDay.PictureDayMainFragment
+import ru.gb.veber.materialdesignapp.view.pictureDaybehavior.BehaviorFragment
 import ru.gb.veber.materialdesignapp.view.planets.PlanetsMainFragment
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var bottomNavigationView: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setNightMode()
@@ -28,9 +26,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init(savedInstanceState: Bundle?) {
-        bottomNavigationView = binding.bottomNavigationView
 
-        bottomNavigationView.setOnItemSelectedListener {
+        binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.action_bottom_view_picture -> {
                     showFragment(PictureDayMainFragment.newInstance(), true)
@@ -50,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.action_bottom_settings -> {
                     SelectThemeFragment().show(supportFragmentManager, "")
-                    false
+                    true
                 }
                 else -> {
                     true
@@ -58,15 +55,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
         if (savedInstanceState == null) {
-            bottomNavigationView.selectedItemId = R.id.action_bottom_recycler
+            binding.bottomNavigationView.selectedItemId = R.id.action_bottom_recycler
         }
-        bottomNavigationView.setOnItemReselectedListener {
+        binding.bottomNavigationView.setOnItemReselectedListener {
         }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
+        binding.bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
     }
 
     private fun showFragment(fragment: Fragment, stack: Boolean) {
@@ -94,10 +91,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (bottomNavigationView.selectedItemId == R.id.action_bottom_view_picture) {
+        if ( binding.bottomNavigationView.selectedItemId == R.id.action_bottom_view_picture) {
             finish()
         } else {
-            bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
+            binding.bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
         }
     }
 

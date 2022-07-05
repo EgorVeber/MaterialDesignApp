@@ -2,15 +2,12 @@ package ru.gb.veber.materialdesignapp.view.listPicture
 
 import ListPictureState
 import ListPictureViewModel
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
@@ -18,10 +15,7 @@ import hide
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.DateDialogBinding
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureListBinding
-import ru.gb.veber.materialdesignapp.utils.CROSS_FADE_500
-import ru.gb.veber.materialdesignapp.utils.dataFromString
-import ru.gb.veber.materialdesignapp.utils.formatDate
-import ru.gb.veber.materialdesignapp.utils.takeDate
+import ru.gb.veber.materialdesignapp.utils.*
 import show
 import java.util.*
 
@@ -30,9 +24,7 @@ class ListPictureDayFragment : Fragment() {
     private var _binding: FragmentPictureListBinding? = null
     private val binding get() = _binding!!
     private var flag = false
-    private val listPictureViewModel: ListPictureViewModel by lazy {
-        ViewModelProvider(this).get(ListPictureViewModel::class.java)
-    }
+
     private val adapter: PictureAdapterRecycler by lazy {
         PictureAdapterRecycler()
     }
@@ -47,73 +39,103 @@ class ListPictureDayFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.pictureRecyclerView.adapter = adapter
-        listPictureViewModel.getLiveData().observe(viewLifecycleOwner) { render(it) }
+        init()
+    }
+
+    private fun init() {
+        binding.pictureListRecycler.adapter = adapter
+
+        val listPictureViewModel = ViewModelProvider(this).get(ListPictureViewModel::class.java)
+
+        with(listPictureViewModel) {
+            getLiveData().observe(viewLifecycleOwner) { render(it) }
+            sendServerRequest(takeDate(START_DATE), takeDate(END_DATE))
+        }
+
+        with(binding) {
+            textEditStart.setText(takeDate(START_DATE))
+            textEditEnd.setText(takeDate(END_DATE))
+
+            textEditStart.setOnClickListener {
+                showDialogDate(textEditStart.text.toString(), 0)
+            }
+            textEditEnd.setOnClickListener {
+                showDialogDate(textEditEnd.text.toString(), 1)
+            }
+
+            datePikerFab.setOnClickListener { animationCalendar() }
+
+            binding.selectButton.setOnClickListener {
+                sendServerRequest(listPictureViewModel)
+            }
+        }
+    }
+
+    private fun sendServerRequest(listPictureViewModel: ListPictureViewModel) {
         listPictureViewModel.sendServerRequest(
-            takeDate(-30),
-            takeDate(0)
+            binding.textEditStart.text.toString(),
+            binding.textEditEnd.text.toString()
         )
+        binding.datePikerFab.performClick()
+    }
 
+    private fun animationCalendar() {
 
-        binding.selectButton.setOnClickListener {
+        val heightTextInput = binding.textInputStartDate.layoutParams.height
+        val datePikerFabY = binding.datePikerFab.y
+        val inputStartY = -datePikerFabY - heightTextInput.toFloat()
+        val selectButtonY = -datePikerFabY - heightTextInput.toFloat() / 3
+        val inputEndY = -datePikerFabY - heightTextInput.toFloat() / 2
+        val durationRotation = 2000L
+        val durationAlpha = 1000L
+        val viewRotation = 480F
 
-            listPictureViewModel.sendServerRequest(
-                binding.inputEditTextStartDate.text.toString(),
-                binding.inputEditTextEndDate.text.toString()
-            )
-            binding.fab.performClick()
-        }
+        flag = !flag
 
-        binding.inputEditTextStartDate.setText(takeDate(-30))
-        binding.inputEditTextStartDate.setOnClickListener {
-            showDialogDate(binding.inputEditTextStartDate.text.toString(), 0)
-        }
+        if (flag) {
+            ObjectAnimator.ofFloat(binding.datePikerFab, View.ROTATION, viewRotation)
+                .setDuration(durationRotation).start()
 
-        binding.inputEditTextEndDate.setText(Date().formatDate())
-        binding.inputEditTextEndDate.setOnClickListener {
-            showDialogDate(binding.inputEditTextEndDate.text.toString(), 1)
-        }
+            ObjectAnimator.ofFloat(binding.datePikerFab, View.TRANSLATION_X, -100F)
+                .setDuration(durationRotation).start()
 
-        binding.fab.setOnClickListener {
-            flag = !flag
-            if (flag) {
-                var s = binding.inputLayoutStartDate.layoutParams.height
+            ObjectAnimator.ofFloat(binding.textInputStartDate, View.TRANSLATION_Y, inputStartY)
+                .setDuration(durationRotation).start()
 
-                ObjectAnimator.ofFloat(binding.fab, View.ROTATION, 480F).setDuration(2000L).start()
-                ObjectAnimator.ofFloat(
-                    binding.inputLayoutStartDate,
-                    View.TRANSLATION_Y,
-                    -binding.fab.y - s.toFloat()
-                ).setDuration(2000L).start()
+            ObjectAnimator.ofFloat(binding.selectButton, View.TRANSLATION_Y, selectButtonY)
+                .setDuration(durationRotation).start()
 
-                ObjectAnimator.ofFloat(
-                    binding.selectButton,
-                    View.TRANSLATION_Y,
-                    -binding.fab.y - s.toFloat() / 3
-                ).setDuration(2000L).start()
+            ObjectAnimator.ofFloat(binding.textInputEndDate, View.TRANSLATION_Y, inputEndY)
+                .setDuration(durationRotation).start()
 
-                ObjectAnimator.ofFloat(
-                    binding.inputLayoutEndDate,
-                    View.TRANSLATION_Y,
-                    -binding.fab.y - s.toFloat() / 2
-                ).setDuration(2000L).start()
-                binding.pictureRecyclerView.animate().alpha(0F).duration = 1000L
-                binding.inputLayoutStartDate.animate().alpha(1F).duration = 1000L
-                binding.inputLayoutEndDate.animate().alpha(1F).duration = 1000L
-                binding.selectButton.animate().alpha(1F).duration = 1000L
+            with(binding) {
+                pictureListRecycler.animate().alpha(0F).duration = durationAlpha
+                textInputStartDate.animate().alpha(1F).duration = durationAlpha
+                textInputEndDate.animate().alpha(1F).duration = durationAlpha
+                selectButton.animate().alpha(1F).duration = durationAlpha
+            }
 
-            } else {
-                ObjectAnimator.ofFloat(binding.fab, View.ROTATION, 0F).setDuration(2000L).start()
-                ObjectAnimator.ofFloat(binding.inputLayoutStartDate, View.TRANSLATION_Y, 0F)
-                    .setDuration(2000L).start()
-                ObjectAnimator.ofFloat(binding.inputLayoutEndDate, View.TRANSLATION_Y, 0F)
-                    .setDuration(2000L).start()
-                ObjectAnimator.ofFloat(binding.selectButton, View.TRANSLATION_Y, 0F)
-                    .setDuration(2000L).start()
-                binding.pictureRecyclerView.animate().alpha(1F).duration = 1000L
-                binding.inputLayoutStartDate.animate().alpha(0.5F).duration = 1000L
-                binding.inputLayoutEndDate.animate().alpha(0.5F).duration = 1000L
-                binding.selectButton.animate().alpha(0.5F).duration = 1000L
+        } else {
+            ObjectAnimator.ofFloat(binding.datePikerFab, View.ROTATION, 0F)
+                .setDuration(durationRotation).start()
+
+            ObjectAnimator.ofFloat(binding.datePikerFab, View.TRANSLATION_X, 0F)
+                .setDuration(durationRotation).start()
+
+            ObjectAnimator.ofFloat(binding.textInputStartDate, View.TRANSLATION_Y, 0F)
+                .setDuration(durationRotation).start()
+
+            ObjectAnimator.ofFloat(binding.textInputEndDate, View.TRANSLATION_Y, 0F)
+                .setDuration(durationRotation).start()
+
+            ObjectAnimator.ofFloat(binding.selectButton, View.TRANSLATION_Y, 0F)
+                .setDuration(durationRotation).start()
+
+            with(binding) {
+                pictureListRecycler.animate().alpha(1F).duration = durationAlpha
+                textInputStartDate.animate().alpha(0.5F).duration = durationAlpha
+                textInputEndDate.animate().alpha(0.5F).duration = durationAlpha
+                selectButton.animate().alpha(0.5F).duration = durationAlpha
             }
         }
     }
@@ -121,69 +143,37 @@ class ListPictureDayFragment : Fragment() {
     private fun render(appState: ListPictureState) {
         when (appState) {
             is ListPictureState.Error -> {
-                binding.imageView.show()
-                binding.imageView.load(R.drawable.nasa_api) {
-                }
+                binding.loadingImage.show()
+                binding.loadingImage.load(R.drawable.nasa_api)
             }
             is ListPictureState.Loading -> {
-                binding.imageView.show()
-                binding.imageView.load(R.drawable.loading1) {
-                    crossfade(CROSS_FADE_500)
-                }
+                //binding.loadingImage.show()
+                binding.loadingImage.load(R.drawable.loading1)
             }
             is ListPictureState.Success -> {
-                binding.imageView.hide()
+                //binding.loadingImage.hide()
                 adapter.setList(appState.pictureList)
             }
         }
     }
 
-
-    private fun initDatePicker(date: Date, datePicker: DatePicker) {
-        val calendar = Calendar.getInstance().apply {
-            time = date
-        }
-        datePicker.init(
-            calendar[Calendar.YEAR],
-            calendar[Calendar.MONTH],
-            calendar[Calendar.DAY_OF_MONTH],
-            null
-        )
-    }
-
-    private fun getDateFromDatePicker(datePicker: DatePicker): Date {
-        return Calendar.getInstance().apply {
-            this[Calendar.YEAR] = datePicker.getYear()
-            this[Calendar.MONTH] = datePicker.getMonth()
-            this[Calendar.DAY_OF_MONTH] = datePicker.getDayOfMonth()
-        }.time
-    }
-
-
     private fun showDialogDate(date: String, type: Int) {
-        val bindingDialog = DateDialogBinding.inflate(LayoutInflater.from(requireContext()))
 
-        initDatePicker(
-            dataFromString(date) as Date,
-            bindingDialog.inputDate
-        )
+        val bindingDialog = DateDialogBinding.inflate(LayoutInflater.from(requireContext()))
+        initDatePicker(dataFromString(date) as Date, bindingDialog.inputDate)
 
         Dialog(requireContext()).apply {
             setContentView(bindingDialog.root)
             bindingDialog.PositiveButtonDate.setOnClickListener {
                 if (type == 0) {
-                    binding.inputEditTextStartDate.setText(getDateFromDatePicker(bindingDialog.inputDate).formatDate())
+                    binding.textEditStart.setText(getDateFromDatePicker(bindingDialog.inputDate).formatDate())
                 } else {
-                    binding.inputEditTextEndDate.setText(getDateFromDatePicker(bindingDialog.inputDate).formatDate())
+                    binding.textEditEnd.setText(getDateFromDatePicker(bindingDialog.inputDate).formatDate())
                 }
                 dismiss()
             }
-            if (flag) {
-                show()
-            }
-        }
+        }.show()
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

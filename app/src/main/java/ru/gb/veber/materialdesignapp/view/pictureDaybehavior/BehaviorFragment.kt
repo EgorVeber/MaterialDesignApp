@@ -8,7 +8,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -19,13 +18,14 @@ import coil.load
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import hide
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.DateDialogBinding
 import ru.gb.veber.materialdesignapp.databinding.FragmentBehaviorBinding
 import ru.gb.veber.materialdesignapp.utils.dataFromString
 import ru.gb.veber.materialdesignapp.utils.formatDate
+import ru.gb.veber.materialdesignapp.utils.getDateFromDatePicker
+import ru.gb.veber.materialdesignapp.utils.initDatePicker
 import show
 import java.util.*
 
@@ -38,11 +38,13 @@ class BehaviorFragment : Fragment() {
         ViewModelProvider(this).get(PictureViewModel::class.java)
     }
     private lateinit var bSheetBehavior: BottomSheetBehavior<ConstraintLayout>
-
     private var _binding: FragmentBehaviorBinding? = null
-    private val binding: FragmentBehaviorBinding
-        get() = _binding!!
-    private var youTubePlayerView: YouTubePlayerView? = null
+
+    private val youTubePlayerView by lazy {
+        binding.youtubePlayer
+    }
+
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +62,7 @@ class BehaviorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         init()
         bSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetContainer)
+        lifecycle.addObserver(youTubePlayerView!!)
     }
 
     private fun init() {
@@ -68,9 +71,7 @@ class BehaviorFragment : Fragment() {
 
         binding.inputEditText.setText(Date().formatDate())
         binding.inputLayout.setEndIconOnClickListener { showDialogDate() }
-        binding.inputEditText.setOnClickListener {
-            showDialogDate()
-        }
+        binding.inputEditText.setOnClickListener { showDialogDate() }
 
         binding.closePlayer.setOnClickListener {
             binding.youtubePlayer.hide()
@@ -85,8 +86,6 @@ class BehaviorFragment : Fragment() {
 
     private fun renderData(appState: PictureState) {
         bSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-        //Обычная анимация можно было по красивее сделать но behavior реагирует на  ChangeBounds и получается ужасно
-        // Да и CoordinatorLayout сковывает
         slideTransitionTextDay()
 
         with(binding)
@@ -105,9 +104,11 @@ class BehaviorFragment : Fragment() {
                 is PictureState.Success -> {
                     title.show()
                     explanation.show()
+
                     title.text = appState.pictureDTO.title
                     explanation.text = appState.pictureDTO.explanation
                     datePicture.text = appState.pictureDTO.date
+
                     if (appState.pictureDTO.mediaType == "video") {
                         imageView.load(R.drawable.nasa_api)
                         showNasaVideo(appState.pictureDTO.url!!)
@@ -157,7 +158,7 @@ class BehaviorFragment : Fragment() {
         binding.youtubePlayer.show()
         binding.closePlayer.show()
         binding.imageView.hide()
-        youTubePlayerView?.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 youTubePlayer.loadVideo(findVideoId(url), 0f)
             }
@@ -166,26 +167,6 @@ class BehaviorFragment : Fragment() {
 
     private fun findVideoId(url: String): String {
         return url.substringAfterLast('/').substringBefore('?')
-    }
-
-    private fun initDatePicker(date: Date, datePicker: DatePicker) {
-        val calendar = Calendar.getInstance().apply {
-            time = date
-        }
-        datePicker.init(
-            calendar[Calendar.YEAR],
-            calendar[Calendar.MONTH],
-            calendar[Calendar.DAY_OF_MONTH],
-            null
-        )
-    }
-
-    private fun getDateFromDatePicker(datePicker: DatePicker): Date {
-        return Calendar.getInstance().apply {
-            this[Calendar.YEAR] = datePicker.getYear()
-            this[Calendar.MONTH] = datePicker.getMonth()
-            this[Calendar.DAY_OF_MONTH] = datePicker.getDayOfMonth()
-        }.time
     }
 
     private fun showDialogDate() {
@@ -213,21 +194,6 @@ class BehaviorFragment : Fragment() {
             }
         }
     }
-
-//    private val callBackBehavior = object : BottomSheetBehavior.BottomSheetCallback() {
-//        override fun onStateChanged(bottomSheet: View, newState: Int) {
-//            when (newState) {
-//                BottomSheetBehavior.STATE_HALF_EXPANDED -> {
-//                        binding.imageView.alpha = 0F
-//                        binding.inputLayout.alpha = 0F
-//                }
-//            }
-//        }
-//
-//        override fun onSlide(bottomSheet: View, slideOffset: Float) {
-//
-//        }
-//    }
 
     companion object {
         @JvmStatic

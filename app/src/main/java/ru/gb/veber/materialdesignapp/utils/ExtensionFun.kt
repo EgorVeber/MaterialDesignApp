@@ -1,6 +1,7 @@
 package ru.gb.veber.materialdesignapp.utils
 
 import android.os.Build
+import android.widget.DatePicker
 import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -22,4 +23,19 @@ fun takeDate(count: Int): String {
     val format1 = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     format1.timeZone = TimeZone.getTimeZone("EST")
     return format1.format(currentDate.time)
+}
+
+fun initDatePicker(date: Date, datePicker: DatePicker) {
+    Calendar.getInstance().also {
+        it.time = date
+        datePicker.init(it[Calendar.YEAR], it[Calendar.MONTH], it[Calendar.DAY_OF_MONTH], null)
+    }
+}
+
+fun getDateFromDatePicker(datePicker: DatePicker): Date {
+    return Calendar.getInstance().apply {
+        this[Calendar.YEAR] = datePicker.year
+        this[Calendar.MONTH] = datePicker.month
+        this[Calendar.DAY_OF_MONTH] = datePicker.dayOfMonth
+    }.time
 }

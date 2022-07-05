@@ -2,11 +2,16 @@ package ru.gb.veber.materialdesignapp.utils
 
 //retrofit api nasa
 const val NASA_BASE_URL = "https://api.nasa.gov/"
+const val NASA_EPIC_URL = "https://api.nasa.gov/EPIC/archive/natural/"
 const val NASA_API_APOD = "planetary/apod"
 const val NASA_API_EPIC = "EPIC/api/natural"
 const val NASA_API_MARS = "/mars-photos/api/v1/rovers/curiosity/photos"
 const val EMPTY_RESPONSE = "response.body == null"
 const val ERROR_FAILURE = "failed to send request to server"
+
+//ListPictureDayFragment
+const val START_DATE = -31
+const val END_DATE = -1
 
 
 const val WIKIPEDIA = "https://en.wikipedia.org/wiki/"

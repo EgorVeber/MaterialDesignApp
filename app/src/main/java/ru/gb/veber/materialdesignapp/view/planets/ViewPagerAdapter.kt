@@ -3,7 +3,6 @@ package ru.gb.veber.materialdesignapp.view.planets
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import ru.gb.veber.materialdesignapp.view.listPicture.ListPictureDayFragment
 
 
 private const val ADAPTER_SIZE = 2

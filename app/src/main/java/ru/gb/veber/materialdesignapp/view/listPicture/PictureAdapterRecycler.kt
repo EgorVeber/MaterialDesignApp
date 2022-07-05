@@ -1,8 +1,10 @@
 package ru.gb.veber.materialdesignapp.view.listPicture
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import ru.gb.veber.materialdesignapp.R

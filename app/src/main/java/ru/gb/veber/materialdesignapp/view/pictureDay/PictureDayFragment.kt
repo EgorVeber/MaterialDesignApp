@@ -32,9 +32,11 @@ class PictureDayFragment : Fragment() {
     private val viewModel: PictureViewModel by lazy {
         ViewModelProvider(this).get(PictureViewModel::class.java)
     }
+
     private var appStateSave: PictureState.Success? = null
     private var checkState: Boolean = false
     private var flagImage = false
+    private var flag = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +49,12 @@ class PictureDayFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        inti()
+    }
+
+    private fun inti() {
         viewModel.getLiveData().observe(viewLifecycleOwner) { renderData(it) }
+
         arguments?.let {
             getPictureChipsClick(it.getInt(BUNDLE_KEY))
         }
@@ -57,7 +64,7 @@ class PictureDayFragment : Fragment() {
         }
     }
 
-    var flag = false
+
     override fun setMenuVisibility(menuVisible: Boolean) {
         super.setMenuVisibility(menuVisible)
         flag = menuVisible
@@ -85,20 +92,9 @@ class PictureDayFragment : Fragment() {
     }
 
     private fun renderData(appState: PictureState) {
-        TransitionSet().apply {
-            addTransition(Slide(Gravity.TOP))
-            duration = 2000L
-            TransitionManager.beginDelayedTransition(binding.main2, this)
-        }
-        TransitionSet().apply {
-            addTransition(Slide(Gravity.BOTTOM).apply { duration = 1000 })
-            addTransition(ChangeBounds().apply { duration = 1500L })
-            TransitionManager.beginDelayedTransition(binding.constraintText, this)
-        }
-
-        binding.title.hide()
-        binding.explanation.hide()
-        binding.imageView.hide()
+        transitionImage()
+        transitionText()
+        transitionStateOne()
         with(binding)
         {
             when (appState) {
@@ -111,12 +107,13 @@ class PictureDayFragment : Fragment() {
                     imageView.load(R.drawable.loading1)
                 }
                 is PictureState.Success -> {
-                    binding.title.show()
-                    binding.explanation.show()
-                    binding.imageView.show()
+                    transitionStateTwo()
+
                     appStateSave = appState
                     title.text = appState.pictureDTO.title
                     explanation.text = appState.pictureDTO.explanation
+                    datePicture.text = appState.pictureDTO.date
+
                     if (appState.pictureDTO.mediaType == "video") {
                         if (!checkState) {
                             if (flag) videoSuccess(appState)
@@ -125,13 +122,27 @@ class PictureDayFragment : Fragment() {
                     } else {
                         imageView.load(appState.pictureDTO.hdurl) {
                             error(R.drawable.nasa_api)
-                            // transformations(CircleCropTransformation())
                         }
                     }
-                    datePicture.text = appState.pictureDTO.date
                 }
                 else -> {}
             }
+        }
+    }
+
+    private fun transitionImage() {
+        TransitionSet().apply {
+            addTransition(Slide(Gravity.TOP))
+            duration = 2000L
+            TransitionManager.beginDelayedTransition(binding.mainImageConstrain, this)
+        }
+    }
+
+    private fun transitionText() {
+        TransitionSet().apply {
+            addTransition(Slide(Gravity.BOTTOM).apply { duration = 1000 })
+            addTransition(ChangeBounds().apply { duration = 1500L })
+            TransitionManager.beginDelayedTransition(binding.constraintText, this)
         }
     }
 
@@ -142,6 +153,7 @@ class PictureDayFragment : Fragment() {
             transition.addTransition(ChangeImageTransform())
             TransitionManager.beginDelayedTransition(binding.root, transition)
         }
+
         flagImage = !flagImage
         with(binding.imageView) {
             if (flagImage) {
@@ -153,9 +165,21 @@ class PictureDayFragment : Fragment() {
                 scaleType = ImageView.ScaleType.CENTER_INSIDE
                 (layoutParams as ConstraintLayout.LayoutParams).height =
                     ConstraintLayout.LayoutParams.WRAP_CONTENT
-
             }
         }
+    }
+
+
+    private fun transitionStateOne() {
+        binding.title.hide()
+        binding.explanation.hide()
+        binding.imageView.hide()
+    }
+
+    private fun transitionStateTwo() {
+        binding.title.show()
+        binding.explanation.show()
+        binding.imageView.show()
     }
 
     private fun videoSuccess(appState: PictureState.Success) {

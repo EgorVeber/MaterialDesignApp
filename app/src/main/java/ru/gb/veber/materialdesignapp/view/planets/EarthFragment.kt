@@ -2,7 +2,6 @@ package ru.gb.veber.materialdesignapp.view.planets
 
 import EarthState
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.ChangeBounds
@@ -19,14 +17,12 @@ import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import coil.load
 import coil.transform.CircleCropTransformation
-import hide
-import kotlinx.android.synthetic.main.fragment_planets.view.*
 import ru.gb.veber.materialdesignapp.BuildConfig
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.FragmentPlanetsBinding
 import ru.gb.veber.materialdesignapp.utils.CROSS_FADE_500
+import ru.gb.veber.materialdesignapp.utils.NASA_EPIC_URL
 import ru.gb.veber.materialdesignapp.viewmodel.EarthViewModel
-import show
 
 class EarthFragment : Fragment() {
 
@@ -48,9 +44,9 @@ class EarthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         planetsViewModel.getLiveData().observe(viewLifecycleOwner) { render(it) }
         planetsViewModel.getEpic()
-
 
         binding.imageView.setOnClickListener {
             changeBoundsTransitionImage()
@@ -79,28 +75,9 @@ class EarthFragment : Fragment() {
     }
 
     private fun render(appState: EarthState) {
-
-
         val constraintSetStart = ConstraintSet()
-        constraintSetStart.clone(binding.root)
-        val changeBounds = ChangeBounds()
-        changeBounds.duration = 1000L
-        changeBounds.interpolator = AnticipateOvershootInterpolator(5.0f)
-        TransitionManager.beginDelayedTransition(binding.root, changeBounds)
-        constraintSetStart.connect(
-            R.id.image_view,
-            ConstraintSet.END,
-            R.id.constrainPlanetsMain,
-            ConstraintSet.START
-        )
-        constraintSetStart.connect(
-            R.id.title,
-            ConstraintSet.TOP,
-            R.id.constrainPlanetsMain,
-            ConstraintSet.BOTTOM
-        )
-
-        constraintSetStart.applyTo(binding.root)
+        transitionInterpolator()//Работает криво
+        constrainSetStateOne(constraintSetStart)
 
         when (appState) {
             is EarthState.Error -> {
@@ -114,8 +91,7 @@ class EarthFragment : Fragment() {
             is EarthState.Success -> {
                 val strDate = appState.serverResponseData.last().date.split(" ").first()
                 val image = appState.serverResponseData.last().image
-                val url = "https://api.nasa.gov/EPIC/archive/natural/" +
-                        strDate.replace("-", "/", true) +
+                val url = NASA_EPIC_URL + strDate.replace("-", "/", true) +
                         "/png/" +
                         "$image" +
                         ".png?api_key=${BuildConfig.NASA_API_KEY}"
@@ -125,24 +101,52 @@ class EarthFragment : Fragment() {
                 binding.title.text = appState.serverResponseData.last().caption
                 binding.date.text = appState.serverResponseData.last().date
 
-                constraintSetStart.connect(
-                    R.id.image_view,
-                    ConstraintSet.END,
-                    R.id.constrainPlanetsMain,
-                    ConstraintSet.END
-                )
-
-                constraintSetStart.connect(
-                    R.id.title,
-                    ConstraintSet.TOP,
-                    R.id.image_view,
-                    ConstraintSet.BOTTOM
-                )
-                constraintSetStart.setMargin(R.id.image_view, ConstraintSet.START, 20)
-                constraintSetStart.setMargin(R.id.image_view, ConstraintSet.END, 20)
-                constraintSetStart.applyTo(binding.root)
-
+                constrainSetStateTwo(constraintSetStart)
             }
+        }
+    }
+
+    private fun constrainSetStateTwo(constraintSetStart: ConstraintSet) {
+        constraintSetStart.connect(
+            R.id.image_view,
+            ConstraintSet.END,
+            R.id.constrainPlanetsMain,
+            ConstraintSet.END
+        )
+
+        constraintSetStart.connect(
+            R.id.title,
+            ConstraintSet.TOP,
+            R.id.image_view,
+            ConstraintSet.BOTTOM
+        )
+        constraintSetStart.setMargin(R.id.image_view, ConstraintSet.START, 20)
+        constraintSetStart.setMargin(R.id.image_view, ConstraintSet.END, 20)
+        constraintSetStart.applyTo(binding.root)
+    }
+
+    private fun constrainSetStateOne(constraintSetStart: ConstraintSet) {
+        constraintSetStart.clone(binding.root)
+        constraintSetStart.connect(
+            R.id.image_view,
+            ConstraintSet.END,
+            R.id.constrainPlanetsMain,
+            ConstraintSet.START
+        )
+        constraintSetStart.connect(
+            R.id.title,
+            ConstraintSet.TOP,
+            R.id.constrainPlanetsMain,
+            ConstraintSet.BOTTOM
+        )
+        constraintSetStart.applyTo(binding.root)
+    }
+
+    private fun transitionInterpolator() {
+        ChangeBounds().apply {
+            duration = 1000L
+            interpolator = AnticipateOvershootInterpolator(5.0f)
+            TransitionManager.beginDelayedTransition(binding.root, this)
         }
     }
 
