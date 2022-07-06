@@ -3,6 +3,7 @@ package ru.gb.veber.materialdesignapp.view.listPicture
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -18,8 +19,8 @@ import ru.gb.veber.materialdesignapp.utils.IMAGE_KEY
 import ru.gb.veber.materialdesignapp.utils.VIDEO_KEY
 import ru.gb.veber.materialdesignapp.utils.findVideoId
 
-class PictureAdapterRecycler(var listener: ScrollingToPosition) :
-    RecyclerView.Adapter<PictureAdapterRecycler.BaseViewHolder>() {
+class PictureAdapterRecycler(var listener: ScrollingToPositionListener) :
+    RecyclerView.Adapter<PictureAdapterRecycler.BaseViewHolder>(), ItemTouchHelperAdapter {
 
     private var pictureList: MutableList<Triple<PictureDTO, Boolean, Int>> = mutableListOf()
 
@@ -55,7 +56,8 @@ class PictureAdapterRecycler(var listener: ScrollingToPosition) :
     }
 
 
-    abstract inner class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    abstract inner class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view),
+        ItemTouchHelperViewHolder {
         abstract fun bind(date: Triple<PictureDTO, Boolean, Int>)
     }
 
@@ -108,6 +110,15 @@ class PictureAdapterRecycler(var listener: ScrollingToPosition) :
                 listener.moveToPosition(adapterPosition)
             }
         }
+
+        override fun onItemSelected() {
+            itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.b700))
+
+        }
+
+        override fun onItemClear() {
+            itemView.setBackgroundColor(0)
+        }
     }
 
     inner class VideoViewHolder(val binding: PictureItemVideoBinding) :
@@ -140,10 +151,25 @@ class PictureAdapterRecycler(var listener: ScrollingToPosition) :
                 }
             })
         }
+
+        override fun onItemSelected() {
+            itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.b700))
+        }
+
+        override fun onItemClear() {
+            itemView.setBackgroundColor(0)
+        }
+    }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int) {
+        pictureList.removeAt(fromPosition).apply {
+            pictureList.add(toPosition, this)
+        }
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
+    override fun onItemDismiss(position: Int) {
+        pictureList.removeAt(position)
+        notifyItemRemoved(position)
     }
 }
-
-interface ScrollingToPosition {
-    fun moveToPosition(position: Int)
-}
-

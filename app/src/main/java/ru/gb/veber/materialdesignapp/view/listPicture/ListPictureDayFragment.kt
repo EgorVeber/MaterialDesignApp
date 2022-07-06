@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import coil.load
 import hide
 import ru.gb.veber.materialdesignapp.R
@@ -40,7 +41,7 @@ class ListPictureDayFragment : Fragment() {
         return binding.root
     }
 
-    private var listener = object : ScrollingToPosition {
+    private var listener = object : ScrollingToPositionListener {
         override fun moveToPosition(position: Int) {
             binding.pictureListRecycler.scrollToPosition(position)
         }
@@ -52,7 +53,9 @@ class ListPictureDayFragment : Fragment() {
     }
 
     private fun init() {
+
         binding.pictureListRecycler.adapter = adapter
+        ItemTouchHelper(ItemTouchHelperCallBackSettings(adapter)).attachToRecyclerView(binding.pictureListRecycler)
 
         val listPictureViewModel = ViewModelProvider(this).get(ListPictureViewModel::class.java)
 
