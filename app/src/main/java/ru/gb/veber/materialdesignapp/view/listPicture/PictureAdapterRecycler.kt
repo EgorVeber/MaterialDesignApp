@@ -57,8 +57,10 @@ class PictureAdapterRecycler : RecyclerView.Adapter<PictureAdapterRecycler.BaseV
     inner class ImageViewHolder(val binding: PictureItemImageBinding) :
         BaseViewHolder(binding.root) {
         override fun bind(date: Triple<PictureDTO, Boolean, Int>) {
+
             var flag = date.second
             binding.explanation.visibility = if (date.second) View.VISIBLE else View.GONE
+
             with(binding) {
                 title.text = date.first.title
                 imageView.load(date.first.url) {
@@ -69,10 +71,34 @@ class PictureAdapterRecycler : RecyclerView.Adapter<PictureAdapterRecycler.BaseV
                 explanation.text = date.first.explanation
                 datePicture.text = date.first.date
             }
+
             binding.description.setOnClickListener {
                 flag = !flag
                 pictureList[layoutPosition] = pictureList[layoutPosition].copy(second = flag)
                 notifyItemChanged(layoutPosition)
+            }
+
+            binding.removeItemImageView.setOnClickListener {
+                pictureList.removeAt(layoutPosition)
+                notifyItemRemoved(layoutPosition)
+            }
+
+
+            binding.moveItemUp.setOnClickListener {
+                if (layoutPosition > 0 && layoutPosition < pictureList.size) {
+                    pictureList.removeAt(layoutPosition).apply {
+                        pictureList.add(layoutPosition - 1, this)
+                    }
+                    notifyItemMoved(layoutPosition, layoutPosition - 1)
+                }
+            }
+            binding.moveItemDown.setOnClickListener {
+                if (layoutPosition < pictureList.size - 1) {
+                    pictureList.removeAt(layoutPosition).apply {
+                        pictureList.add(layoutPosition + 1, this)
+                    }
+                    notifyItemMoved(layoutPosition, layoutPosition + 1)
+                }
             }
         }
     }
@@ -80,12 +106,42 @@ class PictureAdapterRecycler : RecyclerView.Adapter<PictureAdapterRecycler.BaseV
     inner class VideoViewHolder(val binding: PictureItemVideoBinding) :
         BaseViewHolder(binding.root) {
         override fun bind(date: Triple<PictureDTO, Boolean, Int>) {
+            var flag = date.second
             binding.explanation.visibility = if (date.second) View.VISIBLE else View.GONE
+
             with(binding) {
                 title.text = date.first.title
                 imageView.load(R.drawable.nasa_api)
                 explanation.text = date.first.explanation
                 datePicture.text = date.first.date
+            }
+
+            binding.description.setOnClickListener {
+                flag = !flag
+                pictureList[layoutPosition] = pictureList[layoutPosition].copy(second = flag)
+                notifyItemChanged(layoutPosition)
+            }
+
+            binding.removeItemImageView.setOnClickListener {
+                pictureList.removeAt(layoutPosition)
+                notifyItemRemoved(layoutPosition)
+            }
+
+            binding.moveItemUp.setOnClickListener {
+                if (layoutPosition > 0 && layoutPosition < pictureList.size) {
+                    pictureList.removeAt(layoutPosition).apply {
+                        pictureList.add(layoutPosition - 1, this)
+                    }
+                    notifyItemMoved(layoutPosition, layoutPosition - 1)
+                }
+            }
+            binding.moveItemDown.setOnClickListener {
+                if (layoutPosition < pictureList.size - 1) {
+                    pictureList.removeAt(layoutPosition).apply {
+                        pictureList.add(layoutPosition + 1, this)
+                    }
+                    notifyItemMoved(layoutPosition, layoutPosition + 1)
+                }
             }
         }
     }
