@@ -3,19 +3,23 @@ package ru.gb.veber.materialdesignapp.view.listPicture
 import ListPictureState
 import ListPictureViewModel
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
+import hide
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.DateDialogBinding
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureListBinding
 import ru.gb.veber.materialdesignapp.model.PictureDTO
 import ru.gb.veber.materialdesignapp.utils.*
+import show
 import java.util.*
 
 class ListPictureDayFragment : Fragment() {
@@ -139,20 +143,27 @@ class ListPictureDayFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun render(appState: ListPictureState) {
+        TransitionManager.beginDelayedTransition(binding.root, null)
         when (appState) {
             is ListPictureState.Error -> {
-                //binding.loadingImage.show()
+                binding.loadingImage.show()
                 binding.loadingImage.load(R.drawable.nasa_api)
             }
             is ListPictureState.Loading -> {
-                //binding.loadingImage.show()
+                binding.loadingImage.show()
                 binding.loadingImage.load(R.drawable.loading1)
             }
             is ListPictureState.Success -> {
-                //binding.loadingImage.hide()
-                adapter.setDate(convertListPictureToTripleList(appState.pictureList))
+                binding.loadingImage.hide()
+                appState.pictureList.let {
+                    adapter.setDate(convertListPictureToTripleList(it))
+                    binding.dateRange.text =
+                        "Фото дня с " + it[0].date + " по " + it[it.size - 1].date
+                }
             }
+            else -> {}
         }
     }
 
@@ -185,15 +196,15 @@ class ListPictureDayFragment : Fragment() {
             ListPictureDayFragment()
     }
 
-    fun convertListPictureToTripleList(list: List<PictureDTO>): MutableList<Triple<PictureDTO, Boolean, Int>> {
-        var listof: MutableList<Triple<PictureDTO, Boolean, Int>> = mutableListOf()
-        for (i in list) {
+    private fun convertListPictureToTripleList(listPicture: List<PictureDTO>): MutableList<Triple<PictureDTO, Boolean, Int>> {
+        var listPictureTriple: MutableList<Triple<PictureDTO, Boolean, Int>> = mutableListOf()
+        for (i in listPicture) {
             when (i.mediaType) {
-                "image" -> listof.add(Triple(i, false, 0))
-                "video" -> listof.add(Triple(i, false, 1))
-                else -> listof.add(Triple(i, false, -1))
+                "image" -> listPictureTriple.add(Triple(i, false, 0))
+                "video" -> listPictureTriple.add(Triple(i, false, 1))
+                else -> listPictureTriple.add(Triple(i, false, -1))
             }
         }
-        return listof
+        return listPictureTriple
     }
 }

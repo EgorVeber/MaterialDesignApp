@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
-        android:text="Open Description"
+        android:text="@string/open_description"
         app:layout_constraintBottom_toBottomOf="@id/imageView"
         app:layout_constraintStart_toEndOf="@id/imageView"
         app:layout_constraintTop_toTopOf="@id/imageView" />
@@ -45,7 +45,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
         android:padding="10dp"
-        android:text="2022-15-12"
         app:layout_constraintBottom_toTopOf="@id/barrier2"
         app:layout_constraintEnd_toEndOf="@id/barrier" />
 
@@ -54,8 +53,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="This lovely starfield spans some four full moons."
-        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/barrier"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barrier2" />
 
@@ -108,7 +107,7 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
+        android:background="?colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/explanation" />
 
@@ -116,7 +115,7 @@
         android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
+        android:background="?colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrier2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

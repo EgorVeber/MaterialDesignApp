@@ -6,55 +6,59 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import ru.gb.veber.materialdesignapp.R
-import ru.gb.veber.materialdesignapp.databinding.PictureItemTextBinding
+import ru.gb.veber.materialdesignapp.databinding.PictureItemImageBinding
+
+import ru.gb.veber.materialdesignapp.databinding.PictureItemVideoBinding
 import ru.gb.veber.materialdesignapp.model.PictureDTO
 import ru.gb.veber.materialdesignapp.utils.CROSS_FADE_500
+import ru.gb.veber.materialdesignapp.utils.IMAGE_KEY
+import ru.gb.veber.materialdesignapp.utils.VIDEO_KEY
 
 class PictureAdapterRecycler : RecyclerView.Adapter<PictureAdapterRecycler.BaseViewHolder>() {
 
+    private var pictureList: MutableList<Triple<PictureDTO, Boolean, Int>> = mutableListOf()
 
-    private var datelist: MutableList<Triple<PictureDTO, Boolean, Int>> = mutableListOf()
-    fun setDate(newDate: MutableList<Triple<PictureDTO, Boolean, Int>>) {
-        this.datelist = newDate
+    fun setDate(newPictureList: MutableList<Triple<PictureDTO, Boolean, Int>>) {
+        this.pictureList = newPictureList
         notifyDataSetChanged()
     }
 
     override fun getItemViewType(position: Int): Int {
-        return this.datelist[position].third
+        return this.pictureList[position].third
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when (viewType) {
-            0 -> {
-                TextViewHolder(PictureItemTextBinding.inflate(LayoutInflater.from(parent.context)))
+            IMAGE_KEY -> {
+                ImageViewHolder(PictureItemImageBinding.inflate(LayoutInflater.from(parent.context)))
             }
-            1 -> {
-//                val binding =
-//                    ActivityRecyclerItemMarsBinding.inflate(LayoutInflater.from(parent.context))
-//                MarsViewHolder(binding.root)
-                TextViewHolder(PictureItemTextBinding.inflate(LayoutInflater.from(parent.context)))
-
+            VIDEO_KEY -> {
+                VideoViewHolder(PictureItemVideoBinding.inflate(LayoutInflater.from(parent.context)))
             }
             else -> {
-//                val binding =
-//                    ActivityRecyclerItemMarsBinding.inflate(LayoutInflater.from(parent.context))
-//                MarsViewHolder(binding.root)
-                TextViewHolder(PictureItemTextBinding.inflate(LayoutInflater.from(parent.context)))
+                ImageViewHolder(PictureItemImageBinding.inflate(LayoutInflater.from(parent.context)))
             }
         }
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        holder.bind(datelist[position])
+        holder.bind(pictureList[position])
     }
 
     override fun getItemCount(): Int {
-        return datelist.size
+        return pictureList.size
     }
 
-    inner class TextViewHolder(val binding: PictureItemTextBinding) :
+
+    abstract inner class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        abstract fun bind(date: Triple<PictureDTO, Boolean, Int>)
+    }
+
+    inner class ImageViewHolder(val binding: PictureItemImageBinding) :
         BaseViewHolder(binding.root) {
         override fun bind(date: Triple<PictureDTO, Boolean, Int>) {
+            var flag = date.second
+            binding.explanation.visibility = if (date.second) View.VISIBLE else View.GONE
             with(binding) {
                 title.text = date.first.title
                 imageView.load(date.first.url) {
@@ -65,11 +69,25 @@ class PictureAdapterRecycler : RecyclerView.Adapter<PictureAdapterRecycler.BaseV
                 explanation.text = date.first.explanation
                 datePicture.text = date.first.date
             }
+            binding.description.setOnClickListener {
+                flag = !flag
+                pictureList[layoutPosition] = pictureList[layoutPosition].copy(second = flag)
+                notifyItemChanged(layoutPosition)
+            }
         }
     }
 
-    abstract inner class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        abstract fun bind(date: Triple<PictureDTO, Boolean, Int>)
+    inner class VideoViewHolder(val binding: PictureItemVideoBinding) :
+        BaseViewHolder(binding.root) {
+        override fun bind(date: Triple<PictureDTO, Boolean, Int>) {
+            binding.explanation.visibility = if (date.second) View.VISIBLE else View.GONE
+            with(binding) {
+                title.text = date.first.title
+                imageView.load(R.drawable.nasa_api)
+                explanation.text = date.first.explanation
+                datePicture.text = date.first.date
+            }
+        }
     }
 }
 
