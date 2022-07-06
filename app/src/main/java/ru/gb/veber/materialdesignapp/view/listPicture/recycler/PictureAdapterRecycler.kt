@@ -1,9 +1,11 @@
-package ru.gb.veber.materialdesignapp.view.listPicture
+package ru.gb.veber.materialdesignapp.view.listPicture.recycler
+
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -11,13 +13,15 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.PictureItemImageBinding
 import ru.gb.veber.materialdesignapp.databinding.PictureItemVideoBinding
-
-
 import ru.gb.veber.materialdesignapp.model.PictureDTO
 import ru.gb.veber.materialdesignapp.utils.CROSS_FADE_500
 import ru.gb.veber.materialdesignapp.utils.IMAGE_KEY
 import ru.gb.veber.materialdesignapp.utils.VIDEO_KEY
 import ru.gb.veber.materialdesignapp.utils.findVideoId
+import ru.gb.veber.materialdesignapp.view.listPicture.Change
+import ru.gb.veber.materialdesignapp.view.listPicture.DiffCallback
+import ru.gb.veber.materialdesignapp.view.listPicture.createCombinedPayload
+
 
 class PictureAdapterRecycler(var listener: ScrollingToPositionListener) :
     RecyclerView.Adapter<PictureAdapterRecycler.BaseViewHolder>(), ItemTouchHelperAdapter {
@@ -25,8 +29,10 @@ class PictureAdapterRecycler(var listener: ScrollingToPositionListener) :
     private var pictureList: MutableList<Triple<PictureDTO, Boolean, Int>> = mutableListOf()
 
     fun setDate(newPictureList: MutableList<Triple<PictureDTO, Boolean, Int>>) {
-        this.pictureList = newPictureList
-        notifyDataSetChanged()
+        var result = DiffUtil.calculateDiff(DiffCallback(pictureList, newPictureList))
+        result.dispatchUpdatesTo(this)
+        this.pictureList.clear()
+        this.pictureList.addAll(newPictureList)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -43,6 +49,47 @@ class PictureAdapterRecycler(var listener: ScrollingToPositionListener) :
             }
             else -> {
                 ImageViewHolder(PictureItemImageBinding.inflate(LayoutInflater.from(parent.context)))
+            }
+        }
+    }
+
+    override fun onBindViewHolder(
+        holder: BaseViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isNullOrEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            val combine =
+                createCombinedPayload(payloads as List<Change<Triple<PictureDTO, Boolean, Int>>>)
+
+            if (combine.oldData.first.title != combine.newData.first.title) {
+
+                when (getItemViewType(position)) {
+
+                    IMAGE_KEY -> {
+                        var binding = PictureItemImageBinding.bind(holder.itemView)
+                        with(binding) {
+                            title.text = combine.newData.first.title
+                            imageView.load(combine.newData.first.url) {
+                                placeholder(R.drawable.loading1)
+                            }
+                            explanation.text = combine.newData.first.explanation
+                            datePicture.text = combine.newData.first.date
+                        }
+                    }
+
+                    VIDEO_KEY -> {
+                        var binding = PictureItemVideoBinding.bind(holder.itemView)
+                        with(binding) {
+                            title.text = combine.newData.first.title
+                            explanation.text = combine.newData.first.explanation
+                            datePicture.text = combine.newData.first.date
+                        }
+                    }
+
+                }
             }
         }
     }
@@ -112,8 +159,11 @@ class PictureAdapterRecycler(var listener: ScrollingToPositionListener) :
         }
 
         override fun onItemSelected() {
+            //TODO надо бырать нормальный цвет
+//            val typedValue = TypedValue()
+//            App.appInstance?.theme?.resolveAttribute(android.R.attr.colorPrimary,typedValue,true)
+//            itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, typedValue.resourceId))
             itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.b700))
-
         }
 
         override fun onItemClear() {

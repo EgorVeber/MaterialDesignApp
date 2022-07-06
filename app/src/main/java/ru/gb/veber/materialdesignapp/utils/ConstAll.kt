@@ -10,8 +10,9 @@ const val EMPTY_RESPONSE = "response.body == null"
 const val ERROR_FAILURE = "failed to send request to server"
 
 //ListPictureDayFragment
-const val START_DATE = -40
+const val START_DATE = -45
 const val END_DATE = -35
+
 //RecyclerPicture
 const val IMAGE_KEY = 0
 const val VIDEO_KEY = 1

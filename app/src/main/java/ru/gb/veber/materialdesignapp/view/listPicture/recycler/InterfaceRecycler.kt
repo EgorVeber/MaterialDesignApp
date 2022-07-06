@@ -1,4 +1,4 @@
-package ru.gb.veber.materialdesignapp.view.listPicture
+package ru.gb.veber.materialdesignapp.view.listPicture.recycler
 
 
 interface ItemTouchHelperAdapter {
@@ -14,4 +14,3 @@ interface ItemTouchHelperViewHolder {
 interface ScrollingToPositionListener {
     fun moveToPosition(position: Int)
 }
-
