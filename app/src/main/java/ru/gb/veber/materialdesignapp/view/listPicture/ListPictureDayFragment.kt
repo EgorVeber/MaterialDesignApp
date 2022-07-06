@@ -6,13 +6,20 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
-import android.transition.TransitionManager
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.transition.ChangeBounds
+import androidx.transition.ChangeImageTransform
+import androidx.transition.TransitionSet
 import coil.load
 import hide
 import ru.gb.veber.materialdesignapp.R
@@ -22,7 +29,7 @@ import ru.gb.veber.materialdesignapp.model.PictureDTO
 import ru.gb.veber.materialdesignapp.utils.*
 import ru.gb.veber.materialdesignapp.view.listPicture.recycler.ItemTouchHelperCallBackSettings
 import ru.gb.veber.materialdesignapp.view.listPicture.recycler.PictureAdapterRecycler
-import ru.gb.veber.materialdesignapp.view.listPicture.recycler.ScrollingToPositionListener
+import ru.gb.veber.materialdesignapp.view.listPicture.recycler.RecyclerListener
 import show
 import java.util.*
 
@@ -44,9 +51,23 @@ class ListPictureDayFragment : Fragment() {
         return binding.root
     }
 
-    private var listener = object : ScrollingToPositionListener {
+    private var listener = object : RecyclerListener {
         override fun moveToPosition(position: Int) {
             binding.pictureListRecycler.scrollToPosition(position)
+        }
+
+        override fun clickImageListener(url: String) {
+            TransitionSet().also { transition ->
+                transition.duration = 1000L
+                transition.addTransition(Fade())
+                transition.addTransition(Slide(Gravity.BOTTOM))
+                TransitionManager.beginDelayedTransition(binding.root, transition)
+            }
+            binding.pictureListRecycler.isClickable = false
+            binding.pictureListRecycler.alpha = 0F
+            binding.loadingImage.show()
+            binding.loadingImage.alpha = 1F
+            binding.loadingImage.load(url)
         }
     }
 
@@ -83,6 +104,18 @@ class ListPictureDayFragment : Fragment() {
             binding.selectButton.setOnClickListener {
                 sendServerRequest(listPictureViewModel)
             }
+        }
+
+        binding.loadingImage.setOnClickListener {
+            TransitionSet().also { transition ->
+                transition.duration = 1000L
+                transition.addTransition(Slide(Gravity.TOP))
+                transition.addTransition(Fade())
+                TransitionManager.beginDelayedTransition(binding.root, transition)
+            }
+            binding.loadingImage.hide()
+            binding.pictureListRecycler.isClickable = true
+            binding.pictureListRecycler.animate().alpha(1F).duration = 1000
         }
     }
 

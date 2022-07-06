@@ -11,6 +11,7 @@ interface ItemTouchHelperViewHolder {
     fun onItemClear()
 }
 
-interface ScrollingToPositionListener {
+interface RecyclerListener {
     fun moveToPosition(position: Int)
+    fun clickImageListener(url: String)
 }

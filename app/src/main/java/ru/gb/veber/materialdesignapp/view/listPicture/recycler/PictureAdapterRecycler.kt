@@ -23,7 +23,7 @@ import ru.gb.veber.materialdesignapp.view.listPicture.DiffCallback
 import ru.gb.veber.materialdesignapp.view.listPicture.createCombinedPayload
 
 
-class PictureAdapterRecycler(var listener: ScrollingToPositionListener) :
+class PictureAdapterRecycler(var listener: RecyclerListener) :
     RecyclerView.Adapter<PictureAdapterRecycler.BaseViewHolder>(), ItemTouchHelperAdapter {
 
     private var pictureList: MutableList<Triple<PictureDTO, Boolean, Int>> = mutableListOf()
@@ -155,6 +155,11 @@ class PictureAdapterRecycler(var listener: ScrollingToPositionListener) :
                     notifyItemMoved(layoutPosition, layoutPosition + 1)
                 }
                 listener.moveToPosition(adapterPosition)
+            }
+
+
+            binding.imageView.setOnClickListener {
+                listener.clickImageListener(date.first.url)
             }
         }
 
