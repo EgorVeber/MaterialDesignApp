@@ -64,10 +64,10 @@ class ListPictureDayFragment : Fragment() {
                 TransitionManager.beginDelayedTransition(binding.root, transition)
             }
             binding.pictureListRecycler.isClickable = false
-            binding.pictureListRecycler.alpha = 0F
             binding.loadingImage.show()
             binding.loadingImage.alpha = 1F
             binding.loadingImage.load(url)
+            binding.pictureListRecycler.animate().alpha(0F).duration = 1000
         }
     }
 

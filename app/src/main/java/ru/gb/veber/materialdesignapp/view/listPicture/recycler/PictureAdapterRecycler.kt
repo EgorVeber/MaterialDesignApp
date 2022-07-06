@@ -115,28 +115,20 @@ class PictureAdapterRecycler(var listener: RecyclerListener) :
             var flag = date.second
             binding.explanation.visibility = if (date.second) View.VISIBLE else View.GONE
 
-            with(binding) {
-                title.text = date.first.title
-                imageView.load(date.first.url) {
-                    placeholder(R.drawable.loading1)
-                    crossfade(CROSS_FADE_500)
-                    error(R.drawable.nasa_api)
-                }
-                explanation.text = date.first.explanation
-                datePicture.text = date.first.date
-            }
-
             binding.description.setOnClickListener {
                 flag = !flag
                 pictureList[layoutPosition] = pictureList[layoutPosition].copy(second = flag)
                 notifyItemChanged(layoutPosition)
             }
 
+            binding.imageView.setOnClickListener {
+                listener.clickImageListener(date.first.hdurl)
+            }
+
             binding.removeItemImageView.setOnClickListener {
                 pictureList.removeAt(layoutPosition)
                 notifyItemRemoved(layoutPosition)
             }
-
 
             binding.moveItemUp.setOnClickListener {
                 if (layoutPosition > 0 && layoutPosition < pictureList.size) {
@@ -157,17 +149,20 @@ class PictureAdapterRecycler(var listener: RecyclerListener) :
                 listener.moveToPosition(adapterPosition)
             }
 
-
-            binding.imageView.setOnClickListener {
-                listener.clickImageListener(date.first.url)
+            with(binding) {
+                title.text = date.first.title
+                imageView.load(date.first.hdurl) {
+                    placeholder(R.drawable.loading1)
+                    crossfade(CROSS_FADE_500)
+                    error(R.drawable.nasa_api)
+                }
+                explanation.text = date.first.explanation
+                datePicture.text = date.first.date
             }
         }
 
         override fun onItemSelected() {
-            //TODO надо бырать нормальный цвет
-//            val typedValue = TypedValue()
-//            App.appInstance?.theme?.resolveAttribute(android.R.attr.colorPrimary,typedValue,true)
-//            itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, typedValue.resourceId))
+            //TODO надо бырать superColor или Primary  пока не знаю как
             itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.b700))
         }
 
