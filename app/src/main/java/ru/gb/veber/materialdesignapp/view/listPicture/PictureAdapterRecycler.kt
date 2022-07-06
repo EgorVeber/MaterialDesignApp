@@ -5,16 +5,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.PictureItemImageBinding
-
 import ru.gb.veber.materialdesignapp.databinding.PictureItemVideoBinding
+
+
 import ru.gb.veber.materialdesignapp.model.PictureDTO
 import ru.gb.veber.materialdesignapp.utils.CROSS_FADE_500
 import ru.gb.veber.materialdesignapp.utils.IMAGE_KEY
 import ru.gb.veber.materialdesignapp.utils.VIDEO_KEY
+import ru.gb.veber.materialdesignapp.utils.findVideoId
 
-class PictureAdapterRecycler : RecyclerView.Adapter<PictureAdapterRecycler.BaseViewHolder>() {
+class PictureAdapterRecycler(var listener: ScrollingToPosition) :
+    RecyclerView.Adapter<PictureAdapterRecycler.BaseViewHolder>() {
 
     private var pictureList: MutableList<Triple<PictureDTO, Boolean, Int>> = mutableListOf()
 
@@ -91,6 +96,7 @@ class PictureAdapterRecycler : RecyclerView.Adapter<PictureAdapterRecycler.BaseV
                     }
                     notifyItemMoved(layoutPosition, layoutPosition - 1)
                 }
+                listener.moveToPosition(adapterPosition)
             }
             binding.moveItemDown.setOnClickListener {
                 if (layoutPosition < pictureList.size - 1) {
@@ -99,6 +105,7 @@ class PictureAdapterRecycler : RecyclerView.Adapter<PictureAdapterRecycler.BaseV
                     }
                     notifyItemMoved(layoutPosition, layoutPosition + 1)
                 }
+                listener.moveToPosition(adapterPosition)
             }
         }
     }
@@ -111,7 +118,6 @@ class PictureAdapterRecycler : RecyclerView.Adapter<PictureAdapterRecycler.BaseV
 
             with(binding) {
                 title.text = date.first.title
-                imageView.load(R.drawable.nasa_api)
                 explanation.text = date.first.explanation
                 datePicture.text = date.first.date
             }
@@ -127,23 +133,17 @@ class PictureAdapterRecycler : RecyclerView.Adapter<PictureAdapterRecycler.BaseV
                 notifyItemRemoved(layoutPosition)
             }
 
-            binding.moveItemUp.setOnClickListener {
-                if (layoutPosition > 0 && layoutPosition < pictureList.size) {
-                    pictureList.removeAt(layoutPosition).apply {
-                        pictureList.add(layoutPosition - 1, this)
-                    }
-                    notifyItemMoved(layoutPosition, layoutPosition - 1)
+            binding.youtubePlayer.addYouTubePlayerListener(object :
+                AbstractYouTubePlayerListener() {
+                override fun onReady(youTubePlayer: YouTubePlayer) {
+                    youTubePlayer.loadVideo(findVideoId(date.first.url), 0f)
                 }
-            }
-            binding.moveItemDown.setOnClickListener {
-                if (layoutPosition < pictureList.size - 1) {
-                    pictureList.removeAt(layoutPosition).apply {
-                        pictureList.add(layoutPosition + 1, this)
-                    }
-                    notifyItemMoved(layoutPosition, layoutPosition + 1)
-                }
-            }
+            })
         }
     }
+}
+
+interface ScrollingToPosition {
+    fun moveToPosition(position: Int)
 }
 

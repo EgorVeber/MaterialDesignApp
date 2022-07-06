@@ -22,10 +22,7 @@ import hide
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.DateDialogBinding
 import ru.gb.veber.materialdesignapp.databinding.FragmentBehaviorBinding
-import ru.gb.veber.materialdesignapp.utils.dataFromString
-import ru.gb.veber.materialdesignapp.utils.formatDate
-import ru.gb.veber.materialdesignapp.utils.getDateFromDatePicker
-import ru.gb.veber.materialdesignapp.utils.initDatePicker
+import ru.gb.veber.materialdesignapp.utils.*
 import show
 import java.util.*
 
@@ -163,10 +160,6 @@ class BehaviorFragment : Fragment() {
                 youTubePlayer.loadVideo(findVideoId(url), 0f)
             }
         })
-    }
-
-    private fun findVideoId(url: String): String {
-        return url.substringAfterLast('/').substringBefore('?')
     }
 
     private fun showDialogDate() {

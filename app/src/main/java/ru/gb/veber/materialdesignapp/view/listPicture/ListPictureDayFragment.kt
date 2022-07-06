@@ -29,7 +29,7 @@ class ListPictureDayFragment : Fragment() {
     private var flag = false
 
     private val adapter: PictureAdapterRecycler by lazy {
-        PictureAdapterRecycler()
+        PictureAdapterRecycler(listener)
     }
 
     override fun onCreateView(
@@ -38,6 +38,12 @@ class ListPictureDayFragment : Fragment() {
     ): View {
         _binding = FragmentPictureListBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    private var listener = object : ScrollingToPosition {
+        override fun moveToPosition(position: Int) {
+            binding.pictureListRecycler.scrollToPosition(position)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
