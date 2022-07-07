@@ -54,11 +54,7 @@ class MarsFragment : Fragment() {
             }
             is MarsState.Success -> {
                 if (appState.serverResponseData.photos.isEmpty()) {
-                    Snackbar.make(
-                        binding.root,
-                        getString(R.string.curiosity),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+
                 } else {
                     val url = appState.serverResponseData.photos.first().imgSrc
                     binding.imageView.load(url) {

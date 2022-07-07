@@ -32,11 +32,9 @@
         <item name="cardViewStyle">@style/MyCardViewStyle</item>
         <item name="materialButtonStyle">@style/MyMaterialButtonStyle</item>
         <item name="tabStyle">@style/MyTabStyle</item>
-<!--           <item name="bottomNavigationStyle">@style/MyBottomNavigationStyle</item>-->
+        <!--           <item name="bottomNavigationStyle">@style/MyBottomNavigationStyle</item>-->
     </style>
 
-
-    <!--    Manual-->
     <style name="MyThemeGreen" parent="MyThemeBaseTeal">
         <item name="colorPrimary">@color/green_600</item>
         <item name="colorOnPrimary">@color/white</item>

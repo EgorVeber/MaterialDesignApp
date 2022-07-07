@@ -5,6 +5,7 @@ import ListPictureViewModel
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.os.Build
 import android.os.Bundle
 import androidx.transition.Fade
 import androidx.transition.Slide
@@ -116,6 +117,12 @@ class ListPictureDayFragment : Fragment() {
             binding.loadingImage.hide()
             binding.pictureListRecycler.isClickable = true
             binding.pictureListRecycler.animate().alpha(1F).duration = 1000
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            binding.pictureListRecycler.setOnScrollChangeListener { _, _, _, _, _ ->
+                binding.view2.isSelected =binding.pictureListRecycler.canScrollVertically(-1)
+            }
         }
     }
 
