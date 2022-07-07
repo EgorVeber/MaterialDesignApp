@@ -2,15 +2,30 @@ package ru.gb.veber.materialdesignapp.view.pictureDaybehavior
 
 import PictureState
 import PictureViewModel
+import android.annotation.SuppressLint
 import android.app.Dialog
+import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.BulletSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.TypefaceSpan
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.*
@@ -81,6 +96,7 @@ class BehaviorFragment : Fragment() {
         }
     }
 
+    @SuppressLint("NewApi")
     private fun renderData(appState: PictureState) {
         bSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
         slideTransitionTextDay()
@@ -103,7 +119,7 @@ class BehaviorFragment : Fragment() {
                     explanation.show()
 
                     title.text = appState.pictureDTO.title
-                    explanation.text = appState.pictureDTO.explanation
+                    //  explanation.text = appState.pictureDTO.explanation
                     datePicture.text = appState.pictureDTO.date
 
                     if (appState.pictureDTO.mediaType == "video") {
@@ -114,11 +130,59 @@ class BehaviorFragment : Fragment() {
                             placeholder(R.drawable.loading1)
                         }
                     }
+
+
+                    explanation.typeface =
+                        Typeface.createFromAsset(requireActivity().assets, "MyFont/KdamR.ttf")
+
+                    val text =
+                        "My text \nbullet one \nbullet two \nbulleretdfhrtjhtht two\nbullet twtykjytko \nbullerettht twtyjktyo\nbullet twtyko \nbullertrhjtrjettht two"
+                    val spannable = SpannableString(text)
+
+                    val list = text.indexesOf("\n")
+                    var current = list[0]
+                    list.forEach {
+                        spannable.setSpan(
+                            BulletSpan(
+                                20,
+                                ContextCompat.getColor(requireContext(), R.color.t700),
+                                20
+                            ), current, it, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                        current = it + 1
+                    }
+
+                    var spanableStringBuilder = SpannableStringBuilder(spannable)
+
+                    explanation.setText(spanableStringBuilder, TextView.BufferType.EDITABLE)
+
+                    spanableStringBuilder = explanation.text as SpannableStringBuilder
+
+
+                    spanableStringBuilder.setSpan(
+                        ForegroundColorSpan(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.t700
+                            )
+                        ), 0, 5, Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+                    )
+
+                    spanableStringBuilder.insert(0, "@@@@")
+
+                    val fontRes = ResourcesCompat.getFont(requireContext(), R.font.roboto_thin)
+                    val typeface = Typeface.create(fontRes, Typeface.NORMAL)
+                    //  spanableStringBuilder.setSpan(TypefaceSpan(typeface), 0, spanableStringBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 }
                 else -> {}
             }
         }
     }
+
+    fun String.indexesOf(substr: String, ignoreCase: Boolean = true): List<Int> =
+        (if (ignoreCase) Regex(substr, RegexOption.IGNORE_CASE)
+        else Regex(substr)).findAll(this).map { it.range.first }.toList()
+
 
     private fun changeBoundsTransitionImage() {
         TransitionSet().also { transition ->

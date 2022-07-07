@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         if (savedInstanceState == null) {
-            binding.bottomNavigationView.selectedItemId = R.id.action_bottom_recycler
+            binding.bottomNavigationView.selectedItemId = R.id.action_bottom_coordinator
         }
         binding.bottomNavigationView.setOnItemReselectedListener {
         }
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if ( binding.bottomNavigationView.selectedItemId == R.id.action_bottom_view_picture) {
+        if (binding.bottomNavigationView.selectedItemId == R.id.action_bottom_view_picture) {
             finish()
         } else {
             binding.bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
