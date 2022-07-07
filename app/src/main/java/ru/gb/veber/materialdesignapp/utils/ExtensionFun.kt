@@ -39,3 +39,6 @@ fun getDateFromDatePicker(datePicker: DatePicker): Date {
         this[Calendar.DAY_OF_MONTH] = datePicker.dayOfMonth
     }.time
 }
+fun findVideoId(url: String): String {
+    return url.substringAfterLast('/').substringBefore('?')
+}

@@ -3,19 +3,33 @@ package ru.gb.veber.materialdesignapp.view.listPicture
 import ListPictureState
 import ListPictureViewModel
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.transition.ChangeBounds
+import androidx.transition.ChangeImageTransform
+import androidx.transition.TransitionSet
 import coil.load
 import hide
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.DateDialogBinding
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureListBinding
+import ru.gb.veber.materialdesignapp.model.PictureDTO
 import ru.gb.veber.materialdesignapp.utils.*
+import ru.gb.veber.materialdesignapp.view.listPicture.recycler.ItemTouchHelperCallBackSettings
+import ru.gb.veber.materialdesignapp.view.listPicture.recycler.PictureAdapterRecycler
+import ru.gb.veber.materialdesignapp.view.listPicture.recycler.RecyclerListener
 import show
 import java.util.*
 
@@ -26,7 +40,7 @@ class ListPictureDayFragment : Fragment() {
     private var flag = false
 
     private val adapter: PictureAdapterRecycler by lazy {
-        PictureAdapterRecycler()
+        PictureAdapterRecycler(listener)
     }
 
     override fun onCreateView(
@@ -37,13 +51,35 @@ class ListPictureDayFragment : Fragment() {
         return binding.root
     }
 
+    private var listener = object : RecyclerListener {
+        override fun moveToPosition(position: Int) {
+            binding.pictureListRecycler.scrollToPosition(position)
+        }
+
+        override fun clickImageListener(url: String) {
+            TransitionSet().also { transition ->
+                transition.duration = 1000L
+                transition.addTransition(Fade())
+                transition.addTransition(Slide(Gravity.BOTTOM))
+                TransitionManager.beginDelayedTransition(binding.root, transition)
+            }
+            binding.pictureListRecycler.isClickable = false
+            binding.loadingImage.show()
+            binding.loadingImage.alpha = 1F
+            binding.loadingImage.load(url)
+            binding.pictureListRecycler.animate().alpha(0F).duration = 1000
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
     }
 
     private fun init() {
+
         binding.pictureListRecycler.adapter = adapter
+        ItemTouchHelper(ItemTouchHelperCallBackSettings(adapter)).attachToRecyclerView(binding.pictureListRecycler)
 
         val listPictureViewModel = ViewModelProvider(this).get(ListPictureViewModel::class.java)
 
@@ -68,6 +104,18 @@ class ListPictureDayFragment : Fragment() {
             binding.selectButton.setOnClickListener {
                 sendServerRequest(listPictureViewModel)
             }
+        }
+
+        binding.loadingImage.setOnClickListener {
+            TransitionSet().also { transition ->
+                transition.duration = 1000L
+                transition.addTransition(Slide(Gravity.TOP))
+                transition.addTransition(Fade())
+                TransitionManager.beginDelayedTransition(binding.root, transition)
+            }
+            binding.loadingImage.hide()
+            binding.pictureListRecycler.isClickable = true
+            binding.pictureListRecycler.animate().alpha(1F).duration = 1000
         }
     }
 
@@ -140,20 +188,27 @@ class ListPictureDayFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun render(appState: ListPictureState) {
+        TransitionManager.beginDelayedTransition(binding.root, null)
         when (appState) {
             is ListPictureState.Error -> {
                 binding.loadingImage.show()
                 binding.loadingImage.load(R.drawable.nasa_api)
             }
             is ListPictureState.Loading -> {
-                //binding.loadingImage.show()
+                binding.loadingImage.show()
                 binding.loadingImage.load(R.drawable.loading1)
             }
             is ListPictureState.Success -> {
-                //binding.loadingImage.hide()
-                adapter.setList(appState.pictureList)
+                binding.loadingImage.hide()
+                appState.pictureList.let {
+                    adapter.setDate(convertListPictureToTripleList(it))
+                    binding.dateRange.text =
+                        "Фото дня с " + it[0].date + " по " + it[it.size - 1].date
+                }
             }
+            else -> {}
         }
     }
 
@@ -184,5 +239,17 @@ class ListPictureDayFragment : Fragment() {
         @JvmStatic
         fun newInstance() =
             ListPictureDayFragment()
+    }
+
+    private fun convertListPictureToTripleList(listPicture: List<PictureDTO>): MutableList<Triple<PictureDTO, Boolean, Int>> {
+        var listPictureTriple: MutableList<Triple<PictureDTO, Boolean, Int>> = mutableListOf()
+        for (i in listPicture) {
+            when (i.mediaType) {
+                "image" -> listPictureTriple.add(Triple(i, false, 0))
+                "video" -> listPictureTriple.add(Triple(i, false, 1))
+                else -> listPictureTriple.add(Triple(i, false, -1))
+            }
+        }
+        return listPictureTriple
     }
 }
