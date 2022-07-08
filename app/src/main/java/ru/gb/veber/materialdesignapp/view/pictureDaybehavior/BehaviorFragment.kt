@@ -31,11 +31,12 @@ import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.DateDialogBinding
 import ru.gb.veber.materialdesignapp.databinding.FragmentBehaviorBinding
 import ru.gb.veber.materialdesignapp.utils.*
+import ru.gb.veber.materialdesignapp.view.BaseFragment
 import show
 import java.util.*
 
 
-class BehaviorFragment : Fragment() {
+class BehaviorFragment : BaseFragment<FragmentBehaviorBinding>(FragmentBehaviorBinding::inflate) {
 
     private var flagImage = false
 
@@ -43,25 +44,9 @@ class BehaviorFragment : Fragment() {
         ViewModelProvider(this).get(PictureViewModel::class.java)
     }
     private lateinit var bSheetBehavior: BottomSheetBehavior<ConstraintLayout>
-    private var _binding: FragmentBehaviorBinding? = null
 
     private val youTubePlayerView by lazy {
         binding.youtubePlayer
-    }
-
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentBehaviorBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

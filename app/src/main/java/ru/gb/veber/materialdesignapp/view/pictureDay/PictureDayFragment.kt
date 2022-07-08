@@ -18,18 +18,19 @@ import androidx.transition.*
 import coil.load
 import hide
 import ru.gb.veber.materialdesignapp.R
+import ru.gb.veber.materialdesignapp.databinding.FragmentPictureListBinding
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureViewPagerBinding
 import ru.gb.veber.materialdesignapp.utils.*
+import ru.gb.veber.materialdesignapp.view.BaseFragment
 import show
 import smartdevelop.ir.eram.showcaseviewlib.GuideView
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType
 import java.util.*
 
 
-class PictureDayFragment : Fragment() {
+class PictureDayFragment :
+    BaseFragment<FragmentPictureViewPagerBinding>(FragmentPictureViewPagerBinding::inflate) {
 
-    private var _binding: FragmentPictureViewPagerBinding? = null
-    private val binding get() = _binding!!
 
     private val viewModel: PictureViewModel by lazy {
         ViewModelProvider(this).get(PictureViewModel::class.java)
@@ -39,15 +40,6 @@ class PictureDayFragment : Fragment() {
     private var checkState: Boolean = false
     private var flagImage = false
     private var flag = false
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentPictureViewPagerBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,7 +56,7 @@ class PictureDayFragment : Fragment() {
         binding.imageView.setOnClickListener {
             changeBoundsTransitionImage()
         }
-        showGlide()
+       // showGlide()
     }
 
     private fun showGlide() {

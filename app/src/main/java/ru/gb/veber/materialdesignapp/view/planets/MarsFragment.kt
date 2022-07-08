@@ -18,7 +18,6 @@ class MarsFragment : Fragment() {
 
     private var _binding: FragmentPlanetsBinding? = null
     private val binding get() = _binding!!
-    private var flagImage = false
 
     private val marsViewModel: MarsViewModel by lazy {
         ViewModelProvider(this).get(MarsViewModel::class.java)
