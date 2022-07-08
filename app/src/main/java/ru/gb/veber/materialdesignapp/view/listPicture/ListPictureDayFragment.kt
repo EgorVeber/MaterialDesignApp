@@ -7,10 +7,6 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
-import androidx.transition.Fade
-import androidx.transition.Slide
-import androidx.transition.Transition
-import androidx.transition.TransitionManager
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -18,8 +14,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.transition.ChangeBounds
-import androidx.transition.ChangeImageTransform
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import coil.load
 import hide

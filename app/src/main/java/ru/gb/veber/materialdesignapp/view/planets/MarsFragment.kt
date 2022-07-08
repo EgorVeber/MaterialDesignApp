@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.google.android.material.snackbar.Snackbar
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.FragmentPlanetsBinding
 import ru.gb.veber.materialdesignapp.utils.CROSS_FADE_500
