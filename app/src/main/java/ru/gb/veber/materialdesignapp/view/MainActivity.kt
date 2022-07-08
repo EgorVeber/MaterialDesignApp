@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         if (savedInstanceState == null) {
-            binding.bottomNavigationView.selectedItemId = R.id.action_bottom_coordinator
+            binding.bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
         }
         binding.bottomNavigationView.setOnItemReselectedListener {
         }
