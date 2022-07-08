@@ -6,6 +6,8 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -85,13 +87,13 @@ class PictureDayFragment :
     }
 
     private fun renderData(appState: PictureState) {
-        transitionImage()
         transitionText()
+        transitionImage()
         transitionStateOne()
-        with(binding)
-        {
+        with(binding) {
             when (appState) {
                 is PictureState.Error -> {
+                    transitionStateTwo()
                     title.text = getString(R.string.Error)
                     explanation.text = appState.errorMessage
                     imageView.load(R.drawable.nasa_api)
@@ -100,8 +102,6 @@ class PictureDayFragment :
                     imageView.load(R.drawable.loading1)
                 }
                 is PictureState.Success -> {
-                    transitionStateTwo()
-
                     appStateSave = appState
                     title.text = appState.pictureDTO.title
                     explanation.text = appState.pictureDTO.explanation
@@ -114,9 +114,11 @@ class PictureDayFragment :
                         imageView.load(R.drawable.nasa_api)
                     } else {
                         imageView.load(appState.pictureDTO.hdurl) {
+                            placeholder(R.drawable.loading1)
                             error(R.drawable.nasa_api)
                         }
                     }
+                    transitionStateTwo()
                 }
                 else -> {}
             }
