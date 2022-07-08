@@ -3,14 +3,26 @@ package ru.gb.veber.materialdesignapp.view.pictureDaybehavior
 import PictureState
 import PictureViewModel
 import android.app.Dialog
+import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.BulletSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.ImageSpan
+import android.util.Log
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.*
@@ -30,6 +42,7 @@ import java.util.*
 class BehaviorFragment : Fragment() {
 
     private var flagImage = false
+    lateinit var spannableRainbow: SpannableString
 
     private val viewModel: PictureViewModel by lazy {
         ViewModelProvider(this).get(PictureViewModel::class.java)
@@ -40,6 +53,7 @@ class BehaviorFragment : Fragment() {
     private val youTubePlayerView by lazy {
         binding.youtubePlayer
     }
+    private lateinit var countDownTimer: CountDownTimer
 
     private val binding get() = _binding!!
 
@@ -54,6 +68,15 @@ class BehaviorFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (countDownTimer == null) {
+
+        } else {
+            countDownTimer.cancel()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,6 +104,50 @@ class BehaviorFragment : Fragment() {
         }
     }
 
+
+    private fun spannableSuccess(spanableStringBuilder: SpannableStringBuilder) {
+        val colorPrimary = TypedValue()
+        val statusBarColor = TypedValue()
+
+        context?.theme?.resolveAttribute(android.R.attr.colorPrimary, colorPrimary, true)
+        context?.theme?.resolveAttribute(android.R.attr.statusBarColor, statusBarColor, true)
+
+        var count = 0
+
+        for (i in spanableStringBuilder.indices) {
+            if (spanableStringBuilder[i] == '.') {
+                spanableStringBuilder.insert(i + 1, "\n")
+                spanableStringBuilder.setSpan(
+                    ImageSpan(requireContext(), R.drawable.ic_arrow24),
+                    i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                )
+            }
+            if (spanableStringBuilder[i] == '\n') {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    spanableStringBuilder.setSpan(
+                        BulletSpan(20, colorPrimary.data, 10),
+                        count, i,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+                count = i + 1
+            }
+            if (spanableStringBuilder[i].isUpperCase()) {
+                spanableStringBuilder.setSpan(
+                    ForegroundColorSpan(colorPrimary.data),
+                    i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+            if (spanableStringBuilder[i].isDigit()) {
+                spanableStringBuilder.setSpan(
+                    ForegroundColorSpan(statusBarColor.data),
+                    i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+        }
+        spanableStringBuilder.removeSpan(spanableStringBuilder)
+    }
+
     private fun renderData(appState: PictureState) {
         bSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
         slideTransitionTextDay()
@@ -103,7 +170,6 @@ class BehaviorFragment : Fragment() {
                     explanation.show()
 
                     title.text = appState.pictureDTO.title
-                    explanation.text = appState.pictureDTO.explanation
                     datePicture.text = appState.pictureDTO.date
 
                     if (appState.pictureDTO.mediaType == "video") {
@@ -114,6 +180,14 @@ class BehaviorFragment : Fragment() {
                             placeholder(R.drawable.loading1)
                         }
                     }
+
+                    spannableRainbow = SpannableString(binding.title.text)
+                    rainbow(1)
+                    var spanableStringBuilder =
+                        SpannableStringBuilder(appState.pictureDTO.explanation)
+                    explanation.setText(spanableStringBuilder, TextView.BufferType.EDITABLE)
+                    spanableStringBuilder = explanation.text as SpannableStringBuilder
+                    spannableSuccess(spanableStringBuilder)
                 }
                 else -> {}
             }
@@ -175,7 +249,6 @@ class BehaviorFragment : Fragment() {
         Dialog(requireContext()).apply {
             setContentView(bindingDialog.root)
             bindingDialog.PositiveButtonDate.setOnClickListener {
-                //Чтобы по красивей было для анимации
                 binding.explanation.text = ""
                 binding.title.text = ""
                 binding.inputEditText.setText(getDateFromDatePicker(bindingDialog.inputDate).formatDate())
@@ -191,5 +264,51 @@ class BehaviorFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() = BehaviorFragment()
+    }
+
+
+    fun rainbow(i: Int = 1) {
+        var currentCount = i
+        countDownTimer = object : CountDownTimer(20000, 300) {
+            override fun onTick(millisUntilFinished: Long) {
+                colorText(currentCount)
+                currentCount = if (++currentCount > 5) 1 else currentCount
+            }
+
+            override fun onFinish() {
+            }
+        }
+        countDownTimer.start()
+    }
+
+    private fun colorText(colorFirstNumber: Int) {
+        binding.title.setText(spannableRainbow, TextView.BufferType.SPANNABLE)
+        spannableRainbow = binding.title.text as SpannableString
+        val map = mapOf(
+            0 to ContextCompat.getColor(requireContext(), R.color.blue_300),
+            1 to ContextCompat.getColor(requireContext(), R.color.blue_400),
+            2 to ContextCompat.getColor(requireContext(), R.color.blue_500),
+            3 to ContextCompat.getColor(requireContext(), R.color.blue_600),
+            4 to ContextCompat.getColor(requireContext(), R.color.blue_700),
+            5 to ContextCompat.getColor(requireContext(), R.color.blue_800),
+            6 to ContextCompat.getColor(requireContext(), R.color.blue_900)
+        )
+        val spans = spannableRainbow.getSpans(
+            0, spannableRainbow.length,
+            ForegroundColorSpan::class.java
+        )
+        for (span in spans) {
+            spannableRainbow.removeSpan(span)
+        }
+
+        var colorNumber = colorFirstNumber
+        for (i in 0 until binding.title.text.length) {
+            if (colorNumber == 5) colorNumber = 0 else colorNumber += 1
+            spannableRainbow.setSpan(
+                ForegroundColorSpan(map.getValue(colorNumber)),
+                i, i + 1,
+                Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+            )
+        }
     }
 }

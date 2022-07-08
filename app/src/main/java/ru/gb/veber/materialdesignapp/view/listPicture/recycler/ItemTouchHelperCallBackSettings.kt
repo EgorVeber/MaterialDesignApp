@@ -3,7 +3,6 @@ package ru.gb.veber.materialdesignapp.view.listPicture.recycler
 import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import ru.gb.veber.materialdesignapp.view.listPicture.recycler.ItemTouchHelperAdapter
 
 class ItemTouchHelperCallBackSettings(val adapterCallback: ItemTouchHelperAdapter) :
 

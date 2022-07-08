@@ -42,3 +42,4 @@ fun getDateFromDatePicker(datePicker: DatePicker): Date {
 fun findVideoId(url: String): String {
     return url.substringAfterLast('/').substringBefore('?')
 }
+

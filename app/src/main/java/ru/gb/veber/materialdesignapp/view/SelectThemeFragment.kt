@@ -73,7 +73,7 @@ class SelectThemeFragment : BottomSheetDialogFragment() {
 
     private fun getNumTheme(): Int {
         return activity?.let {
-            it.getSharedPreferences(FILE_SETTINGS, Context.MODE_PRIVATE).getInt(KEY_THEME, 0)
+            it.getSharedPreferences(FILE_SETTINGS, Context.MODE_PRIVATE).getInt(KEY_THEME, KEY_THEME_BLUE)
         } ?: 0
     }
 }

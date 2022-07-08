@@ -2,6 +2,8 @@ package ru.gb.veber.materialdesignapp.view
 
 import SelectThemeFragment
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
@@ -55,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         if (savedInstanceState == null) {
-            binding.bottomNavigationView.selectedItemId = R.id.action_bottom_recycler
+            binding.bottomNavigationView.selectedItemId = R.id.action_bottom_coordinator
         }
         binding.bottomNavigationView.setOnItemReselectedListener {
         }
@@ -81,7 +83,7 @@ class MainActivity : AppCompatActivity() {
     private fun getThemePrefs(): Int {
         return when (getSharedPreferences(FILE_SETTINGS, MODE_PRIVATE).getInt(
             KEY_THEME,
-            KEY_THEME_TEAL
+            KEY_THEME_BLUE
         )) {
             KEY_THEME_BLUE -> R.style.MyThemeBlue
             KEY_THEME_TEAL -> R.style.MyThemeBaseTeal
@@ -91,7 +93,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if ( binding.bottomNavigationView.selectedItemId == R.id.action_bottom_view_picture) {
+        if (binding.bottomNavigationView.selectedItemId == R.id.action_bottom_view_picture) {
             finish()
         } else {
             binding.bottomNavigationView.selectedItemId = R.id.action_bottom_view_picture
