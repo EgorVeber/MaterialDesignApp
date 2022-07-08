@@ -56,17 +56,6 @@ class PictureDayFragment :
         binding.imageView.setOnClickListener {
             changeBoundsTransitionImage()
         }
-       // showGlide()
-    }
-
-    private fun showGlide() {
-        GuideView.Builder(requireContext())
-            .setTitle("Guide Title Text")
-            .setContentText("Guide Description Text\n .....Guide Description Text\n .....Guide Description Text .....")
-            .setTargetView(binding.imageView)
-            .setDismissType(DismissType.outside)
-            .build()
-            .show()
     }
 
     override fun setMenuVisibility(menuVisible: Boolean) {

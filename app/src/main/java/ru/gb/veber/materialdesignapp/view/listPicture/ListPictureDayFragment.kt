@@ -7,6 +7,8 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +32,8 @@ import ru.gb.veber.materialdesignapp.view.listPicture.recycler.ItemTouchHelperCa
 import ru.gb.veber.materialdesignapp.view.listPicture.recycler.PictureAdapterRecycler
 import ru.gb.veber.materialdesignapp.view.listPicture.recycler.RecyclerListener
 import show
+import smartdevelop.ir.eram.showcaseviewlib.GuideView
+import smartdevelop.ir.eram.showcaseviewlib.config.DismissType
 import java.util.*
 
 
@@ -114,6 +118,20 @@ class ListPictureDayFragment :
                 binding.view2.isSelected = binding.pictureListRecycler.canScrollVertically(-1)
             }
         }
+        Handler(Looper.getMainLooper()).postDelayed({
+            if(isAdded){
+             showGlide()
+            }
+        },1000)
+    }
+    private fun showGlide() {
+        GuideView.Builder(requireContext())
+            .setTitle("Новая функция")
+            .setContentText("Выбор диапазона (проверок нету, надо вводить правельные даты)")
+            .setTargetView(binding.datePikerFab)
+            .setDismissType(DismissType.outside)
+            .build()
+            .show()
     }
 
     private fun sendServerRequest(listPictureViewModel: ListPictureViewModel) {
