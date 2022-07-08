@@ -5,14 +5,11 @@ import PictureViewModel
 import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.BulletSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.ImageSpan
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -22,7 +19,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.*

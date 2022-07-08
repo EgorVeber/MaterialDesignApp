@@ -2,11 +2,10 @@ package ru.gb.veber.materialdesignapp.view
 
 import SelectThemeFragment
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import com.google.android.material.color.DynamicColors
 import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.ActivityMainBinding
 import ru.gb.veber.materialdesignapp.utils.*
@@ -21,7 +20,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setNightMode()
-        setTheme(getThemePrefs())
+        if (DynamicColors.isDynamicColorAvailable()) {
+            setTheme(R.style.DynamicColors)
+        } else {
+            setTheme(getThemePrefs())
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init(savedInstanceState)

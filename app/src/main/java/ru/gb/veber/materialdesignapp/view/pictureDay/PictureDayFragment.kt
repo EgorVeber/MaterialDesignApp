@@ -21,6 +21,8 @@ import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureViewPagerBinding
 import ru.gb.veber.materialdesignapp.utils.*
 import show
+import smartdevelop.ir.eram.showcaseviewlib.GuideView
+import smartdevelop.ir.eram.showcaseviewlib.config.DismissType
 import java.util.*
 
 
@@ -62,8 +64,18 @@ class PictureDayFragment : Fragment() {
         binding.imageView.setOnClickListener {
             changeBoundsTransitionImage()
         }
+        showGlide()
     }
 
+    private fun showGlide() {
+        GuideView.Builder(requireContext())
+            .setTitle("Guide Title Text")
+            .setContentText("Guide Description Text\n .....Guide Description Text\n .....Guide Description Text .....")
+            .setTargetView(binding.imageView)
+            .setDismissType(DismissType.outside)
+            .build()
+            .show()
+    }
 
     override fun setMenuVisibility(menuVisible: Boolean) {
         super.setMenuVisibility(menuVisible)
