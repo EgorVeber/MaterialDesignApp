@@ -4,17 +4,13 @@ import PictureState
 import PictureViewModel
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
-import android.text.style.BulletSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.TypefaceSpan
+import android.text.style.*
 import android.util.Log
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -24,8 +20,6 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.*
@@ -39,6 +33,7 @@ import ru.gb.veber.materialdesignapp.databinding.DateDialogBinding
 import ru.gb.veber.materialdesignapp.databinding.FragmentBehaviorBinding
 import ru.gb.veber.materialdesignapp.utils.*
 import show
+import java.lang.Character.isUpperCase
 import java.util.*
 
 
@@ -96,6 +91,65 @@ class BehaviorFragment : Fragment() {
         }
     }
 
+
+    private fun spannableSuccess(spanableStringBuilder: SpannableStringBuilder) {
+        val colorPrimary = TypedValue()
+        val statusBarColor = TypedValue()
+
+        context?.theme?.resolveAttribute(android.R.attr.colorPrimary, colorPrimary, true)
+        context?.theme?.resolveAttribute(android.R.attr.statusBarColor, statusBarColor, true)
+
+        var count = 0
+        var count2 = 0
+        var last = 0
+        var last2 = 0
+
+        for (i in spanableStringBuilder.indices) {
+            if (spanableStringBuilder[i] == ' ') {
+                count++
+                if (count % 6 == 0) {
+                    spanableStringBuilder.insert(i, "\n")
+                }
+            }
+            if (spanableStringBuilder[i] == '\n') {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    spanableStringBuilder.setSpan(
+                        BulletSpan(
+                            20,
+                            colorPrimary.data,
+                            10
+                        ), count2, i, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+                count2 = i + 1
+                last = count2
+                last2 = i
+            }
+            if (spanableStringBuilder[i] == '.') {
+                spanableStringBuilder.setSpan(
+                    ImageSpan(
+                        requireContext(),
+                        R.drawable.ic_arrow24
+                    ), i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                )
+            }
+            if (spanableStringBuilder[i].isUpperCase()) {
+                spanableStringBuilder.setSpan(
+                    ForegroundColorSpan(
+                        colorPrimary.data
+                    ), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+            if (spanableStringBuilder[i].isDigit()) {
+                spanableStringBuilder.setSpan(
+                    ForegroundColorSpan(
+                        statusBarColor.data
+                    ), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+        }
+    }
+
     @SuppressLint("NewApi")
     private fun renderData(appState: PictureState) {
         bSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
@@ -119,7 +173,6 @@ class BehaviorFragment : Fragment() {
                     explanation.show()
 
                     title.text = appState.pictureDTO.title
-                    //  explanation.text = appState.pictureDTO.explanation
                     datePicture.text = appState.pictureDTO.date
 
                     if (appState.pictureDTO.mediaType == "video") {
@@ -132,47 +185,11 @@ class BehaviorFragment : Fragment() {
                     }
 
 
-                    explanation.typeface =
-                        Typeface.createFromAsset(requireActivity().assets, "MyFont/KdamR.ttf")
-
-                    val text =
-                        "My text \nbullet one \nbullet two \nbulleretdfhrtjhtht two\nbullet twtykjytko \nbullerettht twtyjktyo\nbullet twtyko \nbullertrhjtrjettht two"
-                    val spannable = SpannableString(text)
-
-                    val list = text.indexesOf("\n")
-                    var current = list[0]
-                    list.forEach {
-                        spannable.setSpan(
-                            BulletSpan(
-                                20,
-                                ContextCompat.getColor(requireContext(), R.color.t700),
-                                20
-                            ), current, it, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                        )
-                        current = it + 1
-                    }
-
-                    var spanableStringBuilder = SpannableStringBuilder(spannable)
-
+                    var spanableStringBuilder =
+                        SpannableStringBuilder(appState.pictureDTO.explanation)
                     explanation.setText(spanableStringBuilder, TextView.BufferType.EDITABLE)
-
                     spanableStringBuilder = explanation.text as SpannableStringBuilder
-
-
-                    spanableStringBuilder.setSpan(
-                        ForegroundColorSpan(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.t700
-                            )
-                        ), 0, 5, Spannable.SPAN_INCLUSIVE_EXCLUSIVE
-                    )
-
-                    spanableStringBuilder.insert(0, "@@@@")
-
-                    val fontRes = ResourcesCompat.getFont(requireContext(), R.font.roboto_thin)
-                    val typeface = Typeface.create(fontRes, Typeface.NORMAL)
-                    //  spanableStringBuilder.setSpan(TypefaceSpan(typeface), 0, spanableStringBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    spannableSuccess(spanableStringBuilder)
                 }
                 else -> {}
             }
