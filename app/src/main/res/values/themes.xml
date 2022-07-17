@@ -1,5 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
+
+
+    <style name="DynamicColors" parent="Theme.Material3.DynamicColors.DayNight">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
     <style name="MyThemeBaseTeal" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="android:navigationBarColor">@color/teal_500</item>
@@ -78,5 +85,28 @@
         <item name="superFont">@font/kdam_regular</item>
         <item name="superColor">@color/blue_50</item>
         <item name="superChipRipple">@color/blue_700</item>
+    </style>
+
+    <style name="MySplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/white</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+        <item name="colorPrimaryInverse">@color/white</item>
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/white</item>
+        <item name="colorOnSecondaryContainer">@color/white</item>
+        <item name="colorTertiary">@color/white</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorTertiaryContainer">@color/white</item>
+        <item name="colorOnTertiaryContainer">@color/white</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="superAppBarBackground">@color/white</item>
+        <item name="superFont">@font/kdam_regular</item>
+        <item name="superColor">@color/blue_50</item>
+        <item name="superChipRipple">@color/white</item>
+        <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 </resources>

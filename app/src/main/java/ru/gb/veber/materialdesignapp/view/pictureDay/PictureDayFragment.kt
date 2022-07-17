@@ -6,6 +6,8 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -18,16 +20,19 @@ import androidx.transition.*
 import coil.load
 import hide
 import ru.gb.veber.materialdesignapp.R
+import ru.gb.veber.materialdesignapp.databinding.FragmentPictureListBinding
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureViewPagerBinding
 import ru.gb.veber.materialdesignapp.utils.*
+import ru.gb.veber.materialdesignapp.view.BaseFragment
 import show
+import smartdevelop.ir.eram.showcaseviewlib.GuideView
+import smartdevelop.ir.eram.showcaseviewlib.config.DismissType
 import java.util.*
 
 
-class PictureDayFragment : Fragment() {
+class PictureDayFragment :
+    BaseFragment<FragmentPictureViewPagerBinding>(FragmentPictureViewPagerBinding::inflate) {
 
-    private var _binding: FragmentPictureViewPagerBinding? = null
-    private val binding get() = _binding!!
 
     private val viewModel: PictureViewModel by lazy {
         ViewModelProvider(this).get(PictureViewModel::class.java)
@@ -37,15 +42,6 @@ class PictureDayFragment : Fragment() {
     private var checkState: Boolean = false
     private var flagImage = false
     private var flag = false
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentPictureViewPagerBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,7 +59,6 @@ class PictureDayFragment : Fragment() {
             changeBoundsTransitionImage()
         }
     }
-
 
     override fun setMenuVisibility(menuVisible: Boolean) {
         super.setMenuVisibility(menuVisible)
@@ -92,13 +87,13 @@ class PictureDayFragment : Fragment() {
     }
 
     private fun renderData(appState: PictureState) {
-        transitionImage()
         transitionText()
+        transitionImage()
         transitionStateOne()
-        with(binding)
-        {
+        with(binding) {
             when (appState) {
                 is PictureState.Error -> {
+                    transitionStateTwo()
                     title.text = getString(R.string.Error)
                     explanation.text = appState.errorMessage
                     imageView.load(R.drawable.nasa_api)
@@ -107,8 +102,6 @@ class PictureDayFragment : Fragment() {
                     imageView.load(R.drawable.loading1)
                 }
                 is PictureState.Success -> {
-                    transitionStateTwo()
-
                     appStateSave = appState
                     title.text = appState.pictureDTO.title
                     explanation.text = appState.pictureDTO.explanation
@@ -121,9 +114,11 @@ class PictureDayFragment : Fragment() {
                         imageView.load(R.drawable.nasa_api)
                     } else {
                         imageView.load(appState.pictureDTO.hdurl) {
+                            placeholder(R.drawable.loading1)
                             error(R.drawable.nasa_api)
                         }
                     }
+                    transitionStateTwo()
                 }
                 else -> {}
             }

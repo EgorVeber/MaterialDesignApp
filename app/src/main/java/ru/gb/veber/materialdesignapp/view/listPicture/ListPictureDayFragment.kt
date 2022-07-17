@@ -7,6 +7,8 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -25,28 +27,23 @@ import ru.gb.veber.materialdesignapp.databinding.DateDialogBinding
 import ru.gb.veber.materialdesignapp.databinding.FragmentPictureListBinding
 import ru.gb.veber.materialdesignapp.model.PictureDTO
 import ru.gb.veber.materialdesignapp.utils.*
+import ru.gb.veber.materialdesignapp.view.BaseFragment
 import ru.gb.veber.materialdesignapp.view.listPicture.recycler.ItemTouchHelperCallBackSettings
 import ru.gb.veber.materialdesignapp.view.listPicture.recycler.PictureAdapterRecycler
 import ru.gb.veber.materialdesignapp.view.listPicture.recycler.RecyclerListener
 import show
+import smartdevelop.ir.eram.showcaseviewlib.GuideView
+import smartdevelop.ir.eram.showcaseviewlib.config.DismissType
 import java.util.*
 
-class ListPictureDayFragment : Fragment() {
 
-    private var _binding: FragmentPictureListBinding? = null
-    private val binding get() = _binding!!
+class ListPictureDayFragment :
+    BaseFragment<FragmentPictureListBinding>(FragmentPictureListBinding::inflate) {
+
     private var flag = false
 
     private val adapter: PictureAdapterRecycler by lazy {
         PictureAdapterRecycler(listener)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentPictureListBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     private var listener = object : RecyclerListener {
@@ -118,9 +115,23 @@ class ListPictureDayFragment : Fragment() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             binding.pictureListRecycler.setOnScrollChangeListener { _, _, _, _, _ ->
-                binding.view2.isSelected =binding.pictureListRecycler.canScrollVertically(-1)
+                binding.view2.isSelected = binding.pictureListRecycler.canScrollVertically(-1)
             }
         }
+        Handler(Looper.getMainLooper()).postDelayed({
+            if(isAdded){
+             showGlide()
+            }
+        },1000)
+    }
+    private fun showGlide() {
+        GuideView.Builder(requireContext())
+            .setTitle("Новая функция")
+            .setContentText("Выбор диапазона (проверок нету, надо вводить правельные даты)")
+            .setTargetView(binding.datePikerFab)
+            .setDismissType(DismissType.outside)
+            .build()
+            .show()
     }
 
     private fun sendServerRequest(listPictureViewModel: ListPictureViewModel) {
@@ -232,11 +243,6 @@ class ListPictureDayFragment : Fragment() {
                 dismiss()
             }
         }.show()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     companion object {

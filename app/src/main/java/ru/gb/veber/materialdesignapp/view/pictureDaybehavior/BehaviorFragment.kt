@@ -5,14 +5,11 @@ import PictureViewModel
 import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.BulletSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.ImageSpan
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -22,7 +19,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.*
@@ -35,48 +31,22 @@ import ru.gb.veber.materialdesignapp.R
 import ru.gb.veber.materialdesignapp.databinding.DateDialogBinding
 import ru.gb.veber.materialdesignapp.databinding.FragmentBehaviorBinding
 import ru.gb.veber.materialdesignapp.utils.*
+import ru.gb.veber.materialdesignapp.view.BaseFragment
 import show
 import java.util.*
 
 
-class BehaviorFragment : Fragment() {
+class BehaviorFragment : BaseFragment<FragmentBehaviorBinding>(FragmentBehaviorBinding::inflate) {
 
     private var flagImage = false
-    lateinit var spannableRainbow: SpannableString
 
     private val viewModel: PictureViewModel by lazy {
         ViewModelProvider(this).get(PictureViewModel::class.java)
     }
     private lateinit var bSheetBehavior: BottomSheetBehavior<ConstraintLayout>
-    private var _binding: FragmentBehaviorBinding? = null
 
     private val youTubePlayerView by lazy {
         binding.youtubePlayer
-    }
-    private lateinit var countDownTimer: CountDownTimer
-
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentBehaviorBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        if (countDownTimer == null) {
-
-        } else {
-            countDownTimer.cancel()
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -180,9 +150,6 @@ class BehaviorFragment : Fragment() {
                             placeholder(R.drawable.loading1)
                         }
                     }
-
-                    spannableRainbow = SpannableString(binding.title.text)
-                    rainbow(1)
                     var spanableStringBuilder =
                         SpannableStringBuilder(appState.pictureDTO.explanation)
                     explanation.setText(spanableStringBuilder, TextView.BufferType.EDITABLE)
@@ -264,51 +231,5 @@ class BehaviorFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() = BehaviorFragment()
-    }
-
-
-    fun rainbow(i: Int = 1) {
-        var currentCount = i
-        countDownTimer = object : CountDownTimer(20000, 300) {
-            override fun onTick(millisUntilFinished: Long) {
-                colorText(currentCount)
-                currentCount = if (++currentCount > 5) 1 else currentCount
-            }
-
-            override fun onFinish() {
-            }
-        }
-        countDownTimer.start()
-    }
-
-    private fun colorText(colorFirstNumber: Int) {
-        binding.title.setText(spannableRainbow, TextView.BufferType.SPANNABLE)
-        spannableRainbow = binding.title.text as SpannableString
-        val map = mapOf(
-            0 to ContextCompat.getColor(requireContext(), R.color.blue_300),
-            1 to ContextCompat.getColor(requireContext(), R.color.blue_400),
-            2 to ContextCompat.getColor(requireContext(), R.color.blue_500),
-            3 to ContextCompat.getColor(requireContext(), R.color.blue_600),
-            4 to ContextCompat.getColor(requireContext(), R.color.blue_700),
-            5 to ContextCompat.getColor(requireContext(), R.color.blue_800),
-            6 to ContextCompat.getColor(requireContext(), R.color.blue_900)
-        )
-        val spans = spannableRainbow.getSpans(
-            0, spannableRainbow.length,
-            ForegroundColorSpan::class.java
-        )
-        for (span in spans) {
-            spannableRainbow.removeSpan(span)
-        }
-
-        var colorNumber = colorFirstNumber
-        for (i in 0 until binding.title.text.length) {
-            if (colorNumber == 5) colorNumber = 0 else colorNumber += 1
-            spannableRainbow.setSpan(
-                ForegroundColorSpan(map.getValue(colorNumber)),
-                i, i + 1,
-                Spannable.SPAN_EXCLUSIVE_INCLUSIVE
-            )
-        }
     }
 }
