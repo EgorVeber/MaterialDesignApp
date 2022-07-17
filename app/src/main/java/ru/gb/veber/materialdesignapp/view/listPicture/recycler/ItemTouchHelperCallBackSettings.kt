@@ -4,7 +4,7 @@ import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemTouchHelperCallBackSettings(val adapterCallback: ItemTouchHelperAdapter) :
+class ItemTouchHelperCallBackSettings(private val adapterCallback: ItemTouchHelperAdapter) :
 
     ItemTouchHelper.Callback() {
     override fun getMovementFlags(

@@ -12,7 +12,6 @@ const val FRAGMENT_MARS = "Mars"
 const val FRAGMENT_MARS_KEY = 1
 
 
-
 class ViewPagerAdapter(fragmentManager: FragmentManager) :
     FragmentStatePagerAdapter(fragmentManager) {
     override fun getCount(): Int {
